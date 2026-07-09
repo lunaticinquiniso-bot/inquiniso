@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Trinetra - Karmic Log</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html, body {
+        width: 100%;
+        height: 100vh; 
+        overflow: hidden; 
+        color: #fff;
+        font-family: "Georgia", "Times New Roman", Times, serif; 
+        background-color: transparent; 
+    }
+
+    #bg-layer {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: 
+            linear-gradient(rgba(0, 8, 20, 0.75), rgba(0, 15, 30, 0.9)), 
+            url('https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?q=80&w=1920&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+        z-index: -2;
+    }
+
+    #crt-layer {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: 
+            linear-gradient(rgba(10, 12, 20, 0) 50%, rgba(0, 0, 0, 0.6) 50%),
+            radial-gradient(circle, rgba(0,0,0,0) 50%, rgba(0,0,0,0.85) 100%);
+        background-size: 100% 4px, 100% 100%;
+        z-index: 999;
+        pointer-events: none;
+        opacity: 0.5;
+    }
+
+    #scroll-container {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow-y: auto;
+        z-index: 10;
+    }
+
+    /* ---------------- START SCREEN (To bypass autoplay restrictions) ---------------- */
+    #start-screen {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+        cursor: pointer;
+        font-family: monospace;
+        letter-spacing: 5px;
+        font-weight: bold;
+        color: #e1f5fe;
+        text-shadow: 0 0 15px #00aaff;
+        transition: opacity 0.5s ease;
+    }
+
+    .blink-text {
+        animation: blink 1.5s infinite;
+    }
+    
+    @keyframes blink {
+        50% { opacity: 0; }
+    }
+
+    #yt-player-container {
+        position: absolute;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    /* ---------------- INTRO SEQUENCE ---------------- */
+    #intro-layer {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100vh;
+        display: grid;
+        place-items: center;
+        z-index: 100;
+        background: transparent;
+        pointer-events: none;
+    }
+
+    .pre-text {
+        grid-area: 1 / 1; 
+        opacity: 0;
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        letter-spacing: 10px;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-align: center;
+        color: #e1f5fe;
+        text-shadow: 2px 4px 10px rgba(0,0,0,1), 0 0 20px #00aaff;
+    }
+
+    .title-text {
+        grid-area: 1 / 1;
+        opacity: 0;
+        font-size: clamp(3rem, 8vw, 6rem);
+        letter-spacing: 15px;
+        color: #ffffff;
+        font-weight: bold;
+        text-shadow: 3px 5px 15px rgba(0,0,0,1), 0 0 40px #00aaff;
+    }
+
+    .start-sequence .pre-text:nth-child(1) { animation: cinematicFade 3s ease 1s forwards; }
+    .start-sequence .pre-text:nth-child(2) { animation: cinematicFade 3s ease 4s forwards; }
+    .start-sequence .pre-text:nth-child(3) { animation: cinematicFade 3s ease 7s forwards; }
+    .start-sequence .title-text { animation: finalReveal 4s ease 10s forwards; }
+
+    @keyframes cinematicFade {
+        0% { opacity: 0; filter: blur(10px); transform: scale(0.95); }
+        30% { opacity: 1; filter: blur(0px); transform: scale(1); }
+        70% { opacity: 1; filter: blur(0px); transform: scale(1.02); }
+        100% { opacity: 0; filter: blur(10px); transform: scale(1.05); }
+    }
+
+    @keyframes finalReveal {
+        0% { opacity: 0; filter: blur(20px); transform: scale(0.9); }
+        20% { opacity: 1; filter: blur(0px); transform: scale(1); }
+        80% { opacity: 1; filter: blur(0px); transform: scale(1.05); }
+        100% { opacity: 0; filter: blur(30px); transform: scale(1.2); visibility: hidden; }
+    }
+
+    /* ---------------- MAIN APP UI ---------------- */
+    #app-main {
+        opacity: 0;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 50px 20px 100px 20px;
+        position: relative;
+        transition: opacity 2s ease;
+        display: none;
+    }
+
+    .show-app {
+        display: block !important;
+        animation: fadeInApp 2s ease forwards;
+    }
+
+    @keyframes fadeInApp {
+        to { opacity: 1; }
+    }
+
+    header {
+        text-align: center;
+        margin-bottom: 30px;
+        border-bottom: 1px solid #003366;
+        padding-bottom: 20px;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        letter-spacing: 8px;
+        text-transform: uppercase;
+        color: #81d4fa;
+        font-weight: bold;
+        margin-bottom: 15px;
+        text-shadow: 2px 4px 10px rgba(0,0,0,1), 0 0 15px #00aaff;
+    }
+
+    .stats-board {
+        display: flex;
+        justify-content: space-around;
+        background: rgba(0, 10, 20, 0.7);
+        padding: 15px;
+        border: 1px solid #004488;
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+        margin-bottom: 15px;
+        backdrop-filter: blur(5px);
+        text-shadow: 1px 2px 5px rgba(0,0,0,1);
+    }
+
+    .stat-highlight { color: #ffffff; font-weight: bold; text-shadow: 0 0 10px #00aaff; }
+
+    .header-actions {
+        text-align: right;
+    }
+
+    .btn-text {
+        background: none;
+        border: none;
+        color: #b3e5fc;
+        font-family: monospace;
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+        cursor: pointer;
+        text-transform: uppercase;
+        text-decoration: underline;
+        text-shadow: 0 2px 4px rgba(0,0,0,1);
+        font-weight: bold;
+    }
+    .btn-text:hover { color: #fff; text-shadow: 0 0 10px #00aaff;}
+
+    /* Inputs */
+    .input-section {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 30px;
+    }
+
+    input[type="text"], input[type="number"], input[type="datetime-local"] {
+        background: rgba(0, 15, 30, 0.7);
+        border: 1px solid #005599;
+        color: #e1f5fe;
+        padding: 12px;
+        font-family: monospace;
+        font-size: 1.1rem;
+        color-scheme: dark;
+        text-shadow: 1px 1px 3px rgba(0,0,0,1);
+    }
+
+    input[type="text"]::placeholder, input[type="number"]::placeholder {
+        color: #4f8ab8;
+    }
+
+    input[type="text"] { flex-grow: 1; min-width: 200px; }
+    input[type="number"] { width: 120px; text-align: center; }
+    
+    button {
+        background: rgba(0, 34, 68, 0.8);
+        border: 1px solid #00aaff;
+        color: #fff;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-family: monospace;
+        font-weight: bold;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        transition: background 0.3s, box-shadow 0.3s;
+        text-shadow: 1px 2px 4px rgba(0,0,0,1);
+    }
+    button:hover { 
+        background: rgba(0, 51, 102, 0.9); 
+        box-shadow: 0 0 15px rgba(0, 170, 255, 0.4);
+    }
+
+    .grid-layout {
+        display: grid;
+        grid-template-columns: 1.8fr 1.2fr;
+        gap: 30px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        color: #e1f5fe;
+        border-bottom: 1px solid #003366;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+        letter-spacing: 3px;
+        text-shadow: 2px 2px 8px rgba(0,0,0,1);
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+
+    /* Quest List & Multi-step */
+    .quest-list { list-style: none; }
+    
+    .quest-item {
+        background: rgba(0, 15, 30, 0.65);
+        border-left: 3px solid #00aaff;
+        padding: 15px;
+        margin-bottom: 20px;
+        backdrop-filter: blur(4px);
+        box-shadow: 2px 4px 10px rgba(0,0,0,0.5);
+    }
+
+    .quest-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .quest-title { font-size: 1.3rem; font-weight: bold; text-shadow: 1px 2px 5px rgba(0,0,0,1); }
+    .quest-reward { color: #81d4fa; font-size: 0.9rem; margin-right: 15px; font-weight: bold;}
+    .quest-deadline { color: #ff6666; font-size: 0.85rem; margin-top: 5px; font-style: italic; font-weight: bold; }
+    
+    .quest-actions button { padding: 5px 10px; font-size: 0.8rem; }
+    .btn-complete { border-color: #00ffaa; background: rgba(0, 50, 50, 0.8); }
+    .btn-complete:hover { background: rgba(0, 80, 80, 0.9); box-shadow: 0 0 10px rgba(0, 255, 170, 0.3); }
+    .btn-delete { border-color: #555; background: rgba(17, 17, 17, 0.8); }
+
+    /* Sub-tasks */
+    .task-list {
+        list-style: none;
+        margin-bottom: 10px;
+        padding-left: 10px;
+    }
+    .task-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1rem;
+        margin-bottom: 5px;
+        color: #e0f2ff;
+        text-shadow: 1px 1px 4px rgba(0,0,0,1);
+    }
+    .task-item input[type="checkbox"] {
+        accent-color: #00aaff;
+        width: 15px; height: 15px;
+        cursor: pointer;
+    }
+    .task-done { text-decoration: line-through; color: #5588aa; text-shadow: none; }
+    
+    .task-input-section { display: flex; gap: 5px; margin-bottom: 0; }
+    .task-input-section input[type="text"] { padding: 8px; font-size: 0.9rem; }
+    .task-input-section button { padding: 8px 15px; font-size: 0.8rem; }
+
+    /* Archive Section */
+    #archive-section {
+        display: none;
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px dashed #004488;
+    }
+    .archived-item {
+        background: rgba(0,10,20,0.6);
+        border-left: 2px solid #5588aa;
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .archived-item:hover { background: rgba(0,25,50,0.8); }
+    .archived-header {
+        padding: 10px 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1rem;
+        color: #b3e5fc;
+        font-family: monospace;
+    }
+    .failed-item { border-left-color: #ff3333; }
+    .failed-item .archived-header { color: #ff6666; text-decoration: line-through; }
+    
+    .archived-tasks {
+        display: none;
+        padding: 10px 15px 15px 30px;
+        background: rgba(0,0,0,0.4);
+        border-top: 1px solid #002244;
+        font-size: 0.9rem;
+        color: #88bbdd;
+        list-style-type: square;
+    }
+
+    /* Economy Shop */
+    .shop-category { margin-bottom: 40px; }
+    .shop-item {
+        background: rgba(0, 15, 30, 0.65);
+        border: 1px solid #003366;
+        padding: 12px 15px;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        backdrop-filter: blur(4px);
+    }
+    .shop-item-info { flex-grow: 1; }
+    .shop-item-info h3 { margin-bottom: 3px; font-size: 1rem; color: #e1f5fe; display: flex; align-items: center; gap: 8px; text-shadow: 1px 2px 4px rgba(0,0,0,1);}
+    .shop-item-info p { color: #81d4fa; font-size: 0.85rem; font-weight: bold; }
+    .shop-actions { display: flex; gap: 5px; align-items: center; }
+    
+    .shop-item button { padding: 6px 12px; font-size: 0.8rem; }
+    
+    .btn-del-custom {
+        background: transparent;
+        border: none;
+        color: #5588aa;
+        padding: 0 5px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        box-shadow: none;
+        text-shadow: none;
+    }
+    .btn-del-custom:hover { color: #ff3333; background: transparent; box-shadow: none;}
+
+    /* Custom Shop Inputs */
+    .custom-shop-form {
+        display: flex;
+        gap: 5px;
+        margin-bottom: 15px;
+        background: rgba(0,0,0,0.4);
+        padding: 10px;
+        border: 1px solid #002244;
+    }
+    .custom-shop-form input[type="text"] { padding: 8px; font-size: 0.9rem; flex-grow: 1; min-width: 0; }
+    .custom-shop-form input[type="number"] { width: 85px; padding: 8px; font-size: 0.9rem; }
+    .custom-shop-form button { padding: 8px 10px; font-size: 0.8rem; white-space: nowrap;}
+
+    @media (max-width: 768px) {
+        .grid-layout { grid-template-columns: 1fr; }
+        .stats-board { flex-direction: column; text-align: center; gap: 10px; }
+        .quest-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+        .input-section { flex-direction: column; }
+        input[type="number"], input[type="datetime-local"] { width: 100%; }
+        .custom-shop-form { flex-wrap: wrap; }
+        .custom-shop-form input[type="number"] { width: 100px; }
+    }
+</style>
+</head>
+<body>
+
+    <div id="start-screen">
+        <div class="blink-text">[ AWAKEN TRINETRA ]</div>
+    </div>
+
+    <div id="yt-player-container"></div>
+
+    <div id="bg-layer"></div>
+    <div id="crt-layer"></div>
+
+    <div id="scroll-container">
+        
+        <div id="intro-layer">
+            <div class="pre-text">Observe the breath.</div>
+            <div class="pre-text">Time is an illusion.</div>
+            <div class="pre-text">Fulfill your Karma.</div>
+            <div class="title-text">PROJECT TRINETRA</div>
+        </div>
+
+        <div id="app-main">
+            <header>
+                <h1>Project Trinetra</h1>
+                <div class="stats-board">
+                    <div>Karmas: <span id="stat-quests" class="stat-highlight">0</span></div>
+                    <div>Steps: <span id="stat-tasks" class="stat-highlight">0</span></div>
+                    <div>Prana Vault: <span id="stat-gold" class="stat-highlight">0🔱</span></div>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-text" onclick="toggleArchive()">View Akashic Records</button>
+                </div>
+            </header>
+
+            <div class="input-section">
+                <input type="text" id="quest-input" placeholder="Draft a new Karmic directive..." autocomplete="off">
+                <input type="number" id="gold-input" placeholder="Prana 🔱" value="300" min="10">
+                <input type="datetime-local" id="deadline-input" title="Set Cosmic Deadline (Optional)">
+                <button onclick="addQuest()">Commit</button>
+            </div>
+
+            <div class="grid-layout">
+                <div>
+                    <h2>Active Karmas</h2>
+                    <ul id="quest-container" class="quest-list">
+                        </ul>
+                </div>
+
+                <div>
+                    <div class="shop-category">
+                        <h2>Mortal Bindings</h2>
+                        
+                        <div class="custom-shop-form">
+                            <input type="text" id="custom-due-name" placeholder="Custom Binding Name...">
+                            <input type="number" id="custom-due-cost" placeholder="Cost 🔱">
+                            <button onclick="addCustomDue()">Add Binding</button>
+                        </div>
+
+                        <div id="dues-container">
+                            <div class="shop-item">
+                                <div class="shop-item-info">
+                                    <h3>Shelter (Dwelling)</h3>
+                                    <p>Cost: 500🔱</p>
+                                </div>
+                                <div class="shop-actions">
+                                    <button onclick="spendGold(500)">Pay</button>
+                                </div>
+                            </div>
+                            <div class="shop-item">
+                                <div class="shop-item-info">
+                                    <h3>Sustenance (Daily Meals)</h3>
+                                    <p>Cost: 300🔱</p>
+                                </div>
+                                <div class="shop-actions">
+                                    <button onclick="spendGold(300)">Pay</button>
+                                </div>
+                            </div>
+                            <div class="shop-item">
+                                <div class="shop-item-info">
+                                    <h3>Maya (Internet/Connection)</h3>
+                                    <p>Cost: 30🔱</p>
+                                </div>
+                                <div class="shop-actions">
+                                    <button onclick="spendGold(30)">Pay</button>
+                                </div>
+                            </div>
+                            </div>
+                    </div>
+
+                    <div class="shop-category">
+                        <h2>Worldly Boons</h2>
+                        
+                        <div class="custom-shop-form">
+                            <input type="text" id="custom-reward-name" placeholder="Custom Boon Name...">
+                            <input type="number" id="custom-reward-cost" placeholder="Cost 🔱">
+                            <button onclick="addCustomReward()">Add Boon</button>
+                        </div>
+
+                        <div id="rewards-container">
+                            <div class="shop-item">
+                                <div class="shop-item-info">
+                                    <h3>1hr Illusion (Entertainment)</h3>
+                                    <p>Cost: 800🔱</p>
+                                </div>
+                                <div class="shop-actions">
+                                    <button onclick="spendGold(800)">Claim</button>
+                                </div>
+                            </div>
+                            <div class="shop-item">
+                                <div class="shop-item-info">
+                                    <h3>Worldly Indulgence (Cafe)</h3>
+                                    <p>Cost: 1000🔱</p>
+                                </div>
+                                <div class="shop-actions">
+                                    <button onclick="spendGold(1000)">Claim</button>
+                                </div>
+                            </div>
+                            <div class="shop-item">
+                                <div class="shop-item-info">
+                                    <h3>Feast of Senses (Order Food)</h3>
+                                    <p>Cost: 2500🔱</p>
+                                </div>
+                                <div class="shop-actions">
+                                    <button onclick="spendGold(2500)">Claim</button>
+                                </div>
+                            </div>
+                            <div class="shop-item">
+                                <div class="shop-item-info">
+                                    <h3>Material Acquisition (Buy Item)</h3>
+                                    <p>Cost: 5000🔱</p>
+                                </div>
+                                <div class="shop-actions">
+                                    <button onclick="spendGold(5000)">Claim</button>
+                                </div>
+                            </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="archive-section">
+                <h2>Akashic Records (Past Karmas)</h2>
+                <div id="archive-container">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // --- INITIALIZATION & AUDIO ---
+    document.getElementById('start-screen').addEventListener('click', function() {
+        const ytContainer = document.getElementById('yt-player-container');
+        // Injects the YouTube iframe to start the music
+        ytContainer.innerHTML = '<iframe width="1" height="1" src="https://www.youtube.com/embed/l0ua_FD5RO8?autoplay=1&loop=1&playlist=l0ua_FD5RO8" frameborder="0" allow="autoplay; encrypted-media"><\/iframe>';
+
+        this.style.opacity = '0';
+        setTimeout(() => { this.style.display = 'none'; }, 500);
+
+        // Start the intro animation sequence
+        document.getElementById('intro-layer').classList.add('start-sequence');
+        
+        // After 14.5 seconds, fade out the intro and show the app
+        setTimeout(() => {
+            document.getElementById('intro-layer').style.display = 'none';
+            document.getElementById('app-main').classList.add('show-app');
+        }, 14500);
+    });
+
+    // --- APPLICATION LOGIC ---
+    let state = JSON.parse(localStorage.getItem('trinetra_app_v1')) || {
+        questsCompleted: 0,
+        tasksCompleted: 0,
+        gold: 0,
+        quests: [],
+        archive: [],
+        customDues: [],
+        customRewards: []
+    };
+
+    const statQuests = document.getElementById('stat-quests');
+    const statTasks = document.getElementById('stat-tasks');
+    const statGold = document.getElementById('stat-gold');
+    const questContainer = document.getElementById('quest-container');
+    const archiveContainer = document.getElementById('archive-container');
+    const duesContainer = document.getElementById('dues-container');
+    const rewardsContainer = document.getElementById('rewards-container');
+
+    function checkDeadlines() {
+        const now = new Date().getTime();
+        let changed = false;
+
+        for (let i = state.quests.length - 1; i >= 0; i--) {
+            const quest = state.quests[i];
+            if (quest.deadline) {
+                const deadTime = new Date(quest.deadline).getTime();
+                if (now > deadTime) {
+                    failQuest(i);
+                    changed = true;
+                }
+            }
+        }
+        if (changed) updateUI();
+    }
+
+    function updateUI() {
+        localStorage.setItem('trinetra_app_v1', JSON.stringify(state));
+
+        // Stats
+        statQuests.innerText = state.questsCompleted;
+        statTasks.innerText = state.tasksCompleted;
+        statGold.innerText = state.gold + "🔱";
+        statGold.style.color = state.gold < 0 ? "#ff6666" : "#ffffff";
+
+        // Render Quests
+        questContainer.innerHTML = '';
+        state.quests.forEach((quest, qIndex) => {
+            let tasksHTML = '';
+            if(quest.tasks && quest.tasks.length > 0) {
+                quest.tasks.forEach((task, tIndex) => {
+                    const checked = task.done ? "checked" : "";
+                    const textClass = task.done ? "task-done" : "";
+                    tasksHTML += `
+                        <li class="task-item">
+                            <input type="checkbox" ${checked} onchange="toggleTask(${qIndex}, ${tIndex})">
+                            <span class="${textClass}">${task.text}<\/span>
+                        <\/li>
+                    `;
+                });
+            }
+
+            let deadlineText = '';
+            if(quest.deadline) {
+                const d = new Date(quest.deadline);
+                deadlineText = `<div class="quest-deadline">Deadline: ${d.toLocaleString()}<\/div>`;
+            }
+
+            const li = document.createElement('li');
+            li.className = 'quest-item';
+            li.innerHTML = `
+                <div class="quest-header">
+                    <div>
+                        <div class="quest-title">${quest.title}<\/div>
+                        <div class="quest-reward">Reward: ${quest.reward}🔱<\/div>
+                        ${deadlineText}
+                    <\/div>
+                    <div class="quest-actions">
+                        <button class="btn-complete" onclick="completeQuest(${qIndex})">Complete<\/button>
+                        <button class="btn-delete" onclick="deleteQuest(${qIndex})">Drop<\/button>
+                    <\/div>
+                <\/div>
+                
+                <ul class="task-list">
+                    ${tasksHTML}
+                <\/ul>
+                
+                <div class="task-input-section">
+                    <input type="text" id="task-input-${qIndex}" placeholder="Add a step...">
+                    <button onclick="addTask(${qIndex})">Add<\/button>
+                <\/div>
+            `;
+            questContainer.appendChild(li);
+
+            const taskInput = document.getElementById(`task-input-${qIndex}`);
+            taskInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') addTask(qIndex);
+            });
+        });
+
+        // Render Custom Dues
+        const customDuesHTML = state.customDues.map((due, index) => `
+            <div class="shop-item">
+                <div class="shop-item-info">
+                    <h3>${due.name} <button class="btn-del-custom" onclick="removeCustomDue(${index})" title="Remove">×<\/button><\/h3>
+                    <p>Cost: ${due.cost}🔱<\/p>
+                <\/div>
+                <div class="shop-actions">
+                    <button onclick="spendGold(${due.cost})">Pay<\/button>
+                <\/div>
+            <\/div>
+        `).join('');
+        
+        const existingCustomDues = duesContainer.querySelectorAll('.dynamic-due');
+        existingCustomDues.forEach(el => el.remove());
+        
+        if (state.customDues.length > 0) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'dynamic-due';
+            wrapper.innerHTML = customDuesHTML;
+            duesContainer.appendChild(wrapper);
+        }
+
+        // Render Custom Rewards
+        const customRewardsHTML = state.customRewards.map((reward, index) => `
+            <div class="shop-item">
+                <div class="shop-item-info">
+                    <h3>${reward.name} <button class="btn-del-custom" onclick="removeCustomReward(${index})" title="Remove">×<\/button><\/h3>
+                    <p>Cost: ${reward.cost}🔱<\/p>
+                <\/div>
+                <div class="shop-actions">
+                    <button onclick="spendGold(${reward.cost})">Claim<\/button>
+                <\/div>
+            <\/div>
+        `).join('');
+
+        const existingCustomRewards = rewardsContainer.querySelectorAll('.dynamic-reward');
+        existingCustomRewards.forEach(el => el.remove());
+
+        if (state.customRewards.length > 0) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'dynamic-reward';
+            wrapper.innerHTML = customRewardsHTML;
+            rewardsContainer.appendChild(wrapper);
+        }
+
+        // Render Archive
+        archiveContainer.innerHTML = '';
+        if (state.archive.length === 0) {
+            archiveContainer.innerHTML = '<p style="color:#777; font-family: monospace;">No Karmas completed yet.<\/p>';
+        } else {
+            state.archive.slice().reverse().forEach((archivedQuest, i) => {
+                const isFailed = archivedQuest.status === 'failed';
+                let subtasksHTML = '';
+                
+                if(archivedQuest.tasks && archivedQuest.tasks.length > 0) {
+                    archivedQuest.tasks.forEach(t => {
+                        const mark = t.done ? '✓' : '✗';
+                        subtasksHTML += `<li>[${mark}] ${t.text}<\/li>`;
+                    });
+                } else {
+                    subtasksHTML = '<li>No steps logged.<\/li>';
+                }
+
+                const div = document.createElement('div');
+                div.className = `archived-item ${isFailed ? 'failed-item' : ''}`;
+                const realIndex = state.archive.length - 1 - i;
+                
+                div.innerHTML = `
+                    <div class="archived-header" onclick="toggleArchiveTasks(${realIndex})">
+                        <span>${isFailed ? '⚠ FAILED: ' : '★ '}${archivedQuest.title}<\/span> 
+                        <span style="color:${isFailed ? '#ff6666' : '#ffffff'}; text-shadow: 0 0 5px ${isFailed ? '#ff0000' : '#00aaff'};">
+                            ${isFailed ? '-' + archivedQuest.penalty + '🔱' : '+' + archivedQuest.reward + '🔱'}
+                        <\/span>
+                    <\/div>
+                    <ul class="archived-tasks" id="archive-tasks-list-${realIndex}">
+                        ${subtasksHTML}
+                    <\/ul>
+                `;
+                archiveContainer.appendChild(div);
+            });
+        }
+    }
+
+    // --- QUEST FUNCTIONS ---
+    function addQuest() {
+        const titleInput = document.getElementById('quest-input');
+        const goldInput = document.getElementById('gold-input');
+        const deadlineInput = document.getElementById('deadline-input');
+        
+        const title = titleInput.value.trim();
+        const reward = parseInt(goldInput.value) || 300;
+        const deadline = deadlineInput.value; 
+
+        if (title === '') return;
+
+        state.quests.push({ 
+            title: title, 
+            reward: reward, 
+            deadline: deadline, 
+            tasks: [] 
+        });
+        
+        titleInput.value = '';
+        deadlineInput.value = '';
+        updateUI();
+    }
+
+    function addTask(qIndex) {
+        const taskInput = document.getElementById(`task-input-${qIndex}`);
+        const text = taskInput.value.trim();
+        if (text === '') return;
+
+        if(!state.quests[qIndex].tasks) state.quests[qIndex].tasks = [];
+        state.quests[qIndex].tasks.push({ text: text, done: false });
+        updateUI();
+    }
+
+    function toggleTask(qIndex, tIndex) {
+        state.quests[qIndex].tasks[tIndex].done = !state.quests[qIndex].tasks[tIndex].done;
+        if(state.quests[qIndex].tasks[tIndex].done) {
+            state.tasksCompleted++;
+        } else {
+            state.tasksCompleted--;
+        }
+        updateUI();
+    }
+
+    function completeQuest(qIndex) {
+        const quest = state.quests[qIndex];
+        state.gold += quest.reward;
+        state.questsCompleted++;
+
+        state.archive.push({
+            title: quest.title,
+            reward: quest.reward,
+            tasks: quest.tasks,
+            status: 'completed',
+            date: new Date().toLocaleDateString()
+        });
+
+        state.quests.splice(qIndex, 1);
+        updateUI();
+    }
+
+    function failQuest(qIndex) {
+        const quest = state.quests[qIndex];
+        const penalty = Math.floor(quest.reward / 2);
+        
+        state.gold -= penalty;
+
+        state.archive.push({
+            title: quest.title,
+            reward: quest.reward,
+            penalty: penalty,
+            tasks: quest.tasks,
+            status: 'failed',
+            date: new Date().toLocaleDateString()
+        });
+
+        state.quests.splice(qIndex, 1);
+    }
+
+    function deleteQuest(qIndex) {
+        state.quests.splice(qIndex, 1);
+        updateUI();
+    }
+
+    // --- ECONOMY FUNCTIONS ---
+    function spendGold(amount) {
+        state.gold -= amount;
+        updateUI();
+    }
+
+    function addCustomDue() {
+        const nameInput = document.getElementById('custom-due-name');
+        const costInput = document.getElementById('custom-due-cost');
+        const name = nameInput.value.trim();
+        const cost = parseInt(costInput.value);
+
+        if (name && cost > 0) {
+            state.customDues.push({ name: name, cost: cost });
+            nameInput.value = '';
+            costInput.value = '';
+            updateUI();
+        }
+    }
+
+    function removeCustomDue(index) {
+        state.customDues.splice(index, 1);
+        updateUI();
+    }
+
+    function addCustomReward() {
+        const nameInput = document.getElementById('custom-reward-name');
+        const costInput = document.getElementById('custom-reward-cost');
+        const name = nameInput.value.trim();
+        const cost = parseInt(costInput.value);
+
+        if (name && cost > 0) {
+            state.customRewards.push({ name: name, cost: cost });
+            nameInput.value = '';
+            costInput.value = '';
+            updateUI();
+        }
+    }
+
+    function removeCustomReward(index) {
+        state.customRewards.splice(index, 1);
+        updateUI();
+    }
+
+    // --- UI HELPERS ---
+    function toggleArchive() {
+        const archiveSection = document.getElementById('archive-section');
+        if(archiveSection.style.display === 'block') {
+            archiveSection.style.display = 'none';
+        } else {
+            archiveSection.style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('scroll-container').scrollTo({
+                    top: document.getElementById('scroll-container').scrollHeight,
+                    behavior: 'smooth'
+                });
+            }, 100);
+        }
+    }
+
+    function toggleArchiveTasks(index) {
+        const taskList = document.getElementById(`archive-tasks-list-${index}`);
+        if(taskList.style.display === 'block') {
+            taskList.style.display = 'none';
+        } else {
+            taskList.style.display = 'block';
+        }
+    }
+
+    document.getElementById('quest-input').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') addQuest();
+    });
+
+    setInterval(checkDeadlines, 10000);
+    checkDeadlines();
+    updateUI();
+<\/script>
+
+<\/body>
+<\/html>

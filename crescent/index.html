@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Crescent: Akashic Logs</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html, body {
+        width: 100%;
+        height: 100vh; 
+        overflow: hidden; 
+        color: #fff;
+        font-family: "Georgia", "Times New Roman", Times, serif; 
+        background-color: transparent; 
+    }
+
+    /* Restored Original Dark Forest Background with Moonlit Overlay */
+    #bg-layer {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: 
+            linear-gradient(rgba(0, 5, 15, 0.6), rgba(0, 10, 25, 0.9)), 
+            url('https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1920&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+        z-index: 0; 
+    }
+
+    #crt-layer {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: 
+            linear-gradient(rgba(10, 12, 20, 0) 50%, rgba(0, 0, 0, 0.5) 50%),
+            radial-gradient(circle, rgba(0,0,0,0) 50%, rgba(0,0,0,0.8) 100%);
+        background-size: 100% 4px, 100% 100%;
+        z-index: 999;
+        pointer-events: none;
+        opacity: 0.6;
+    }
+
+    #scroll-container {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow-y: auto;
+        z-index: 10;
+    }
+
+    #yt-player-container {
+        position: absolute;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    /* ---------------- START SCREEN (To bypass autoplay restrictions) ---------------- */
+    #start-screen {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+        cursor: pointer;
+        font-family: monospace;
+        letter-spacing: 5px;
+        font-weight: bold;
+        color: #e1f5fe;
+        text-shadow: 0 0 15px #00aaff;
+        transition: opacity 0.5s ease;
+    }
+
+    .blink-text {
+        animation: blink 1.5s infinite;
+    }
+    
+    @keyframes blink {
+        50% { opacity: 0; }
+    }
+
+    /* ---------------- INTRO SEQUENCE ---------------- */
+    #intro-layer {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100vh;
+        display: grid;
+        place-items: center;
+        z-index: 200;
+        background: transparent;
+        pointer-events: none;
+    }
+
+    .pre-text {
+        grid-area: 1 / 1; 
+        opacity: 0;
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        letter-spacing: 10px;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-align: center;
+        color: #e1f5fe;
+        text-shadow: 2px 4px 10px rgba(0,0,0,1), 0 0 20px #00aaff;
+    }
+
+    .title-text {
+        grid-area: 1 / 1;
+        opacity: 0;
+        font-size: clamp(3rem, 8vw, 5.5rem);
+        letter-spacing: 12px;
+        color: #ffffff;
+        font-weight: bold;
+        text-align: center;
+        text-shadow: 3px 5px 15px rgba(0,0,0,1), 0 0 40px #00aaff;
+    }
+
+    .start-sequence .pre-text:nth-child(1) { animation: cinematicFade 3s ease 1s forwards; }
+    .start-sequence .pre-text:nth-child(2) { animation: cinematicFade 3s ease 4s forwards; }
+    .start-sequence .pre-text:nth-child(3) { animation: cinematicFade 3s ease 7s forwards; }
+    .start-sequence .title-text { animation: finalReveal 4s ease 10s forwards; }
+
+    @keyframes cinematicFade {
+        0% { opacity: 0; filter: blur(10px); transform: scale(0.95); }
+        30% { opacity: 1; filter: blur(0px); transform: scale(1); }
+        70% { opacity: 1; filter: blur(0px); transform: scale(1.02); }
+        100% { opacity: 0; filter: blur(10px); transform: scale(1.05); }
+    }
+
+    @keyframes finalReveal {
+        0% { opacity: 0; filter: blur(20px); transform: scale(0.9); }
+        20% { opacity: 1; filter: blur(0px); transform: scale(1); }
+        80% { opacity: 1; filter: blur(0px); transform: scale(1.05); }
+        100% { opacity: 0; filter: blur(30px); transform: scale(1.2); visibility: hidden; }
+    }
+
+    /* ---------------- LOCK SCREEN ---------------- */
+    #lock-screen {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100vh;
+        display: none; /* Hidden until intro finishes */
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+        background: transparent;
+        opacity: 0;
+        transition: opacity 1.5s ease;
+    }
+
+    #quote-display {
+        font-size: clamp(1.2rem, 2.5vw, 2rem);
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        text-align: center;
+        color: #e1f5fe;
+        margin-bottom: 40px;
+        opacity: 0;
+        transition: opacity 2s ease-in-out;
+        max-width: 80%;
+        text-shadow: 2px 4px 10px rgba(0,0,0,1), 0 0 15px #00aaff;
+        min-height: 80px;
+        font-weight: bold;
+    }
+
+    .pin-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    #pin-input {
+        background: rgba(0, 10, 20, 0.7);
+        border: 1px solid #005599;
+        color: #00aaff;
+        padding: 15px;
+        font-family: monospace;
+        font-size: 2rem;
+        text-align: center;
+        letter-spacing: 15px;
+        width: 250px;
+        outline: none;
+        transition: border 0.3s, box-shadow 0.3s;
+        text-shadow: 0 0 10px #00aaff;
+    }
+
+    #pin-input:focus {
+        border-color: #00aaff;
+        box-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
+    }
+
+    .pin-error {
+        color: #ff6666;
+        font-size: 1rem;
+        letter-spacing: 2px;
+        opacity: 0;
+        transition: opacity 0.3s;
+        font-family: monospace;
+        text-shadow: 1px 2px 4px rgba(0,0,0,1);
+    }
+
+    /* ---------------- MAIN DIARY UI ---------------- */
+    #app-main {
+        opacity: 0;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 50px 20px 100px 20px;
+        position: relative;
+        transition: opacity 2s ease;
+        display: none; /* Hidden until unlocked */
+    }
+
+    .show-app {
+        display: block !important;
+        animation: fadeInApp 2s ease forwards;
+    }
+
+    @keyframes fadeInApp {
+        to { opacity: 1; }
+    }
+
+    header {
+        text-align: center;
+        margin-bottom: 30px;
+        border-bottom: 1px solid #003366;
+        padding-bottom: 20px;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        letter-spacing: 8px;
+        text-transform: uppercase;
+        color: #81d4fa;
+        font-weight: bold;
+        margin-bottom: 15px;
+        text-shadow: 2px 4px 10px rgba(0,0,0,1), 0 0 15px #00aaff;
+    }
+
+    .stats-board {
+        display: flex;
+        justify-content: center;
+        background: rgba(0, 10, 20, 0.7);
+        padding: 15px;
+        border: 1px solid #004488;
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+        margin-bottom: 30px;
+        backdrop-filter: blur(5px);
+        text-shadow: 1px 2px 5px rgba(0,0,0,1);
+    }
+
+    .stat-highlight { color: #ffffff; font-weight: bold; margin-left: 10px; text-shadow: 0 0 10px #00aaff; }
+
+    .grid-layout {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 30px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        color: #e1f5fe;
+        border-bottom: 1px solid #003366;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+        letter-spacing: 3px;
+        text-shadow: 2px 2px 8px rgba(0,0,0,1);
+    }
+
+    /* Calendar UI */
+    .calendar-container {
+        background: rgba(0, 15, 30, 0.65);
+        border: 1px solid #003366;
+        padding: 20px;
+        backdrop-filter: blur(4px);
+        box-shadow: 2px 4px 10px rgba(0,0,0,0.5);
+    }
+
+    .month-header {
+        text-align: center;
+        font-size: 1.2rem;
+        color: #81d4fa;
+        font-weight: bold;
+        margin-bottom: 15px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        text-shadow: 1px 2px 4px rgba(0,0,0,1);
+    }
+
+    .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 5px;
+    }
+
+    .day-name {
+        text-align: center;
+        font-size: 0.8rem;
+        color: #5588aa;
+        margin-bottom: 5px;
+        font-family: monospace;
+    }
+
+    .calendar-day {
+        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 5, 10, 0.6);
+        border: 1px solid #002244;
+        color: #5588aa;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        font-family: monospace;
+    }
+
+    .calendar-day.active-month {
+        color: #b3e5fc;
+        cursor: pointer;
+    }
+
+    .calendar-day.logged {
+        background: rgba(0, 51, 102, 0.8);
+        border-color: #00aaff;
+        color: #e1f5fe;
+        box-shadow: inset 0 0 10px rgba(0, 170, 255, 0.3);
+        font-weight: bold;
+    }
+
+    .calendar-day.today {
+        border-color: #ffffff;
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+    }
+
+    /* Diary Entry UI */
+    .entry-container {
+        background: rgba(0, 15, 30, 0.65);
+        border-left: 3px solid #00aaff;
+        padding: 20px;
+        backdrop-filter: blur(4px);
+        display: flex;
+        flex-direction: column;
+        box-shadow: 2px 4px 10px rgba(0,0,0,0.5);
+    }
+
+    .entry-date-display {
+        font-size: 1.2rem;
+        color: #81d4fa;
+        font-weight: bold;
+        margin-bottom: 15px;
+        letter-spacing: 2px;
+        text-shadow: 1px 2px 4px rgba(0,0,0,1);
+    }
+
+    textarea {
+        width: 100%;
+        flex-grow: 1;
+        min-height: 300px;
+        background: rgba(0, 10, 20, 0.7);
+        border: 1px solid #005599;
+        color: #e1f5fe;
+        padding: 15px;
+        font-family: inherit;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        resize: vertical;
+        outline: none;
+        margin-bottom: 15px;
+        text-shadow: 1px 1px 3px rgba(0,0,0,1);
+    }
+
+    textarea::placeholder {
+        color: #4f8ab8;
+    }
+
+    textarea:focus { border-color: #00aaff; box-shadow: 0 0 10px rgba(0,170,255,0.2); }
+    
+    textarea:disabled {
+        background: rgba(0, 5, 10, 0.9);
+        color: #5588aa;
+        border-color: #002244;
+        cursor: not-allowed;
+        text-shadow: none;
+    }
+
+    button.commit-btn {
+        background: rgba(0, 34, 68, 0.8);
+        border: 1px solid #00aaff;
+        color: #fff;
+        padding: 12px 20px;
+        cursor: pointer;
+        font-family: monospace;
+        font-weight: bold;
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        transition: background 0.3s, box-shadow 0.3s;
+        align-self: flex-end;
+        text-shadow: 1px 2px 4px rgba(0,0,0,1);
+    }
+
+    button.commit-btn:hover { 
+        background: rgba(0, 51, 102, 0.9); 
+        box-shadow: 0 0 15px rgba(0, 170, 255, 0.4);
+    }
+
+    .status-msg {
+        color: #b3e5fc;
+        font-style: italic;
+        margin-bottom: 10px;
+        text-shadow: 1px 2px 4px rgba(0,0,0,1);
+    }
+
+    @media (max-width: 768px) {
+        .grid-layout { grid-template-columns: 1fr; }
+        textarea { min-height: 200px; }
+    }
+</style>
+</head>
+<body>
+
+    <div id="yt-player-container"><\/div>
+
+    <div id="bg-layer"><\/div>
+    <div id="crt-layer"><\/div>
+
+    <div id="scroll-container">
+
+        <div id="start-screen">
+            <div class="blink-text">[ AWAKEN CRESCENT ]<\/div>
+        </div>
+
+        <div id="intro-layer">
+            <div class="pre-text">Observe the breath.<\/div>
+            <div class="pre-text">Time is an illusion.<\/div>
+            <div class="pre-text">Fulfill your Karma.<\/div>
+            <div class="title-text">PROJECT CRESCENT<\/div>
+        </div>
+
+        <div id="lock-screen">
+            <div id="quote-display"><\/div>
+            <div class="pin-container">
+                <input type="password" id="pin-input" maxlength="4" placeholder="••••" autocomplete="off">
+                <div id="pin-error" class="pin-error">MIND UNCLEAR. DENIED.<\/div>
+            </div>
+        </div>
+
+        <div id="app-main">
+            <header>
+                <h1>Akashic Logs<\/h1>
+                <div class="stats-board">
+                    <div>Total Sealed Records: <span id="stat-entries" class="stat-highlight">0<\/span><\/div>
+                </div>
+            </header>
+
+            <div class="grid-layout">
+                <div>
+                    <h2>Chronology<\/h2>
+                    <div class="calendar-container">
+                        <div id="month-header" class="month-header">Month Year<\/div>
+                        <div class="calendar-grid">
+                            <div class="day-name">SUN<\/div><div class="day-name">MON<\/div>
+                            <div class="day-name">TUE<\/div><div class="day-name">WED<\/div>
+                            <div class="day-name">THU<\/div><div class="day-name">FRI<\/div>
+                            <div class="day-name">SAT<\/div>
+                        <\/div>
+                        <div id="calendar-days" class="calendar-grid">
+                            <\/div>
+                    <\/div>
+                <\/div>
+
+                <div>
+                    <h2>Daily Karma<\/h2>
+                    <div class="entry-container">
+                        <div id="entry-date-display" class="entry-date-display">Date<\/div>
+                        <div id="entry-status" class="status-msg"><\/div>
+                        <textarea id="diary-entry" placeholder="Document the stillness of today..."><\/textarea>
+                        <button id="save-btn" class="commit-btn" onclick="saveEntry()">Seal Record<\/button>
+                    <\/div>
+                <\/div>
+            <\/div>
+        <\/div>
+    <\/div>
+
+<script>
+    // --- START SCREEN & AUDIO SEQUENCE ---
+    document.getElementById('start-screen').addEventListener('click', function() {
+        const ytContainer = document.getElementById('yt-player-container');
+        // Injecting the iframe here ensures the browser allows audio to play
+        ytContainer.innerHTML = '<iframe width="1" height="1" src="https://www.youtube.com/embed/l0ua_FD5RO8?autoplay=1&loop=1&playlist=l0ua_FD5RO8" frameborder="0" allow="autoplay; encrypted-media"><\/iframe>';
+
+        this.style.opacity = '0';
+        setTimeout(() => { this.style.display = 'none'; }, 500);
+
+        // Start the cinematic intro animation
+        document.getElementById('intro-layer').classList.add('start-sequence');
+        
+        // After 14.5 seconds, hide intro and show lock screen
+        setTimeout(() => {
+            document.getElementById('intro-layer').style.display = 'none';
+            
+            const lockScreen = document.getElementById('lock-screen');
+            lockScreen.style.display = 'flex';
+            setTimeout(() => {
+                lockScreen.style.opacity = 1;
+                document.getElementById('pin-input').focus();
+            }, 50);
+        }, 14500);
+    });
+
+    // --- QUOTE LOGIC (For Lock Screen) ---
+    const quotes = [
+        "Observe the silence.",
+        "Memory is an illusion.",
+        "The cosmic dance continues.",
+        "What is unwritten fades into the void.",
+        "Document the stillness.",
+        "The mind is a mirror. Write what it reflects."
+    ];
+    
+    let quoteIndex = 0;
+    const quoteDisplay = document.getElementById('quote-display');
+    
+    function cycleQuote() {
+        quoteDisplay.style.opacity = 0; 
+        setTimeout(() => {
+            quoteDisplay.innerText = quotes[quoteIndex];
+            quoteDisplay.style.opacity = 1; 
+            quoteIndex = (quoteIndex + 1) % quotes.length;
+        }, 2000); 
+    }
+
+    cycleQuote();
+    setInterval(cycleQuote, 10000);
+
+    // --- PINCODE LOGIC ---
+    const pinInput = document.getElementById('pin-input');
+    const pinError = document.getElementById('pin-error');
+    const lockScreen = document.getElementById('lock-screen');
+    const appMain = document.getElementById('app-main');
+
+    pinInput.addEventListener('input', function(e) {
+        if(this.value.length === 4) {
+            if(this.value === '2027') {
+                unlockApp();
+            } else {
+                pinError.style.opacity = 1;
+                setTimeout(() => { 
+                    this.value = ''; 
+                    pinError.style.opacity = 0; 
+                }, 1000);
+            }
+        }
+    });
+
+    function unlockApp() {
+        lockScreen.style.opacity = 0;
+        setTimeout(() => {
+            lockScreen.style.display = 'none';
+            appMain.classList.add('show-app');
+            initDiary();
+        }, 1500); // Wait for lock screen fade out before showing main app
+    }
+
+    // --- DIARY / ARCHIVE LOGIC ---
+    let diaryState = JSON.parse(localStorage.getItem('crescent_diary_state_v4')) || {
+        entries: {} 
+    };
+
+    const todayDate = new Date();
+    const todayString = todayDate.getFullYear() + "-" + 
+                        String(todayDate.getMonth() + 1).padStart(2, '0') + "-" + 
+                        String(todayDate.getDate()).padStart(2, '0');
+
+    function initDiary() {
+        updateStats();
+        renderCalendar();
+        setupEntryArea();
+    }
+
+    function updateStats() {
+        const total = Object.keys(diaryState.entries).length;
+        // Crescent removed, just pure numbers now
+        document.getElementById('stat-entries').innerText = total; 
+    }
+
+    function setupEntryArea() {
+        const dateDisplay = document.getElementById('entry-date-display');
+        const textArea = document.getElementById('diary-entry');
+        const saveBtn = document.getElementById('save-btn');
+        const statusMsg = document.getElementById('entry-status');
+
+        dateDisplay.innerText = "Cosmic Cycle: " + todayDate.toLocaleDateString();
+
+        if (diaryState.entries[todayString]) {
+            statusMsg.innerText = "Karmic cycle sealed for today. The past cannot be altered.";
+            textArea.value = diaryState.entries[todayString];
+            textArea.disabled = true;
+            saveBtn.style.display = 'none';
+        } else {
+            statusMsg.innerText = "Awaiting mental projection...";
+            textArea.value = "";
+            textArea.disabled = false;
+            saveBtn.style.display = 'block';
+        }
+    }
+
+    function saveEntry() {
+        const textArea = document.getElementById('diary-entry');
+        const text = textArea.value.trim();
+
+        if(text === '') return;
+
+        // Save to state
+        diaryState.entries[todayString] = text;
+        localStorage.setItem('crescent_diary_state_v4', JSON.stringify(diaryState));
+
+        // Update UI
+        setupEntryArea();
+        renderCalendar();
+        updateStats();
+    }
+
+    // --- CALENDAR LOGIC ---
+    function renderCalendar() {
+        const calendarContainer = document.getElementById('calendar-days');
+        const monthHeader = document.getElementById('month-header');
+        calendarContainer.innerHTML = '';
+
+        const year = todayDate.getFullYear();
+        const month = todayDate.getMonth();
+        
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        monthHeader.innerText = `${monthNames[month]} ${year}`;
+
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        // Empty cells before start of month
+        for(let i = 0; i < firstDay; i++) {
+            const emptyCell = document.createElement('div');
+            emptyCell.className = 'calendar-day';
+            calendarContainer.appendChild(emptyCell);
+        }
+
+        // Actual days
+        for(let i = 1; i <= daysInMonth; i++) {
+            const dayCell = document.createElement('div');
+            dayCell.className = 'calendar-day active-month';
+            dayCell.innerText = i;
+
+            const checkDateStr = year + "-" + String(month + 1).padStart(2, '0') + "-" + String(i).padStart(2, '0');
+            
+            if(diaryState.entries[checkDateStr]) {
+                dayCell.classList.add('logged');
+                dayCell.title = "Record Sealed";
+            }
+
+            if(i === todayDate.getDate()) {
+                dayCell.classList.add('today');
+            }
+
+            // Click a past logged day to read it
+            dayCell.onclick = () => {
+                if(diaryState.entries[checkDateStr] && checkDateStr !== todayString) {
+                    alert(`Akashic Record [${checkDateStr}]:\n\n${diaryState.entries[checkDateStr]}`);
+                }
+            };
+
+            calendarContainer.appendChild(dayCell);
+        }
+    }
+<\/script>
+
+<\/body>
+<\/html>
