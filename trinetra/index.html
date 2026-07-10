@@ -52,7 +52,6 @@
         z-index: 10;
     }
 
-    /* ---------------- START SCREEN (To bypass autoplay restrictions) ---------------- */
     #start-screen {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
@@ -87,7 +86,6 @@
         pointer-events: none;
     }
 
-    /* ---------------- INTRO SEQUENCE ---------------- */
     #intro-layer {
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100vh;
@@ -139,7 +137,6 @@
         100% { opacity: 0; filter: blur(30px); transform: scale(1.2); visibility: hidden; }
     }
 
-    /* ---------------- MAIN APP UI ---------------- */
     #app-main {
         opacity: 0;
         max-width: 1000px;
@@ -210,7 +207,6 @@
     }
     .btn-text:hover { color: #fff; text-shadow: 0 0 10px #00aaff;}
 
-    /* Inputs */
     .input-section {
         display: flex;
         flex-wrap: wrap;
@@ -274,7 +270,6 @@
         align-items: flex-end;
     }
 
-    /* Quest List & Multi-step */
     .quest-list { list-style: none; }
     
     .quest-item {
@@ -302,7 +297,6 @@
     .btn-complete:hover { background: rgba(0, 80, 80, 0.9); box-shadow: 0 0 10px rgba(0, 255, 170, 0.3); }
     .btn-delete { border-color: #555; background: rgba(17, 17, 17, 0.8); }
 
-    /* Sub-tasks */
     .task-list {
         list-style: none;
         margin-bottom: 10px;
@@ -328,7 +322,6 @@
     .task-input-section input[type="text"] { padding: 8px; font-size: 0.9rem; }
     .task-input-section button { padding: 8px 15px; font-size: 0.8rem; }
 
-    /* Archive Section */
     #archive-section {
         display: none;
         margin-top: 40px;
@@ -365,7 +358,6 @@
         list-style-type: square;
     }
 
-    /* Economy Shop */
     .shop-category { margin-bottom: 40px; }
     .shop-item {
         background: rgba(0, 15, 30, 0.65);
@@ -396,7 +388,6 @@
     }
     .btn-del-custom:hover { color: #ff3333; background: transparent; box-shadow: none;}
 
-    /* Custom Shop Inputs */
     .custom-shop-form {
         display: flex;
         gap: 5px;
@@ -463,8 +454,7 @@
             <div class="grid-layout">
                 <div>
                     <h2>Active Karmas</h2>
-                    <ul id="quest-container" class="quest-list">
-                        </ul>
+                    <ul id="quest-container" class="quest-list"></ul>
                 </div>
 
                 <div>
@@ -505,7 +495,7 @@
                                     <button onclick="spendGold(30)">Pay</button>
                                 </div>
                             </div>
-                            </div>
+                        </div>
                     </div>
 
                     <div class="shop-category">
@@ -554,40 +544,34 @@
                                     <button onclick="spendGold(5000)">Claim</button>
                                 </div>
                             </div>
-                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div id="archive-section">
                 <h2>Akashic Records (Past Karmas)</h2>
-                <div id="archive-container">
-                    </div>
+                <div id="archive-container"></div>
             </div>
         </div>
     </div>
 
 <script>
-    // --- INITIALIZATION & AUDIO ---
     document.getElementById('start-screen').addEventListener('click', function() {
         const ytContainer = document.getElementById('yt-player-container');
-        // Injects the YouTube iframe to start the music
-        ytContainer.innerHTML = '<iframe width="1" height="1" src="https://www.youtube.com/embed/l0ua_FD5RO8?autoplay=1&loop=1&playlist=l0ua_FD5RO8" frameborder="0" allow="autoplay; encrypted-media"><\/iframe>';
+        ytContainer.innerHTML = '<iframe width="1" height="1" src="https://www.youtube.com/embed/l0ua_FD5RO8?autoplay=1&loop=1&playlist=l0ua_FD5RO8" frameborder="0" allow="autoplay; encrypted-media"></iframe>';
 
         this.style.opacity = '0';
         setTimeout(() => { this.style.display = 'none'; }, 500);
 
-        // Start the intro animation sequence
         document.getElementById('intro-layer').classList.add('start-sequence');
         
-        // After 14.5 seconds, fade out the intro and show the app
         setTimeout(() => {
             document.getElementById('intro-layer').style.display = 'none';
             document.getElementById('app-main').classList.add('show-app');
         }, 14500);
     });
 
-    // --- APPLICATION LOGIC ---
     let state = JSON.parse(localStorage.getItem('trinetra_app_v1')) || {
         questsCompleted: 0,
         tasksCompleted: 0,
@@ -626,13 +610,11 @@
     function updateUI() {
         localStorage.setItem('trinetra_app_v1', JSON.stringify(state));
 
-        // Stats
         statQuests.innerText = state.questsCompleted;
         statTasks.innerText = state.tasksCompleted;
         statGold.innerText = state.gold + "🔱";
         statGold.style.color = state.gold < 0 ? "#ff6666" : "#ffffff";
 
-        // Render Quests
         questContainer.innerHTML = '';
         state.quests.forEach((quest, qIndex) => {
             let tasksHTML = '';
@@ -640,45 +622,19 @@
                 quest.tasks.forEach((task, tIndex) => {
                     const checked = task.done ? "checked" : "";
                     const textClass = task.done ? "task-done" : "";
-                    tasksHTML += `
-                        <li class="task-item">
-                            <input type="checkbox" ${checked} onchange="toggleTask(${qIndex}, ${tIndex})">
-                            <span class="${textClass}">${task.text}<\/span>
-                        <\/li>
-                    `;
+                    tasksHTML += `<li class="task-item"><input type="checkbox" ${checked} onchange="toggleTask(${qIndex}, ${tIndex})"><span class="${textClass}">${task.text}</span></li>`;
                 });
             }
 
             let deadlineText = '';
             if(quest.deadline) {
                 const d = new Date(quest.deadline);
-                deadlineText = `<div class="quest-deadline">Deadline: ${d.toLocaleString()}<\/div>`;
+                deadlineText = `<div class="quest-deadline">Deadline: ${d.toLocaleString()}</div>`;
             }
 
             const li = document.createElement('li');
             li.className = 'quest-item';
-            li.innerHTML = `
-                <div class="quest-header">
-                    <div>
-                        <div class="quest-title">${quest.title}<\/div>
-                        <div class="quest-reward">Reward: ${quest.reward}🔱<\/div>
-                        ${deadlineText}
-                    <\/div>
-                    <div class="quest-actions">
-                        <button class="btn-complete" onclick="completeQuest(${qIndex})">Complete<\/button>
-                        <button class="btn-delete" onclick="deleteQuest(${qIndex})">Drop<\/button>
-                    <\/div>
-                <\/div>
-                
-                <ul class="task-list">
-                    ${tasksHTML}
-                <\/ul>
-                
-                <div class="task-input-section">
-                    <input type="text" id="task-input-${qIndex}" placeholder="Add a step...">
-                    <button onclick="addTask(${qIndex})">Add<\/button>
-                <\/div>
-            `;
+            li.innerHTML = `<div class="quest-header"><div><div class="quest-title">${quest.title}</div><div class="quest-reward">Reward: ${quest.reward}🔱</div>${deadlineText}</div><div class="quest-actions"><button class="btn-complete" onclick="completeQuest(${qIndex})">Complete</button><button class="btn-delete" onclick="deleteQuest(${qIndex})">Drop</button></div></div><ul class="task-list">${tasksHTML}</ul><div class="task-input-section"><input type="text" id="task-input-${qIndex}" placeholder="Add a step..."><button onclick="addTask(${qIndex})">Add</button></div>`;
             questContainer.appendChild(li);
 
             const taskInput = document.getElementById(`task-input-${qIndex}`);
@@ -687,18 +643,7 @@
             });
         });
 
-        // Render Custom Dues
-        const customDuesHTML = state.customDues.map((due, index) => `
-            <div class="shop-item">
-                <div class="shop-item-info">
-                    <h3>${due.name} <button class="btn-del-custom" onclick="removeCustomDue(${index})" title="Remove">×<\/button><\/h3>
-                    <p>Cost: ${due.cost}🔱<\/p>
-                <\/div>
-                <div class="shop-actions">
-                    <button onclick="spendGold(${due.cost})">Pay<\/button>
-                <\/div>
-            <\/div>
-        `).join('');
+        const customDuesHTML = state.customDues.map((due, index) => `<div class="shop-item"><div class="shop-item-info"><h3>${due.name} <button class="btn-del-custom" onclick="removeCustomDue(${index})" title="Remove">×</button></h3><p>Cost: ${due.cost}🔱</p></div><div class="shop-actions"><button onclick="spendGold(${due.cost})">Pay</button></div></div>`).join('');
         
         const existingCustomDues = duesContainer.querySelectorAll('.dynamic-due');
         existingCustomDues.forEach(el => el.remove());
@@ -710,18 +655,7 @@
             duesContainer.appendChild(wrapper);
         }
 
-        // Render Custom Rewards
-        const customRewardsHTML = state.customRewards.map((reward, index) => `
-            <div class="shop-item">
-                <div class="shop-item-info">
-                    <h3>${reward.name} <button class="btn-del-custom" onclick="removeCustomReward(${index})" title="Remove">×<\/button><\/h3>
-                    <p>Cost: ${reward.cost}🔱<\/p>
-                <\/div>
-                <div class="shop-actions">
-                    <button onclick="spendGold(${reward.cost})">Claim<\/button>
-                <\/div>
-            <\/div>
-        `).join('');
+        const customRewardsHTML = state.customRewards.map((reward, index) => `<div class="shop-item"><div class="shop-item-info"><h3>${reward.name} <button class="btn-del-custom" onclick="removeCustomReward(${index})" title="Remove">×</button></h3><p>Cost: ${reward.cost}🔱</p></div><div class="shop-actions"><button onclick="spendGold(${reward.cost})">Claim</button></div></div>`).join('');
 
         const existingCustomRewards = rewardsContainer.querySelectorAll('.dynamic-reward');
         existingCustomRewards.forEach(el => el.remove());
@@ -733,10 +667,9 @@
             rewardsContainer.appendChild(wrapper);
         }
 
-        // Render Archive
         archiveContainer.innerHTML = '';
         if (state.archive.length === 0) {
-            archiveContainer.innerHTML = '<p style="color:#777; font-family: monospace;">No Karmas completed yet.<\/p>';
+            archiveContainer.innerHTML = '<p style="color:#777; font-family: monospace;">No Karmas completed yet.</p>';
         } else {
             state.archive.slice().reverse().forEach((archivedQuest, i) => {
                 const isFailed = archivedQuest.status === 'failed';
@@ -745,33 +678,22 @@
                 if(archivedQuest.tasks && archivedQuest.tasks.length > 0) {
                     archivedQuest.tasks.forEach(t => {
                         const mark = t.done ? '✓' : '✗';
-                        subtasksHTML += `<li>[${mark}] ${t.text}<\/li>`;
+                        subtasksHTML += `<li>[${mark}] ${t.text}</li>`;
                     });
                 } else {
-                    subtasksHTML = '<li>No steps logged.<\/li>';
+                    subtasksHTML = '<li>No steps logged.</li>';
                 }
 
                 const div = document.createElement('div');
                 div.className = `archived-item ${isFailed ? 'failed-item' : ''}`;
                 const realIndex = state.archive.length - 1 - i;
                 
-                div.innerHTML = `
-                    <div class="archived-header" onclick="toggleArchiveTasks(${realIndex})">
-                        <span>${isFailed ? '⚠ FAILED: ' : '★ '}${archivedQuest.title}<\/span> 
-                        <span style="color:${isFailed ? '#ff6666' : '#ffffff'}; text-shadow: 0 0 5px ${isFailed ? '#ff0000' : '#00aaff'};">
-                            ${isFailed ? '-' + archivedQuest.penalty + '🔱' : '+' + archivedQuest.reward + '🔱'}
-                        <\/span>
-                    <\/div>
-                    <ul class="archived-tasks" id="archive-tasks-list-${realIndex}">
-                        ${subtasksHTML}
-                    <\/ul>
-                `;
+                div.innerHTML = `<div class="archived-header" onclick="toggleArchiveTasks(${realIndex})"><span>${isFailed ? '⚠ FAILED: ' : '★ '}${archivedQuest.title}</span><span style="color:${isFailed ? '#ff6666' : '#ffffff'}; text-shadow: 0 0 5px ${isFailed ? '#ff0000' : '#00aaff'};">${isFailed ? '-' + archivedQuest.penalty + '🔱' : '+' + archivedQuest.reward + '🔱'}</span></div><ul class="archived-tasks" id="archive-tasks-list-${realIndex}">${subtasksHTML}</ul>`;
                 archiveContainer.appendChild(div);
             });
         }
     }
 
-    // --- QUEST FUNCTIONS ---
     function addQuest() {
         const titleInput = document.getElementById('quest-input');
         const goldInput = document.getElementById('gold-input');
@@ -783,13 +705,7 @@
 
         if (title === '') return;
 
-        state.quests.push({ 
-            title: title, 
-            reward: reward, 
-            deadline: deadline, 
-            tasks: [] 
-        });
-        
+        state.quests.push({ title, reward, deadline, tasks: [] });
         titleInput.value = '';
         deadlineInput.value = '';
         updateUI();
@@ -801,17 +717,13 @@
         if (text === '') return;
 
         if(!state.quests[qIndex].tasks) state.quests[qIndex].tasks = [];
-        state.quests[qIndex].tasks.push({ text: text, done: false });
+        state.quests[qIndex].tasks.push({ text, done: false });
         updateUI();
     }
 
     function toggleTask(qIndex, tIndex) {
         state.quests[qIndex].tasks[tIndex].done = !state.quests[qIndex].tasks[tIndex].done;
-        if(state.quests[qIndex].tasks[tIndex].done) {
-            state.tasksCompleted++;
-        } else {
-            state.tasksCompleted--;
-        }
+        state.tasksCompleted += state.quests[qIndex].tasks[tIndex].done ? 1 : -1;
         updateUI();
     }
 
@@ -819,15 +731,7 @@
         const quest = state.quests[qIndex];
         state.gold += quest.reward;
         state.questsCompleted++;
-
-        state.archive.push({
-            title: quest.title,
-            reward: quest.reward,
-            tasks: quest.tasks,
-            status: 'completed',
-            date: new Date().toLocaleDateString()
-        });
-
+        state.archive.push({ title: quest.title, reward: quest.reward, tasks: quest.tasks, status: 'completed', date: new Date().toLocaleDateString() });
         state.quests.splice(qIndex, 1);
         updateUI();
     }
@@ -835,18 +739,8 @@
     function failQuest(qIndex) {
         const quest = state.quests[qIndex];
         const penalty = Math.floor(quest.reward / 2);
-        
         state.gold -= penalty;
-
-        state.archive.push({
-            title: quest.title,
-            reward: quest.reward,
-            penalty: penalty,
-            tasks: quest.tasks,
-            status: 'failed',
-            date: new Date().toLocaleDateString()
-        });
-
+        state.archive.push({ title: quest.title, reward: quest.reward, penalty, tasks: quest.tasks, status: 'failed', date: new Date().toLocaleDateString() });
         state.quests.splice(qIndex, 1);
     }
 
@@ -855,7 +749,6 @@
         updateUI();
     }
 
-    // --- ECONOMY FUNCTIONS ---
     function spendGold(amount) {
         state.gold -= amount;
         updateUI();
@@ -868,7 +761,7 @@
         const cost = parseInt(costInput.value);
 
         if (name && cost > 0) {
-            state.customDues.push({ name: name, cost: cost });
+            state.customDues.push({ name, cost });
             nameInput.value = '';
             costInput.value = '';
             updateUI();
@@ -887,7 +780,7 @@
         const cost = parseInt(costInput.value);
 
         if (name && cost > 0) {
-            state.customRewards.push({ name: name, cost: cost });
+            state.customRewards.push({ name, cost });
             nameInput.value = '';
             costInput.value = '';
             updateUI();
@@ -899,7 +792,6 @@
         updateUI();
     }
 
-    // --- UI HELPERS ---
     function toggleArchive() {
         const archiveSection = document.getElementById('archive-section');
         if(archiveSection.style.display === 'block') {
@@ -917,11 +809,7 @@
 
     function toggleArchiveTasks(index) {
         const taskList = document.getElementById(`archive-tasks-list-${index}`);
-        if(taskList.style.display === 'block') {
-            taskList.style.display = 'none';
-        } else {
-            taskList.style.display = 'block';
-        }
+        taskList.style.display = taskList.style.display === 'block' ? 'none' : 'block';
     }
 
     document.getElementById('quest-input').addEventListener('keypress', function (e) {
@@ -931,7 +819,7 @@
     setInterval(checkDeadlines, 10000);
     checkDeadlines();
     updateUI();
-<\/script>
+</script>
 
-<\/body>
-<\/html>
+</body>
+</html>
