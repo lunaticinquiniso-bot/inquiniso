@@ -21,7 +21,6 @@
         background-color: transparent; 
     }
 
-    /* Restored Original Dark Forest Background with Moonlit Overlay */
     #bg-layer {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
@@ -62,7 +61,6 @@
         pointer-events: none;
     }
 
-    /* ---------------- START SCREEN (To bypass autoplay restrictions) ---------------- */
     #start-screen {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
@@ -88,7 +86,6 @@
         50% { opacity: 0; }
     }
 
-    /* ---------------- INTRO SEQUENCE ---------------- */
     #intro-layer {
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100vh;
@@ -141,11 +138,10 @@
         100% { opacity: 0; filter: blur(30px); transform: scale(1.2); visibility: hidden; }
     }
 
-    /* ---------------- LOCK SCREEN ---------------- */
     #lock-screen {
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100vh;
-        display: none; /* Hidden until intro finishes */
+        display: none;
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -207,7 +203,6 @@
         text-shadow: 1px 2px 4px rgba(0,0,0,1);
     }
 
-    /* ---------------- MAIN DIARY UI ---------------- */
     #app-main {
         opacity: 0;
         max-width: 1000px;
@@ -215,7 +210,7 @@
         padding: 50px 20px 100px 20px;
         position: relative;
         transition: opacity 2s ease;
-        display: none; /* Hidden until unlocked */
+        display: none;
     }
 
     .show-app {
@@ -275,7 +270,6 @@
         text-shadow: 2px 2px 8px rgba(0,0,0,1);
     }
 
-    /* Calendar UI */
     .calendar-container {
         background: rgba(0, 15, 30, 0.65);
         border: 1px solid #003366;
@@ -340,7 +334,6 @@
         box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
     }
 
-    /* Diary Entry UI */
     .entry-container {
         background: rgba(0, 15, 30, 0.65);
         border-left: 3px solid #00aaff;
@@ -427,83 +420,78 @@
 </head>
 <body>
 
-    <div id="yt-player-container"><\/div>
+    <div id="yt-player-container"></div>
 
-    <div id="bg-layer"><\/div>
-    <div id="crt-layer"><\/div>
+    <div id="bg-layer"></div>
+    <div id="crt-layer"></div>
 
     <div id="scroll-container">
 
         <div id="start-screen">
-            <div class="blink-text">[ AWAKEN CRESCENT ]<\/div>
+            <div class="blink-text">[ AWAKEN CRESCENT ]</div>
         </div>
 
         <div id="intro-layer">
-            <div class="pre-text">Observe the breath.<\/div>
-            <div class="pre-text">Time is an illusion.<\/div>
-            <div class="pre-text">Fulfill your Karma.<\/div>
-            <div class="title-text">PROJECT CRESCENT<\/div>
+            <div class="pre-text">Observe the breath.</div>
+            <div class="pre-text">Time is an illusion.</div>
+            <div class="pre-text">Fulfill your Karma.</div>
+            <div class="title-text">PROJECT CRESCENT</div>
         </div>
 
         <div id="lock-screen">
-            <div id="quote-display"><\/div>
+            <div id="quote-display"></div>
             <div class="pin-container">
                 <input type="password" id="pin-input" maxlength="4" placeholder="••••" autocomplete="off">
-                <div id="pin-error" class="pin-error">MIND UNCLEAR. DENIED.<\/div>
+                <div id="pin-error" class="pin-error">MIND UNCLEAR. DENIED.</div>
             </div>
         </div>
 
         <div id="app-main">
             <header>
-                <h1>Akashic Logs<\/h1>
+                <h1>Akashic Logs</h1>
                 <div class="stats-board">
-                    <div>Total Sealed Records: <span id="stat-entries" class="stat-highlight">0<\/span><\/div>
+                    <div>Total Sealed Records: <span id="stat-entries" class="stat-highlight">0</span></div>
                 </div>
             </header>
 
             <div class="grid-layout">
                 <div>
-                    <h2>Chronology<\/h2>
+                    <h2>Chronology</h2>
                     <div class="calendar-container">
-                        <div id="month-header" class="month-header">Month Year<\/div>
+                        <div id="month-header" class="month-header">Month Year</div>
                         <div class="calendar-grid">
-                            <div class="day-name">SUN<\/div><div class="day-name">MON<\/div>
-                            <div class="day-name">TUE<\/div><div class="day-name">WED<\/div>
-                            <div class="day-name">THU<\/div><div class="day-name">FRI<\/div>
-                            <div class="day-name">SAT<\/div>
-                        <\/div>
-                        <div id="calendar-days" class="calendar-grid">
-                            <\/div>
-                    <\/div>
-                <\/div>
+                            <div class="day-name">SUN</div><div class="day-name">MON</div>
+                            <div class="day-name">TUE</div><div class="day-name">WED</div>
+                            <div class="day-name">THU</div><div class="day-name">FRI</div>
+                            <div class="day-name">SAT</div>
+                        </div>
+                        <div id="calendar-days" class="calendar-grid"></div>
+                    </div>
+                </div>
 
                 <div>
-                    <h2>Daily Karma<\/h2>
+                    <h2>Daily Karma</h2>
                     <div class="entry-container">
-                        <div id="entry-date-display" class="entry-date-display">Date<\/div>
-                        <div id="entry-status" class="status-msg"><\/div>
-                        <textarea id="diary-entry" placeholder="Document the stillness of today..."><\/textarea>
-                        <button id="save-btn" class="commit-btn" onclick="saveEntry()">Seal Record<\/button>
-                    <\/div>
-                <\/div>
-            <\/div>
-        <\/div>
-    <\/div>
+                        <div id="entry-date-display" class="entry-date-display">Date</div>
+                        <div id="entry-status" class="status-msg"></div>
+                        <textarea id="diary-entry" placeholder="Document the stillness of today..."></textarea>
+                        <button id="save-btn" class="commit-btn" onclick="saveEntry()">Seal Record</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <script>
-    // --- START SCREEN & AUDIO SEQUENCE ---
     document.getElementById('start-screen').addEventListener('click', function() {
         const ytContainer = document.getElementById('yt-player-container');
-        // Injecting the iframe here ensures the browser allows audio to play
-        ytContainer.innerHTML = '<iframe width="1" height="1" src="https://www.youtube.com/embed/l0ua_FD5RO8?autoplay=1&loop=1&playlist=l0ua_FD5RO8" frameborder="0" allow="autoplay; encrypted-media"><\/iframe>';
+        ytContainer.innerHTML = '<iframe width="1" height="1" src="https://www.youtube.com/embed/l0ua_FD5RO8?autoplay=1&loop=1&playlist=l0ua_FD5RO8" frameborder="0" allow="autoplay; encrypted-media"></iframe>';
 
         this.style.opacity = '0';
         setTimeout(() => { this.style.display = 'none'; }, 500);
 
-        // Start the cinematic intro animation
         document.getElementById('intro-layer').classList.add('start-sequence');
         
-        // After 14.5 seconds, hide intro and show lock screen
         setTimeout(() => {
             document.getElementById('intro-layer').style.display = 'none';
             
@@ -516,7 +504,6 @@
         }, 14500);
     });
 
-    // --- QUOTE LOGIC (For Lock Screen) ---
     const quotes = [
         "Observe the silence.",
         "Memory is an illusion.",
@@ -541,7 +528,6 @@
     cycleQuote();
     setInterval(cycleQuote, 10000);
 
-    // --- PINCODE LOGIC ---
     const pinInput = document.getElementById('pin-input');
     const pinError = document.getElementById('pin-error');
     const lockScreen = document.getElementById('lock-screen');
@@ -567,13 +553,10 @@
             lockScreen.style.display = 'none';
             appMain.classList.add('show-app');
             initDiary();
-        }, 1500); // Wait for lock screen fade out before showing main app
+        }, 1500);
     }
 
-    // --- DIARY / ARCHIVE LOGIC ---
-    let diaryState = JSON.parse(localStorage.getItem('crescent_diary_state_v4')) || {
-        entries: {} 
-    };
+    let diaryState = JSON.parse(localStorage.getItem('crescent_diary_state_v4')) || { entries: {} };
 
     const todayDate = new Date();
     const todayString = todayDate.getFullYear() + "-" + 
@@ -588,7 +571,6 @@
 
     function updateStats() {
         const total = Object.keys(diaryState.entries).length;
-        // Crescent removed, just pure numbers now
         document.getElementById('stat-entries').innerText = total; 
     }
 
@@ -619,17 +601,14 @@
 
         if(text === '') return;
 
-        // Save to state
         diaryState.entries[todayString] = text;
         localStorage.setItem('crescent_diary_state_v4', JSON.stringify(diaryState));
 
-        // Update UI
         setupEntryArea();
         renderCalendar();
         updateStats();
     }
 
-    // --- CALENDAR LOGIC ---
     function renderCalendar() {
         const calendarContainer = document.getElementById('calendar-days');
         const monthHeader = document.getElementById('month-header');
@@ -639,19 +618,17 @@
         const month = todayDate.getMonth();
         
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        monthHeader.innerText = `${monthNames[month]} ${year}`;
+        monthHeader.innerText = monthNames[month] + " " + year;
 
         const firstDay = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-        // Empty cells before start of month
         for(let i = 0; i < firstDay; i++) {
             const emptyCell = document.createElement('div');
             emptyCell.className = 'calendar-day';
             calendarContainer.appendChild(emptyCell);
         }
 
-        // Actual days
         for(let i = 1; i <= daysInMonth; i++) {
             const dayCell = document.createElement('div');
             dayCell.className = 'calendar-day active-month';
@@ -668,17 +645,16 @@
                 dayCell.classList.add('today');
             }
 
-            // Click a past logged day to read it
             dayCell.onclick = () => {
                 if(diaryState.entries[checkDateStr] && checkDateStr !== todayString) {
-                    alert(`Akashic Record [${checkDateStr}]:\n\n${diaryState.entries[checkDateStr]}`);
+                    alert("Akashic Record [" + checkDateStr + "]:\n\n" + diaryState.entries[checkDateStr]);
                 }
             };
 
             calendarContainer.appendChild(dayCell);
         }
     }
-<\/script>
+</script>
 
-<\/body>
-<\/html>
+</body>
+</html>
