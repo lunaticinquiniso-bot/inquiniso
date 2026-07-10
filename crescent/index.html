@@ -278,15 +278,147 @@
         box-shadow: 2px 4px 10px rgba(0,0,0,0.5);
     }
 
+    .calendar-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        gap: 10px;
+    }
+
+    .nav-btn {
+        background: transparent;
+        border: none;
+        color: #5588aa;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: color 0.3s, text-shadow 0.3s;
+        padding: 5px 10px;
+    }
+
+    .nav-btn:hover {
+        color: #81d4fa;
+        text-shadow: 0 0 10px #00aaff;
+    }
+
     .month-header {
         text-align: center;
         font-size: 1.2rem;
         color: #81d4fa;
         font-weight: bold;
-        margin-bottom: 15px;
         letter-spacing: 2px;
         text-transform: uppercase;
         text-shadow: 1px 2px 4px rgba(0,0,0,1);
+        flex: 1;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .month-header:hover {
+        text-shadow: 0 0 10px #00aaff;
+        color: #fff;
+    }
+
+    .month-selector {
+        background: rgba(0, 10, 20, 0.9);
+        border: 1px solid #00aaff;
+        border-radius: 5px;
+        padding: 15px;
+        position: absolute;
+        z-index: 1000;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: none;
+        box-shadow: 0 0 20px rgba(0, 170, 255, 0.5);
+    }
+
+    .month-selector.active {
+        display: block;
+    }
+
+    .month-selector h3 {
+        color: #81d4fa;
+        margin-bottom: 15px;
+        text-align: center;
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+    }
+
+    .selector-content {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .month-option, .year-option {
+        background: rgba(0, 34, 68, 0.8);
+        border: 1px solid #005599;
+        color: #e1f5fe;
+        padding: 10px;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.3s;
+        font-family: monospace;
+        font-size: 0.9rem;
+    }
+
+    .month-option:hover, .year-option:hover {
+        background: rgba(0, 51, 102, 0.9);
+        border-color: #00aaff;
+        box-shadow: 0 0 10px rgba(0, 170, 255, 0.3);
+    }
+
+    .selector-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .selector-buttons button {
+        background: rgba(0, 34, 68, 0.8);
+        border: 1px solid #00aaff;
+        color: #fff;
+        padding: 8px 15px;
+        cursor: pointer;
+        font-family: monospace;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+
+    .selector-buttons button:hover {
+        background: rgba(0, 51, 102, 0.9);
+        box-shadow: 0 0 10px rgba(0, 170, 255, 0.3);
+    }
+
+    .year-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        gap: 10px;
+    }
+
+    .year-display {
+        color: #b3e5fc;
+        text-align: center;
+        flex: 1;
+        font-family: monospace;
+    }
+
+    .year-nav button {
+        background: none;
+        border: 1px solid #005599;
+        color: #5588aa;
+        padding: 5px 10px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .year-nav button:hover {
+        border-color: #00aaff;
+        color: #81d4fa;
     }
 
     .calendar-grid {
@@ -321,6 +453,10 @@
         cursor: pointer;
     }
 
+    .calendar-day.active-month:hover {
+        background: rgba(0, 80, 150, 0.4);
+    }
+
     .calendar-day.logged {
         background: rgba(0, 51, 102, 0.8);
         border-color: #00aaff;
@@ -332,6 +468,13 @@
     .calendar-day.today {
         border-color: #ffffff;
         box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+    }
+    
+    .calendar-day.selected {
+        background: rgba(0, 170, 255, 0.3);
+        border-color: #81d4fa;
+        box-shadow: 0 0 12px rgba(0, 170, 255, 0.6);
+        color: #fff;
     }
 
     .entry-container {
@@ -378,7 +521,7 @@
     
     textarea:disabled {
         background: rgba(0, 5, 10, 0.9);
-        color: #5588aa;
+        color: #8ab4f8;
         border-color: #002244;
         cursor: not-allowed;
         text-shadow: none;
@@ -412,9 +555,27 @@
         text-shadow: 1px 2px 4px rgba(0,0,0,1);
     }
 
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: none;
+        z-index: 999;
+    }
+
+    .modal-overlay.active {
+        display: block;
+    }
+
     @media (max-width: 768px) {
         .grid-layout { grid-template-columns: 1fr; }
         textarea { min-height: 200px; }
+        .selector-content {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
 </head>
@@ -458,7 +619,11 @@
                 <div>
                     <h2>Chronology</h2>
                     <div class="calendar-container">
-                        <div id="month-header" class="month-header">Month Year</div>
+                        <div class="calendar-nav">
+                            <button class="nav-btn" onclick="changeMonth(-1)">&#10094;</button>
+                            <div id="month-header" class="month-header" onclick="toggleMonthSelector()">Month Year</div>
+                            <button class="nav-btn" onclick="changeMonth(1)">&#10095;</button>
+                        </div>
                         <div class="calendar-grid">
                             <div class="day-name">SUN</div><div class="day-name">MON</div>
                             <div class="day-name">TUE</div><div class="day-name">WED</div>
@@ -479,6 +644,36 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-overlay" onclick="closeMonthSelector()"></div>
+    <div class="month-selector" id="month-selector">
+        <h3>Navigate Cosmic Time</h3>
+        
+        <div class="year-nav">
+            <button onclick="changeYear(-1)">&#10094;</button>
+            <div class="year-display" id="year-display">2026</div>
+            <button onclick="changeYear(1)">&#10095;</button>
+        </div>
+
+        <div class="selector-content">
+            <div class="month-option" onclick="selectMonthYear(0)">January</div>
+            <div class="month-option" onclick="selectMonthYear(1)">February</div>
+            <div class="month-option" onclick="selectMonthYear(2)">March</div>
+            <div class="month-option" onclick="selectMonthYear(3)">April</div>
+            <div class="month-option" onclick="selectMonthYear(4)">May</div>
+            <div class="month-option" onclick="selectMonthYear(5)">June</div>
+            <div class="month-option" onclick="selectMonthYear(6)">July</div>
+            <div class="month-option" onclick="selectMonthYear(7)">August</div>
+            <div class="month-option" onclick="selectMonthYear(8)">September</div>
+            <div class="month-option" onclick="selectMonthYear(9)">October</div>
+            <div class="month-option" onclick="selectMonthYear(10)">November</div>
+            <div class="month-option" onclick="selectMonthYear(11)">December</div>
+        </div>
+
+        <div class="selector-buttons">
+            <button onclick="closeMonthSelector()">Close</button>
         </div>
     </div>
 
@@ -553,7 +748,7 @@
             lockScreen.style.display = 'none';
             appMain.classList.add('show-app');
             initDiary();
-        }, 1500);
+        }, 1500); 
     }
 
     let diaryState = JSON.parse(localStorage.getItem('crescent_diary_state_v4')) || { entries: {} };
@@ -562,6 +757,11 @@
     const todayString = todayDate.getFullYear() + "-" + 
                         String(todayDate.getMonth() + 1).padStart(2, '0') + "-" + 
                         String(todayDate.getDate()).padStart(2, '0');
+
+    let currentViewYear = todayDate.getFullYear();
+    let currentViewMonth = todayDate.getMonth();
+    let selectedDateStr = todayString;
+    let selectorYear = todayDate.getFullYear();
 
     function initDiary() {
         updateStats();
@@ -574,24 +774,90 @@
         document.getElementById('stat-entries').innerText = total; 
     }
 
+    function toggleMonthSelector() {
+        const selector = document.getElementById('month-selector');
+        const overlay = document.getElementById('modal-overlay');
+        selector.classList.toggle('active');
+        overlay.classList.toggle('active');
+        document.getElementById('year-display').innerText = selectorYear;
+    }
+
+    function closeMonthSelector() {
+        const selector = document.getElementById('month-selector');
+        const overlay = document.getElementById('modal-overlay');
+        selector.classList.remove('active');
+        overlay.classList.remove('active');
+    }
+
+    function changeYear(offset) {
+        selectorYear += offset;
+        document.getElementById('year-display').innerText = selectorYear;
+    }
+
+    function selectMonthYear(monthIndex) {
+        currentViewMonth = monthIndex;
+        currentViewYear = selectorYear;
+        closeMonthSelector();
+        renderCalendar();
+    }
+
+    function changeMonth(offset) {
+        currentViewMonth += offset;
+        if (currentViewMonth < 0) {
+            currentViewMonth = 11;
+            currentViewYear--;
+        } else if (currentViewMonth > 11) {
+            currentViewMonth = 0;
+            currentViewYear++;
+        }
+        renderCalendar();
+    }
+
+    function selectDate(dateStr) {
+        selectedDateStr = dateStr;
+        renderCalendar();
+        setupEntryArea();
+    }
+
     function setupEntryArea() {
         const dateDisplay = document.getElementById('entry-date-display');
         const textArea = document.getElementById('diary-entry');
         const saveBtn = document.getElementById('save-btn');
         const statusMsg = document.getElementById('entry-status');
 
-        dateDisplay.innerText = "Cosmic Cycle: " + todayDate.toLocaleDateString();
+        const [sy, sm, sd] = selectedDateStr.split('-');
+        const displayDate = new Date(sy, sm - 1, sd);
+        dateDisplay.innerText = "Cosmic Cycle: " + displayDate.toLocaleDateString();
 
-        if (diaryState.entries[todayString]) {
-            statusMsg.innerText = "Karmic cycle sealed for today. The past cannot be altered.";
-            textArea.value = diaryState.entries[todayString];
-            textArea.disabled = true;
-            saveBtn.style.display = 'none';
+        const entry = diaryState.entries[selectedDateStr];
+
+        if (selectedDateStr === todayString) {
+            if (entry) {
+                statusMsg.innerText = "Karmic cycle sealed for today. The past cannot be altered.";
+                textArea.value = entry;
+                textArea.disabled = true;
+                saveBtn.style.display = 'none';
+            } else {
+                statusMsg.innerText = "Awaiting mental projection...";
+                textArea.value = "";
+                textArea.disabled = false;
+                saveBtn.style.display = 'block';
+            }
         } else {
-            statusMsg.innerText = "Awaiting mental projection...";
-            textArea.value = "";
-            textArea.disabled = false;
-            saveBtn.style.display = 'block';
+            saveBtn.style.display = 'none';
+            textArea.disabled = true;
+            
+            if (entry) {
+                statusMsg.innerText = "Viewing archived memory.";
+                textArea.value = entry;
+            } else {
+                if (selectedDateStr > todayString) {
+                    statusMsg.innerText = "The future remains unwritten.";
+                } else {
+                    statusMsg.innerText = "No record exists for this cycle.";
+                }
+                textArea.value = "";
+            }
         }
     }
 
@@ -614,14 +880,11 @@
         const monthHeader = document.getElementById('month-header');
         calendarContainer.innerHTML = '';
 
-        const year = todayDate.getFullYear();
-        const month = todayDate.getMonth();
-        
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        monthHeader.innerText = monthNames[month] + " " + year;
+        monthHeader.innerText = `${monthNames[currentViewMonth]} ${currentViewYear}`;
 
-        const firstDay = new Date(year, month, 1).getDay();
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const firstDay = new Date(currentViewYear, currentViewMonth, 1).getDay();
+        const daysInMonth = new Date(currentViewYear, currentViewMonth + 1, 0).getDate();
 
         for(let i = 0; i < firstDay; i++) {
             const emptyCell = document.createElement('div');
@@ -634,26 +897,32 @@
             dayCell.className = 'calendar-day active-month';
             dayCell.innerText = i;
 
-            const checkDateStr = year + "-" + String(month + 1).padStart(2, '0') + "-" + String(i).padStart(2, '0');
+            const checkDateStr = currentViewYear + "-" + String(currentViewMonth + 1).padStart(2, '0') + "-" + String(i).padStart(2, '0');
             
             if(diaryState.entries[checkDateStr]) {
                 dayCell.classList.add('logged');
                 dayCell.title = "Record Sealed";
             }
 
-            if(i === todayDate.getDate()) {
+            if(checkDateStr === todayString) {
                 dayCell.classList.add('today');
             }
+            
+            if(checkDateStr === selectedDateStr) {
+                dayCell.classList.add('selected');
+            }
 
-            dayCell.onclick = () => {
-                if(diaryState.entries[checkDateStr] && checkDateStr !== todayString) {
-                    alert("Akashic Record [" + checkDateStr + "]:\n\n" + diaryState.entries[checkDateStr]);
-                }
-            };
+            dayCell.onclick = () => selectDate(checkDateStr);
 
             calendarContainer.appendChild(dayCell);
         }
     }
+
+    document.addEventListener('keydown', function(e) {
+        if(e.key === 'Escape') {
+            closeMonthSelector();
+        }
+    });
 </script>
 
 </body>
