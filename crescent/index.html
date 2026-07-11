@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Project Crescent: Akashic Logs</title>
+<title>Project Inquiniso - Secure Field Logs</title>
 
 <style>
     * {
@@ -17,50 +17,80 @@
         height: 100vh; 
         overflow: hidden; 
         color: #fff;
-        font-family: "Georgia", "Times New Roman", Times, serif; 
-        background-color: transparent; 
+        background-color: #000000 !important; 
+        font-family: "AR PL Ukai CN Book", "AR PL Ukai CN", "Times New Roman", STSong, serif;
     }
 
+    /* Fixed Background Layer */
     #bg-layer {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
         background: 
-            linear-gradient(rgba(0, 5, 15, 0.6), rgba(0, 10, 25, 0.9)), 
-            url('https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1920&auto=format&fit=crop');
+            linear-gradient(rgba(0, 5, 0, 0.65), rgba(0, 10, 0, 0.85)), 
+            url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1920&auto=format&fit=crop');
         background-size: cover;
         background-position: center;
         z-index: 0; 
     }
 
+    /* CRT Scanline & Terminal Vignette */
     #crt-layer {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
         background: 
-            linear-gradient(rgba(10, 12, 20, 0) 50%, rgba(0, 0, 0, 0.5) 50%),
-            radial-gradient(circle, rgba(0,0,0,0) 50%, rgba(0,0,0,0.8) 100%);
+            linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 20, 0, 0.2) 50%),
+            radial-gradient(circle, rgba(0,0,0,0) 50%, rgba(0,0,0,0.95) 100%);
         background-size: 100% 4px, 100% 100%;
-        z-index: 999;
+        z-index: 9999;
         pointer-events: none;
-        opacity: 0.6;
+        opacity: 0.8;
     }
 
-    #scroll-container {
-        position: relative;
-        width: 100%;
+    /* Digital Data Canvas Layer (Matrix Effect) */
+    #embers-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
         height: 100vh;
-        overflow-y: auto;
-        z-index: 10;
+        z-index: 2; 
+        pointer-events: none;
     }
 
-    #yt-player-container {
-        position: absolute;
-        width: 0;
-        height: 0;
-        overflow: hidden;
+    /* Spy Radar / Sniper Crosshair */
+    #magic-circle-container {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
         opacity: 0;
         pointer-events: none;
+        transition: filter 0.3s ease, opacity 2s ease;
     }
 
+    .start-main #magic-circle-container {
+        opacity: 0.15; 
+    }
+
+    #magic-circle-container svg {
+        width: 90vw;
+        max-width: 700px;
+        height: 90vw;
+        max-height: 700px;
+        stroke: #00FF41; 
+        fill: none;
+        filter: drop-shadow(0 0 8px rgba(0, 255, 65, 0.5));
+        animation: rotateCircle 60s linear infinite;
+    }
+
+    @keyframes rotateCircle {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* ---------------- START SCREEN ---------------- */
     #start-screen {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
@@ -68,30 +98,32 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        z-index: 2000;
+        z-index: 3000;
         cursor: pointer;
-        font-family: monospace;
         letter-spacing: 5px;
         font-weight: bold;
-        color: #e1f5fe;
-        text-shadow: 0 0 15px #00aaff;
+        color: #00FF41;
+        text-shadow: 0 0 15px rgba(0, 255, 65, 0.8);
         transition: opacity 0.5s ease;
     }
 
     .blink-text {
         animation: blink 1.5s infinite;
+        font-size: clamp(1rem, 2.5vw, 1.8rem);
+        text-transform: uppercase;
     }
     
     @keyframes blink {
         50% { opacity: 0; }
     }
 
+    /* ---------------- INTRO SEQUENCE ---------------- */
     #intro-layer {
-        position: absolute;
+        position: fixed;
         top: 0; left: 0; width: 100%; height: 100vh;
         display: grid;
         place-items: center;
-        z-index: 200;
+        z-index: 2000;
         background: transparent;
         pointer-events: none;
     }
@@ -99,53 +131,54 @@
     .pre-text {
         grid-area: 1 / 1; 
         opacity: 0;
-        font-size: clamp(1.5rem, 4vw, 2.5rem);
-        letter-spacing: 10px;
+        font-size: clamp(1.2rem, 3vw, 2rem);
+        letter-spacing: 6px;
         font-weight: bold;
         text-transform: uppercase;
         text-align: center;
-        color: #e1f5fe;
-        text-shadow: 2px 4px 10px rgba(0,0,0,1), 0 0 20px #00aaff;
+        color: #ffffff;
+        text-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
     }
 
     .title-text {
         grid-area: 1 / 1;
         opacity: 0;
-        font-size: clamp(3rem, 8vw, 5.5rem);
+        font-size: clamp(3rem, 7vw, 6rem);
         letter-spacing: 12px;
         color: #ffffff;
         font-weight: bold;
+        text-shadow: 0 0 15px rgba(0, 255, 65, 0.9);
         text-align: center;
-        text-shadow: 3px 5px 15px rgba(0,0,0,1), 0 0 40px #00aaff;
     }
 
-    .start-sequence .pre-text:nth-child(1) { animation: cinematicFade 3s ease 1s forwards; }
-    .start-sequence .pre-text:nth-child(2) { animation: cinematicFade 3s ease 4s forwards; }
-    .start-sequence .pre-text:nth-child(3) { animation: cinematicFade 3s ease 7s forwards; }
-    .start-sequence .title-text { animation: finalReveal 4s ease 10s forwards; }
+    .start-sequence .pre-text:nth-child(1) { animation: cinematicFade 3s ease 0.5s forwards; }
+    .start-sequence .pre-text:nth-child(2) { animation: cinematicFade 3s ease 3.5s forwards; }
+    .start-sequence .pre-text:nth-child(3) { animation: cinematicFade 3s ease 6.5s forwards; }
+    .start-sequence .title-text { animation: finalReveal 4s ease 9.5s forwards; }
 
     @keyframes cinematicFade {
-        0% { opacity: 0; filter: blur(10px); transform: scale(0.95); }
+        0% { opacity: 0; filter: blur(5px); transform: scale(0.95); }
         30% { opacity: 1; filter: blur(0px); transform: scale(1); }
         70% { opacity: 1; filter: blur(0px); transform: scale(1.02); }
         100% { opacity: 0; filter: blur(10px); transform: scale(1.05); }
     }
 
     @keyframes finalReveal {
-        0% { opacity: 0; filter: blur(20px); transform: scale(0.9); }
-        20% { opacity: 1; filter: blur(0px); transform: scale(1); }
-        80% { opacity: 1; filter: blur(0px); transform: scale(1.05); }
-        100% { opacity: 0; filter: blur(30px); transform: scale(1.2); visibility: hidden; }
+        0% { opacity: 0; filter: blur(15px); transform: scale(0.9); }
+        20% { opacity: 1; filter: blur(0px); transform: scale(1); text-shadow: 0 0 15px rgba(0, 255, 65, 0.9); }
+        80% { opacity: 1; filter: blur(0px); transform: scale(1.05); text-shadow: 0 0 15px rgba(0, 255, 65, 0.9); }
+        100% { opacity: 0; filter: blur(25px); transform: scale(1.1); visibility: hidden; }
     }
 
+    /* ---------------- LOCK SCREEN (PIN & QUOTES) ---------------- */
     #lock-screen {
-        position: absolute;
+        position: fixed;
         top: 0; left: 0; width: 100%; height: 100vh;
         display: none;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        z-index: 100;
+        z-index: 1500;
         background: transparent;
         opacity: 0;
         transition: opacity 1.5s ease;
@@ -156,12 +189,12 @@
         letter-spacing: 6px;
         text-transform: uppercase;
         text-align: center;
-        color: #e1f5fe;
+        color: #ffffff;
         margin-bottom: 40px;
         opacity: 0;
         transition: opacity 2s ease-in-out;
         max-width: 80%;
-        text-shadow: 2px 4px 10px rgba(0,0,0,1), 0 0 15px #00aaff;
+        text-shadow: 0 0 10px rgba(0, 255, 65, 0.8);
         min-height: 80px;
         font-weight: bold;
     }
@@ -171,43 +204,64 @@
         flex-direction: column;
         align-items: center;
         gap: 15px;
+        background: rgba(0, 5, 0, 0.8);
+        padding: 30px;
+        border: 1px solid #00FF41;
+        box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+    }
+
+    .pin-title {
+        font-size: 1.2rem;
+        color: #ffffff;
+        letter-spacing: 4px;
+        text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
     }
 
     #pin-input {
-        background: rgba(0, 10, 20, 0.7);
-        border: 1px solid #005599;
-        color: #00aaff;
+        background: rgba(0, 10, 0, 0.7);
+        border: none;
+        border-bottom: 2px solid #00FF41;
+        color: #00FF41;
         padding: 15px;
-        font-family: monospace;
-        font-size: 2rem;
+        font-family: inherit;
+        font-size: 2.5rem;
         text-align: center;
-        letter-spacing: 15px;
+        letter-spacing: 12px;
         width: 250px;
         outline: none;
         transition: border 0.3s, box-shadow 0.3s;
-        text-shadow: 0 0 10px #00aaff;
+        text-shadow: 0 0 10px rgba(0, 255, 65, 0.8);
     }
 
     #pin-input:focus {
-        border-color: #00aaff;
-        box-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
+        border-bottom-color: #ffffff;
+        box-shadow: 0 10px 10px -10px rgba(0, 255, 65, 0.5);
     }
 
     .pin-error {
-        color: #ff6666;
+        color: #ff4757;
         font-size: 1rem;
         letter-spacing: 2px;
         opacity: 0;
         transition: opacity 0.3s;
-        font-family: monospace;
-        text-shadow: 1px 2px 4px rgba(0,0,0,1);
+        font-weight: bold;
+        text-shadow: 0 0 5px rgba(255, 71, 87, 0.5);
+    }
+
+    /* ---------------- MAIN APP UI (Scrollable) ---------------- */
+    #scroll-container {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow-y: auto;
+        z-index: 10;
     }
 
     #app-main {
         opacity: 0;
         max-width: 1000px;
         margin: 0 auto;
-        padding: 50px 20px 100px 20px;
+        padding: 40px 20px 100px 20px;
         position: relative;
         transition: opacity 2s ease;
         display: none;
@@ -225,7 +279,7 @@
     header {
         text-align: center;
         margin-bottom: 30px;
-        border-bottom: 1px solid #003366;
+        border-bottom: 1px solid rgba(0, 255, 65, 0.3);
         padding-bottom: 20px;
     }
 
@@ -233,26 +287,30 @@
         font-size: 2.5rem;
         letter-spacing: 8px;
         text-transform: uppercase;
-        color: #81d4fa;
+        color: #ffffff;
         font-weight: bold;
         margin-bottom: 15px;
-        text-shadow: 2px 4px 10px rgba(0,0,0,1), 0 0 15px #00aaff;
+        text-shadow: 0 0 12px rgba(0, 255, 65, 0.8);
     }
 
     .stats-board {
         display: flex;
         justify-content: center;
-        background: rgba(0, 10, 20, 0.7);
+        background: rgba(0, 10, 0, 0.8);
         padding: 15px;
-        border: 1px solid #004488;
+        border: 1px solid rgba(0, 255, 65, 0.5);
         font-size: 1.2rem;
         letter-spacing: 2px;
         margin-bottom: 30px;
-        backdrop-filter: blur(5px);
-        text-shadow: 1px 2px 5px rgba(0,0,0,1);
+        box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
     }
 
-    .stat-highlight { color: #ffffff; font-weight: bold; margin-left: 10px; text-shadow: 0 0 10px #00aaff; }
+    .stat-highlight { 
+        color: #00FF41; 
+        font-weight: bold; 
+        margin-left: 10px; 
+        text-shadow: 0 0 8px rgba(0, 255, 65, 0.6); 
+    }
 
     .grid-layout {
         display: grid;
@@ -262,20 +320,20 @@
 
     h2 {
         font-size: 1.5rem;
-        color: #e1f5fe;
-        border-bottom: 1px solid #003366;
+        color: #ffffff;
+        border-bottom: 1px solid rgba(0, 255, 65, 0.4);
         padding-bottom: 10px;
         margin-bottom: 15px;
         letter-spacing: 3px;
-        text-shadow: 2px 2px 8px rgba(0,0,0,1);
+        text-shadow: 0 0 8px rgba(0, 255, 65, 0.5);
     }
 
+    /* Calendar Styling */
     .calendar-container {
-        background: rgba(0, 15, 30, 0.65);
-        border: 1px solid #003366;
+        background: rgba(0, 10, 0, 0.7);
+        border: 1px solid rgba(0, 255, 65, 0.3);
         padding: 20px;
-        backdrop-filter: blur(4px);
-        box-shadow: 2px 4px 10px rgba(0,0,0,0.5);
+        box-shadow: 0 0 15px rgba(0,0,0,0.8);
     }
 
     .calendar-nav {
@@ -289,136 +347,34 @@
     .nav-btn {
         background: transparent;
         border: none;
-        color: #5588aa;
+        color: #a4b0be;
         font-size: 1.5rem;
         cursor: pointer;
-        transition: color 0.3s, text-shadow 0.3s;
+        transition: all 0.3s;
         padding: 5px 10px;
     }
 
     .nav-btn:hover {
-        color: #81d4fa;
-        text-shadow: 0 0 10px #00aaff;
+        color: #ffffff;
+        text-shadow: 0 0 10px rgba(0, 255, 65, 0.8);
     }
 
     .month-header {
         text-align: center;
         font-size: 1.2rem;
-        color: #81d4fa;
+        color: #ffffff;
         font-weight: bold;
         letter-spacing: 2px;
         text-transform: uppercase;
-        text-shadow: 1px 2px 4px rgba(0,0,0,1);
         flex: 1;
         cursor: pointer;
         transition: all 0.3s;
+        text-shadow: 0 0 8px rgba(0, 255, 65, 0.5);
     }
 
     .month-header:hover {
-        text-shadow: 0 0 10px #00aaff;
-        color: #fff;
-    }
-
-    .month-selector {
-        background: rgba(0, 10, 20, 0.9);
-        border: 1px solid #00aaff;
-        border-radius: 5px;
-        padding: 15px;
-        position: absolute;
-        z-index: 1000;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        display: none;
-        box-shadow: 0 0 20px rgba(0, 170, 255, 0.5);
-    }
-
-    .month-selector.active {
-        display: block;
-    }
-
-    .month-selector h3 {
-        color: #81d4fa;
-        margin-bottom: 15px;
-        text-align: center;
-        font-size: 1.2rem;
-        letter-spacing: 2px;
-    }
-
-    .selector-content {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-        margin-bottom: 15px;
-    }
-
-    .month-option, .year-option {
-        background: rgba(0, 34, 68, 0.8);
-        border: 1px solid #005599;
-        color: #e1f5fe;
-        padding: 10px;
-        cursor: pointer;
-        text-align: center;
-        transition: all 0.3s;
-        font-family: monospace;
-        font-size: 0.9rem;
-    }
-
-    .month-option:hover, .year-option:hover {
-        background: rgba(0, 51, 102, 0.9);
-        border-color: #00aaff;
-        box-shadow: 0 0 10px rgba(0, 170, 255, 0.3);
-    }
-
-    .selector-buttons {
-        display: flex;
-        gap: 10px;
-        justify-content: center;
-    }
-
-    .selector-buttons button {
-        background: rgba(0, 34, 68, 0.8);
-        border: 1px solid #00aaff;
-        color: #fff;
-        padding: 8px 15px;
-        cursor: pointer;
-        font-family: monospace;
-        font-weight: bold;
-        transition: all 0.3s;
-    }
-
-    .selector-buttons button:hover {
-        background: rgba(0, 51, 102, 0.9);
-        box-shadow: 0 0 10px rgba(0, 170, 255, 0.3);
-    }
-
-    .year-nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-        gap: 10px;
-    }
-
-    .year-display {
-        color: #b3e5fc;
-        text-align: center;
-        flex: 1;
-        font-family: monospace;
-    }
-
-    .year-nav button {
-        background: none;
-        border: 1px solid #005599;
-        color: #5588aa;
-        padding: 5px 10px;
-        cursor: pointer;
-        transition: all 0.3s;
-    }
-
-    .year-nav button:hover {
-        border-color: #00aaff;
-        color: #81d4fa;
+        text-shadow: 0 0 12px rgba(0, 255, 65, 1);
+        color: #00FF41;
     }
 
     .calendar-grid {
@@ -430,9 +386,9 @@
     .day-name {
         text-align: center;
         font-size: 0.8rem;
-        color: #5588aa;
+        color: #7bed9f;
         margin-bottom: 5px;
-        font-family: monospace;
+        font-weight: bold;
     }
 
     .calendar-day {
@@ -440,69 +396,68 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: rgba(0, 5, 10, 0.6);
-        border: 1px solid #002244;
-        color: #5588aa;
+        background: rgba(0, 15, 0, 0.6);
+        border: 1px solid rgba(0, 255, 65, 0.2);
+        color: #747d8c;
         font-size: 0.9rem;
         transition: all 0.3s ease;
-        font-family: monospace;
     }
 
     .calendar-day.active-month {
-        color: #b3e5fc;
+        color: #ffffff;
         cursor: pointer;
     }
 
     .calendar-day.active-month:hover {
-        background: rgba(0, 80, 150, 0.4);
+        background: rgba(0, 255, 65, 0.2);
     }
 
     .calendar-day.logged {
-        background: rgba(0, 51, 102, 0.8);
-        border-color: #00aaff;
-        color: #e1f5fe;
-        box-shadow: inset 0 0 10px rgba(0, 170, 255, 0.3);
+        background: rgba(0, 40, 0, 0.8);
+        border-color: #00FF41;
+        color: #00FF41;
+        box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.3);
         font-weight: bold;
     }
 
     .calendar-day.today {
         border-color: #ffffff;
-        box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
     }
     
     .calendar-day.selected {
-        background: rgba(0, 170, 255, 0.3);
-        border-color: #81d4fa;
-        box-shadow: 0 0 12px rgba(0, 170, 255, 0.6);
+        background: rgba(0, 255, 65, 0.4);
+        border-color: #ffffff;
+        box-shadow: 0 0 12px rgba(0, 255, 65, 0.6);
         color: #fff;
     }
 
+    /* Diary Entry Styling */
     .entry-container {
-        background: rgba(0, 15, 30, 0.65);
-        border-left: 3px solid #00aaff;
+        background: rgba(0, 10, 0, 0.7);
+        border-left: 3px solid #00FF41;
         padding: 20px;
-        backdrop-filter: blur(4px);
         display: flex;
         flex-direction: column;
-        box-shadow: 2px 4px 10px rgba(0,0,0,0.5);
+        box-shadow: 2px 4px 10px rgba(0,0,0,0.8);
     }
 
     .entry-date-display {
         font-size: 1.2rem;
-        color: #81d4fa;
+        color: #ffffff;
         font-weight: bold;
         margin-bottom: 15px;
         letter-spacing: 2px;
-        text-shadow: 1px 2px 4px rgba(0,0,0,1);
+        text-shadow: 0 0 8px rgba(0, 255, 65, 0.5);
     }
 
     textarea {
         width: 100%;
         flex-grow: 1;
         min-height: 300px;
-        background: rgba(0, 10, 20, 0.7);
-        border: 1px solid #005599;
-        color: #e1f5fe;
+        background: rgba(0, 5, 0, 0.8);
+        border: 1px solid rgba(0, 255, 65, 0.4);
+        color: #ffffff;
         padding: 15px;
         font-family: inherit;
         font-size: 1.1rem;
@@ -510,114 +465,234 @@
         resize: vertical;
         outline: none;
         margin-bottom: 15px;
-        text-shadow: 1px 1px 3px rgba(0,0,0,1);
     }
 
     textarea::placeholder {
-        color: #4f8ab8;
+        color: #558B55;
     }
 
-    textarea:focus { border-color: #00aaff; box-shadow: 0 0 10px rgba(0,170,255,0.2); }
+    textarea:focus { 
+        border-color: #ffffff; 
+        box-shadow: 0 0 10px rgba(0, 255, 65, 0.4); 
+    }
     
     textarea:disabled {
-        background: rgba(0, 5, 10, 0.9);
-        color: #8ab4f8;
-        border-color: #002244;
+        background: rgba(5, 5, 5, 0.9);
+        color: #7bed9f;
+        border-color: rgba(0, 255, 65, 0.2);
         cursor: not-allowed;
-        text-shadow: none;
     }
 
     button.commit-btn {
-        background: rgba(0, 34, 68, 0.8);
-        border: 1px solid #00aaff;
-        color: #fff;
+        background: rgba(0, 20, 0, 0.9);
+        border: 1px solid #00FF41;
+        color: #00FF41;
         padding: 12px 20px;
         cursor: pointer;
-        font-family: monospace;
+        font-family: inherit;
         font-weight: bold;
         font-size: 1.1rem;
         text-transform: uppercase;
         letter-spacing: 3px;
-        transition: background 0.3s, box-shadow 0.3s;
+        transition: all 0.3s;
         align-self: flex-end;
-        text-shadow: 1px 2px 4px rgba(0,0,0,1);
     }
 
     button.commit-btn:hover { 
-        background: rgba(0, 51, 102, 0.9); 
-        box-shadow: 0 0 15px rgba(0, 170, 255, 0.4);
+        background: rgba(0, 50, 0, 0.9); 
+        color: #ffffff;
+        box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
     }
 
     .status-msg {
-        color: #b3e5fc;
+        color: #7bed9f;
         font-style: italic;
         margin-bottom: 10px;
-        text-shadow: 1px 2px 4px rgba(0,0,0,1);
+        text-shadow: 0 0 5px rgba(0, 255, 65, 0.3);
     }
 
+    /* Modal / Month Selector */
     .modal-overlay {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.7);
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.8);
         display: none;
-        z-index: 999;
+        z-index: 9999;
     }
 
     .modal-overlay.active {
         display: block;
     }
 
+    .month-selector {
+        background: rgba(0, 10, 0, 0.95);
+        border: 1px solid #00FF41;
+        padding: 20px;
+        position: fixed;
+        z-index: 10000;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        display: none;
+        box-shadow: 0 0 30px rgba(0, 255, 65, 0.2);
+        width: 90%;
+        max-width: 400px;
+    }
+
+    .month-selector.active {
+        display: block;
+    }
+
+    .month-selector h3 {
+        color: #ffffff;
+        margin-bottom: 15px;
+        text-align: center;
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+        text-shadow: 0 0 8px rgba(0, 255, 65, 0.5);
+    }
+
+    .selector-content {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .month-option {
+        background: rgba(0, 20, 0, 0.8);
+        border: 1px solid rgba(0, 255, 65, 0.4);
+        color: #ffffff;
+        padding: 10px 5px;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.3s;
+        font-size: 0.9rem;
+    }
+
+    .month-option:hover {
+        background: rgba(0, 50, 0, 0.9);
+        border-color: #00FF41;
+        box-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
+    }
+
+    .selector-buttons {
+        display: flex;
+        justify-content: center;
+    }
+
+    .selector-buttons button {
+        background: rgba(0, 20, 0, 0.9);
+        border: 1px solid #00FF41;
+        color: #00FF41;
+        padding: 8px 20px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+    .selector-buttons button:hover {
+        background: #ffffff;
+        color: #000;
+        box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+    }
+
+    .year-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        gap: 10px;
+    }
+
+    .year-display {
+        color: #00FF41;
+        text-align: center;
+        flex: 1;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    .year-nav button {
+        background: none;
+        border: 1px solid rgba(0, 255, 65, 0.5);
+        color: #ffffff;
+        padding: 5px 15px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .year-nav button:hover {
+        border-color: #00FF41;
+        color: #00FF41;
+        box-shadow: 0 0 8px rgba(0, 255, 65, 0.4);
+    }
+
     @media (max-width: 768px) {
         .grid-layout { grid-template-columns: 1fr; }
         textarea { min-height: 200px; }
-        .selector-content {
-            grid-template-columns: 1fr;
-        }
+        .selector-content { grid-template-columns: repeat(2, 1fr); }
     }
 </style>
+
+<script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
 
-    <div id="yt-player-container"></div>
+    <div id="yt-player" style="position: absolute; top: -9999px; left: -9999px; opacity: 0; pointer-events: none;"></div>
 
     <div id="bg-layer"></div>
     <div id="crt-layer"></div>
 
+    <div id="magic-circle-container">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+            <path d="M 10 25 L 10 10 L 25 10" stroke-width="1" />
+            <path d="M 75 10 L 90 10 L 90 25" stroke-width="1" />
+            <path d="M 90 75 L 90 90 L 75 90" stroke-width="1" />
+            <path d="M 25 90 L 10 90 L 10 75" stroke-width="1" />
+            <circle cx="50" cy="50" r="38" stroke-width="0.5" stroke-dasharray="2 4" />
+            <circle cx="50" cy="50" r="28" stroke-width="1" />
+            <line x1="50" y1="2" x2="50" y2="46" stroke-width="0.5" />
+            <line x1="50" y1="54" x2="50" y2="98" stroke-width="0.5" />
+            <line x1="2" y1="50" x2="46" y2="50" stroke-width="0.5" />
+            <line x1="54" y1="50" x2="98" y2="50" stroke-width="0.5" />
+            <circle cx="50" cy="50" r="4" stroke-width="1" />
+            <circle cx="50" cy="50" r="1.5" stroke-width="2" fill="#00FF41" />
+        </svg>
+    </div>
+
+    <canvas id="embers-canvas"></canvas>
+
+    <div id="start-screen">
+        <div class="blink-text">[ INITIATE ]</div>
+    </div>
+
+    <div id="intro-layer">
+        <div class="pre-text">Establishing secure uplink...</div>
+        <div class="pre-text">Bypassing institutional firewalls...</div>
+        <div class="pre-text">Agent Veracity recognized.</div>
+        <div class="title-text">PROJECT INQUINISO</div>
+    </div>
+
+    <div id="lock-screen">
+        <div id="quote-display"></div>
+        <div class="pin-container">
+            <div class="pin-title">AUTHORIZATION REQUIRED</div>
+            <input type="password" id="pin-input" maxlength="4" placeholder="••••" autocomplete="off">
+            <div id="pin-error" class="pin-error">ACCESS DENIED. INVALID KEY.</div>
+        </div>
+    </div>
+
     <div id="scroll-container">
-
-        <div id="start-screen">
-            <div class="blink-text">[ AWAKEN CRESCENT ]</div>
-        </div>
-
-        <div id="intro-layer">
-            <div class="pre-text">Observe the breath.</div>
-            <div class="pre-text">Time is an illusion.</div>
-            <div class="pre-text">Fulfill your Karma.</div>
-            <div class="title-text">PROJECT CRESCENT</div>
-        </div>
-
-        <div id="lock-screen">
-            <div id="quote-display"></div>
-            <div class="pin-container">
-                <input type="password" id="pin-input" maxlength="4" placeholder="••••" autocomplete="off">
-                <div id="pin-error" class="pin-error">MIND UNCLEAR. DENIED.</div>
-            </div>
-        </div>
-
         <div id="app-main">
             <header>
-                <h1>Akashic Logs</h1>
+                <h1>Secure Field Logs</h1>
                 <div class="stats-board">
-                    <div>Total Sealed Records: <span id="stat-entries" class="stat-highlight">0</span></div>
+                    <div>Encrypted Logs: <span id="stat-entries" class="stat-highlight">0</span></div>
                 </div>
             </header>
 
             <div class="grid-layout">
                 <div>
-                    <h2>Chronology</h2>
+                    <h2>Operational Timeline</h2>
                     <div class="calendar-container">
                         <div class="calendar-nav">
                             <button class="nav-btn" onclick="changeMonth(-1)">&#10094;</button>
@@ -635,12 +710,12 @@
                 </div>
 
                 <div>
-                    <h2>Daily Karma</h2>
+                    <h2>Field Report</h2>
                     <div class="entry-container">
                         <div id="entry-date-display" class="entry-date-display">Date</div>
                         <div id="entry-status" class="status-msg"></div>
-                        <textarea id="diary-entry" placeholder="Document the stillness of today..."></textarea>
-                        <button id="save-btn" class="commit-btn" onclick="saveEntry()">Seal Record</button>
+                        <textarea id="diary-entry" placeholder="Log field observations..."></textarea>
+                        <button id="save-btn" class="commit-btn" onclick="saveEntry()">Encrypt & Save</button>
                     </div>
                 </div>
             </div>
@@ -649,7 +724,7 @@
 
     <div class="modal-overlay" id="modal-overlay" onclick="closeMonthSelector()"></div>
     <div class="month-selector" id="month-selector">
-        <h3>Navigate Cosmic Time</h3>
+        <h3>Access Temporal Database</h3>
         
         <div class="year-nav">
             <button onclick="changeYear(-1)">&#10094;</button>
@@ -658,18 +733,18 @@
         </div>
 
         <div class="selector-content">
-            <div class="month-option" onclick="selectMonthYear(0)">January</div>
-            <div class="month-option" onclick="selectMonthYear(1)">February</div>
-            <div class="month-option" onclick="selectMonthYear(2)">March</div>
-            <div class="month-option" onclick="selectMonthYear(3)">April</div>
-            <div class="month-option" onclick="selectMonthYear(4)">May</div>
-            <div class="month-option" onclick="selectMonthYear(5)">June</div>
-            <div class="month-option" onclick="selectMonthYear(6)">July</div>
-            <div class="month-option" onclick="selectMonthYear(7)">August</div>
-            <div class="month-option" onclick="selectMonthYear(8)">September</div>
-            <div class="month-option" onclick="selectMonthYear(9)">October</div>
-            <div class="month-option" onclick="selectMonthYear(10)">November</div>
-            <div class="month-option" onclick="selectMonthYear(11)">December</div>
+            <div class="month-option" onclick="selectMonthYear(0)">JAN</div>
+            <div class="month-option" onclick="selectMonthYear(1)">FEB</div>
+            <div class="month-option" onclick="selectMonthYear(2)">MAR</div>
+            <div class="month-option" onclick="selectMonthYear(3)">APR</div>
+            <div class="month-option" onclick="selectMonthYear(4)">MAY</div>
+            <div class="month-option" onclick="selectMonthYear(5)">JUN</div>
+            <div class="month-option" onclick="selectMonthYear(6)">JUL</div>
+            <div class="month-option" onclick="selectMonthYear(7)">AUG</div>
+            <div class="month-option" onclick="selectMonthYear(8)">SEP</div>
+            <div class="month-option" onclick="selectMonthYear(9)">OCT</div>
+            <div class="month-option" onclick="selectMonthYear(10)">NOV</div>
+            <div class="month-option" onclick="selectMonthYear(11)">DEC</div>
         </div>
 
         <div class="selector-buttons">
@@ -678,15 +753,38 @@
     </div>
 
 <script>
+    // --- YOUTUBE API SETUP ---
+    let ytPlayer;
+    function onYouTubeIframeAPIReady() {
+        ytPlayer = new YT.Player('yt-player', {
+            height: '10',
+            width: '10',
+            videoId: 'wPKkQCgf0BU', 
+            playerVars: {
+                'playsinline': 1,
+                'loop': 1,
+                'playlist': 'wPKkQCgf0BU'
+            }
+        });
+    }
+
+    // --- BOOT SEQUENCE & PIN LOGIC ---
     document.getElementById('start-screen').addEventListener('click', function() {
-        const ytContainer = document.getElementById('yt-player-container');
-        ytContainer.innerHTML = '<iframe width="1" height="1" src="https://www.youtube.com/embed/l0ua_FD5RO8?autoplay=1&loop=1&playlist=l0ua_FD5RO8" frameborder="0" allow="autoplay; encrypted-media"></iframe>';
-
         this.style.opacity = '0';
-        setTimeout(() => { this.style.display = 'none'; }, 500);
+        
+        // Force audio playback
+        if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
+            ytPlayer.unMute();
+            ytPlayer.setVolume(100);
+            ytPlayer.playVideo();
+        }
 
+        setTimeout(() => { this.style.display = 'none'; }, 800);
+
+        // Start Intro
         document.getElementById('intro-layer').classList.add('start-sequence');
         
+        // After intro, show PIN screen
         setTimeout(() => {
             document.getElementById('intro-layer').style.display = 'none';
             
@@ -696,15 +794,16 @@
                 lockScreen.style.opacity = 1;
                 document.getElementById('pin-input').focus();
             }, 50);
-        }, 14500);
+        }, 13500); // Intro length
     });
 
+    // --- SPY QUOTES ---
     const quotes = [
-        "Observe the silence.",
-        "Memory is an illusion.",
-        "The cosmic dance continues.",
-        "What is unwritten fades into the void.",
-        "Document the stillness.",
+        "Information is the ultimate weapon.",
+        "A spy does not rely on luck.",
+        "Operate in the shadows.",
+        "Mission parameters are set.",
+        "Leave no trace. Leave no doubt.",
         "The mind is a mirror. Write what it reflects."
     ];
     
@@ -721,8 +820,9 @@
     }
 
     cycleQuote();
-    setInterval(cycleQuote, 10000);
+    setInterval(cycleQuote, 8000);
 
+    // --- PIN VALIDATION ---
     const pinInput = document.getElementById('pin-input');
     const pinError = document.getElementById('pin-error');
     const lockScreen = document.getElementById('lock-screen');
@@ -746,12 +846,101 @@
         lockScreen.style.opacity = 0;
         setTimeout(() => {
             lockScreen.style.display = 'none';
+            document.body.classList.add('start-main');
             appMain.classList.add('show-app');
             initDiary();
         }, 1500); 
     }
 
-    let diaryState = JSON.parse(localStorage.getItem('crescent_diary_state_v4')) || { entries: {} };
+    // --- MATRIX PARTICLES ---
+    const canvas = document.getElementById('embers-canvas');
+    const ctx = canvas.getContext('2d');
+    const magicCircle = document.getElementById('magic-circle-container');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let mouse = { x: -1000, y: -1000 };
+
+    window.addEventListener('mousemove', (e) => {
+        mouse.x = e.x;
+        mouse.y = e.y;
+        
+        if (document.body.classList.contains('start-main')) {
+            magicCircle.style.filter = 'drop-shadow(0 0 15px rgba(0, 255, 65, 0.9))';
+            clearTimeout(window.circleGlowTimeout);
+            window.circleGlowTimeout = setTimeout(() => {
+                magicCircle.style.filter = 'drop-shadow(0 0 8px rgba(0, 255, 65, 0.5))';
+            }, 300);
+        }
+    });
+
+    const particles = [];
+    const emberColors = [
+        'rgba(0, 255, 65, ',   // Bright Green
+        'rgba(0, 143, 17, ',   // Mid Green
+        'rgba(0, 59, 0, '      // Dark Green
+    ];
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = canvas.height + Math.random() * 100;
+            this.size = Math.random() * 2 + 0.8;
+            this.baseSpeedY = Math.random() * -2 - 0.5; 
+            this.baseSpeedX = 0; 
+            this.speedY = this.baseSpeedY;
+            this.speedX = this.baseSpeedX;
+            this.colorBase = emberColors[Math.floor(Math.random() * emberColors.length)];
+            this.life = Math.random() * 0.7 + 0.2; 
+        }
+        update() {
+            let dx = mouse.x - this.x;
+            let dy = mouse.y - this.y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < 150) {
+                this.speedX = -(dx / distance) * 4; 
+            } else {
+                this.speedX = this.speedX * 0.9;
+                this.speedY = this.baseSpeedY;
+            }
+
+            this.y += this.speedY;
+            this.x += this.speedX;
+            if(Math.random() > 0.96) this.x += (Math.random() - 0.5) * 5;
+            if (this.size > 0.1) this.size -= 0.0015; 
+            
+            if (this.y < -50 || this.size <= 0.1 || this.x < -50 || this.x > canvas.width + 50) {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 10;
+                this.size = Math.random() * 2 + 0.8;
+                this.speedX = this.baseSpeedX;
+                this.speedY = this.baseSpeedY;
+            }
+        }
+        draw() {
+            ctx.fillStyle = this.colorBase + this.life + ')';
+            ctx.fillRect(this.x, this.y, this.size, this.size * 2);
+        }
+    }
+
+    for(let i = 0; i < 120; i++) { particles.push(new Particle()); }
+
+    function animateEmbers() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => { p.update(); p.draw(); });
+        requestAnimationFrame(animateEmbers);
+    }
+    animateEmbers();
+
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+
+    // --- APPLICATION LOGIC (DIARY) ---
+    // Using a new storage key to avoid loading old crescent data
+    let diaryState = JSON.parse(localStorage.getItem('inquiniso_diary_v1')) || { entries: {} };
 
     const todayDate = new Date();
     const todayString = todayDate.getFullYear() + "-" + 
@@ -827,18 +1016,18 @@
 
         const [sy, sm, sd] = selectedDateStr.split('-');
         const displayDate = new Date(sy, sm - 1, sd);
-        dateDisplay.innerText = "Cosmic Cycle: " + displayDate.toLocaleDateString();
+        dateDisplay.innerText = "Timestamp: " + displayDate.toLocaleDateString();
 
         const entry = diaryState.entries[selectedDateStr];
 
         if (selectedDateStr === todayString) {
             if (entry) {
-                statusMsg.innerText = "Karmic cycle sealed for today. The past cannot be altered.";
+                statusMsg.innerText = "Report encrypted. Modification denied.";
                 textArea.value = entry;
                 textArea.disabled = true;
                 saveBtn.style.display = 'none';
             } else {
-                statusMsg.innerText = "Awaiting mental projection...";
+                statusMsg.innerText = "Awaiting field data...";
                 textArea.value = "";
                 textArea.disabled = false;
                 saveBtn.style.display = 'block';
@@ -848,13 +1037,13 @@
             textArea.disabled = true;
             
             if (entry) {
-                statusMsg.innerText = "Viewing archived memory.";
+                statusMsg.innerText = "Accessing decrypted log.";
                 textArea.value = entry;
             } else {
                 if (selectedDateStr > todayString) {
-                    statusMsg.innerText = "The future remains unwritten.";
+                    statusMsg.innerText = "Temporal paradox. Date invalid.";
                 } else {
-                    statusMsg.innerText = "No record exists for this cycle.";
+                    statusMsg.innerText = "No data found for this timestamp.";
                 }
                 textArea.value = "";
             }
@@ -868,7 +1057,7 @@
         if(text === '') return;
 
         diaryState.entries[todayString] = text;
-        localStorage.setItem('crescent_diary_state_v4', JSON.stringify(diaryState));
+        localStorage.setItem('inquiniso_diary_v1', JSON.stringify(diaryState));
 
         setupEntryArea();
         renderCalendar();
@@ -901,7 +1090,7 @@
             
             if(diaryState.entries[checkDateStr]) {
                 dayCell.classList.add('logged');
-                dayCell.title = "Record Sealed";
+                dayCell.title = "Record Encrypted";
             }
 
             if(checkDateStr === todayString) {
