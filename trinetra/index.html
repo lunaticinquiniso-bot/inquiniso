@@ -566,8 +566,14 @@
         .custom-shop-form input[type="number"] { width: 100px; }
     }
 </style>
+
+<script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
+
+    <div style="position: absolute; top: 0; left: 0; width: 200px; height: 200px; z-index: -100; overflow: hidden; pointer-events: none; opacity: 0.05;">
+        <div id="yt-player"></div>
+    </div>
 
     <div id="bg-layer"></div>
     <div id="crt-layer"></div>
@@ -747,6 +753,32 @@
     </div>
 
 <script>
+    // --- YOUTUBE API SETUP (Muted Autoplay Bypass) ---
+    let ytPlayer;
+    let isPlayerReady = false;
+
+    function onYouTubeIframeAPIReady() {
+        ytPlayer = new YT.Player('yt-player', {
+            height: '200',
+            width: '200',
+            videoId: 'h6736Y6_AZU', // Target music track
+            playerVars: {
+                'playsinline': 1,
+                'loop': 1,
+                'playlist': 'h6736Y6_AZU',
+                'controls': 0,
+                'autoplay': 1, 
+                'mute': 1 // MUST start muted for browsers to allow it
+            },
+            events: {
+                'onReady': function(event) {
+                    isPlayerReady = true;
+                    event.target.playVideo(); // Start the background stream silently
+                }
+            }
+        });
+    }
+
     // --- BOOT SEQUENCE & PIN LOGIC ---
     const startScreen = document.getElementById('start-screen');
     const pinScreen = document.getElementById('pin-screen');
@@ -754,15 +786,15 @@
     const pinBtn = document.getElementById('pin-btn');
     const pinError = document.getElementById('pin-error');
 
-    // Click [ INITIATE ] to transition to PIN and start music reliably via context creation injection
+    // Click [ INITIATE ] -> Unmute the pre-playing video
     startScreen.addEventListener('click', function() {
         this.style.opacity = '0';
         
-        // FOOLPROOF AUDIO INJECTION: 
-        // Injecting the iframe exactly upon user click forces the browser to honor the autoplay parameter.
-        const ytContainer = document.createElement('div');
-        ytContainer.innerHTML = '<iframe width="10" height="10" src="https://www.youtube.com/embed/h6736Y6_AZU?autoplay=1&loop=1&playlist=h6736Y6_AZU" frameborder="0" allow="autoplay" style="position: absolute; left: -9999px; opacity: 0.01; pointer-events: none;"></iframe>';
-        document.body.appendChild(ytContainer);
+        // This is the critical moment: User interaction allows us to unmute.
+        if (isPlayerReady && ytPlayer && typeof ytPlayer.unMute === 'function') {
+            ytPlayer.unMute();
+            ytPlayer.setVolume(100);
+        }
 
         setTimeout(() => { 
             this.style.display = 'none'; 
