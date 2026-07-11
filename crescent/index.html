@@ -632,14 +632,8 @@
         .selector-content { grid-template-columns: repeat(2, 1fr); }
     }
 </style>
-
-<script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
-
-    <div id="yt-container" style="position: fixed; bottom: 0; right: 0; width: 1px; height: 1px; overflow: hidden; z-index: -9999; opacity: 0.1;">
-        <div id="yt-player"></div>
-    </div>
 
     <div id="bg-layer"></div>
     <div id="crt-layer"></div>
@@ -755,51 +749,15 @@
     </div>
 
 <script>
-    // --- YOUTUBE API SETUP ---
-    let ytPlayer;
-    let userHasClicked = false;
-
-    function onYouTubeIframeAPIReady() {
-        ytPlayer = new YT.Player('yt-player', {
-            height: '200', 
-            width: '200',
-            videoId: 'h6736Y6_AZU', 
-            playerVars: {
-                'playsinline': 1,
-                'loop': 1,
-                'playlist': 'h6736Y6_AZU',
-                'controls': 0,
-                'autoplay': 1, 
-                'mute': 1 // Start muted to bypass browser autoplay blocks
-            },
-            events: {
-                'onReady': onPlayerReady
-            }
-        });
-    }
-
-    function onPlayerReady(event) {
-        // Just in case it's ready after they already clicked
-        if (userHasClicked) {
-            event.target.unMute();
-            event.target.setVolume(100);
-            event.target.playVideo();
-        } else {
-            event.target.playVideo();
-        }
-    }
-
     // --- BOOT SEQUENCE & PIN LOGIC ---
     document.getElementById('start-screen').addEventListener('click', function() {
-        userHasClicked = true;
         this.style.opacity = '0';
         
-        // Force audio playback unmuted now that we have user interaction
-        if (ytPlayer && typeof ytPlayer.unMute === 'function') {
-            ytPlayer.unMute();
-            ytPlayer.setVolume(100);
-            ytPlayer.playVideo();
-        }
+        // FOOLPROOF AUDIO INJECTION: 
+        // Injecting the iframe exactly upon user click forces the browser to honor the autoplay parameter.
+        const ytContainer = document.createElement('div');
+        ytContainer.innerHTML = '<iframe width="10" height="10" src="https://www.youtube.com/embed/h6736Y6_AZU?autoplay=1&loop=1&playlist=h6736Y6_AZU" frameborder="0" allow="autoplay" style="position: absolute; left: -9999px; opacity: 0.01; pointer-events: none;"></iframe>';
+        document.body.appendChild(ytContainer);
 
         setTimeout(() => { this.style.display = 'none'; }, 800);
 
