@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Project Trinetra - Karmic Log</title>
+<title>Project Inquiniso - Secure Mission Log</title>
 
 <style>
     * {
@@ -17,77 +17,83 @@
         height: 100vh; 
         overflow: hidden; 
         color: #fff;
-        font-family: "Georgia", "Times New Roman", Times, serif; 
-        background-color: transparent; 
+        background-color: #000000 !important; 
+        font-family: "AR PL Ukai CN Book", "AR PL Ukai CN", "Times New Roman", STSong, serif;
     }
 
+    /* Fixed Background Layer */
     #bg-layer {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
+        /* Darkened the gradient to make it moodier while preserving the Matrix rain */
         background: 
-            linear-gradient(rgba(0, 8, 20, 0.75), rgba(0, 15, 30, 0.9)), 
-            url('https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?q=80&w=1920&auto=format&fit=crop');
+            linear-gradient(rgba(0, 5, 0, 0.65), rgba(0, 10, 0, 0.85)), 
+            url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1920&auto=format&fit=crop');
         background-size: cover;
         background-position: center;
-        z-index: -2;
+        z-index: 0;
     }
 
+    /* CRT Scanline & Terminal Vignette */
     #crt-layer {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
         background: 
-            linear-gradient(rgba(10, 12, 20, 0) 50%, rgba(0, 0, 0, 0.6) 50%),
-            radial-gradient(circle, rgba(0,0,0,0) 50%, rgba(0,0,0,0.85) 100%);
+            linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 20, 0, 0.2) 50%),
+            radial-gradient(circle, rgba(0,0,0,0) 50%, rgba(0,0,0,0.95) 100%);
         background-size: 100% 4px, 100% 100%;
-        z-index: 999;
+        z-index: 9999;
         pointer-events: none;
-        opacity: 0.5;
+        opacity: 0.8;
     }
 
-    #scroll-container {
-        position: relative;
-        width: 100%;
-        height: 100vh;
-        overflow-y: auto;
-        z-index: 10;
-    }
-
-    #start-screen {
+    /* Digital Data Canvas Layer (Matrix Effect) */
+    #embers-canvas {
         position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: #000;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 2; 
+        pointer-events: none;
+    }
+
+    /* Magical Crest / Radar Crosshair */
+    #magic-circle-container {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
         display: flex;
         justify-content: center;
         align-items: center;
-        z-index: 2000;
-        cursor: pointer;
-        font-family: monospace;
-        letter-spacing: 5px;
-        font-weight: bold;
-        color: #e1f5fe;
-        text-shadow: 0 0 15px #00aaff;
-        transition: opacity 0.5s ease;
-    }
-
-    .blink-text {
-        animation: blink 1.5s infinite;
-    }
-    
-    @keyframes blink {
-        50% { opacity: 0; }
-    }
-
-    #yt-player-container {
-        position: absolute;
-        width: 0;
-        height: 0;
-        overflow: hidden;
+        z-index: 1;
         opacity: 0;
         pointer-events: none;
+        transition: filter 0.3s ease, opacity 2s ease;
     }
 
+    .start-main #magic-circle-container {
+        opacity: 0.2; 
+    }
+
+    #magic-circle-container svg {
+        width: 90vw;
+        max-width: 700px;
+        height: 90vw;
+        max-height: 700px;
+        stroke: #00FF41; 
+        fill: none;
+        filter: drop-shadow(0 0 8px rgba(0, 255, 65, 0.5));
+        animation: rotateCircle 60s linear infinite;
+    }
+
+    @keyframes rotateCircle {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* ---------------- INTRO SEQUENCE ---------------- */
     #intro-layer {
-        position: absolute;
+        position: fixed;
         top: 0; left: 0; width: 100%; height: 100vh;
         display: grid;
         place-items: center;
@@ -99,49 +105,179 @@
     .pre-text {
         grid-area: 1 / 1; 
         opacity: 0;
-        font-size: clamp(1.5rem, 4vw, 2.5rem);
-        letter-spacing: 10px;
+        font-size: clamp(1.2rem, 3vw, 2rem);
+        letter-spacing: 6px;
         font-weight: bold;
         text-transform: uppercase;
         text-align: center;
-        color: #e1f5fe;
-        text-shadow: 2px 4px 10px rgba(0,0,0,1), 0 0 20px #00aaff;
+        color: #ffffff;
+        text-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
     }
 
     .title-text {
         grid-area: 1 / 1;
         opacity: 0;
-        font-size: clamp(3rem, 8vw, 6rem);
-        letter-spacing: 15px;
+        font-size: clamp(3rem, 7vw, 6rem);
+        letter-spacing: 12px;
         color: #ffffff;
         font-weight: bold;
-        text-shadow: 3px 5px 15px rgba(0,0,0,1), 0 0 40px #00aaff;
+        text-shadow: 0 0 15px rgba(0, 255, 65, 0.9);
+        text-align: center;
     }
 
-    .start-sequence .pre-text:nth-child(1) { animation: cinematicFade 3s ease 1s forwards; }
-    .start-sequence .pre-text:nth-child(2) { animation: cinematicFade 3s ease 4s forwards; }
-    .start-sequence .pre-text:nth-child(3) { animation: cinematicFade 3s ease 7s forwards; }
-    .start-sequence .title-text { animation: finalReveal 4s ease 10s forwards; }
+    .start-sequence .pre-text:nth-child(1) { animation: cinematicFade 3s ease 0.5s forwards; }
+    .start-sequence .pre-text:nth-child(2) { animation: cinematicFade 3s ease 3.5s forwards; }
+    .start-sequence .pre-text:nth-child(3) { animation: cinematicFade 3s ease 6.5s forwards; }
+    .start-sequence .title-text { animation: finalReveal 4s ease 9.5s forwards; }
 
     @keyframes cinematicFade {
-        0% { opacity: 0; filter: blur(10px); transform: scale(0.95); }
+        0% { opacity: 0; filter: blur(5px); transform: scale(0.95); }
         30% { opacity: 1; filter: blur(0px); transform: scale(1); }
         70% { opacity: 1; filter: blur(0px); transform: scale(1.02); }
         100% { opacity: 0; filter: blur(10px); transform: scale(1.05); }
     }
 
     @keyframes finalReveal {
-        0% { opacity: 0; filter: blur(20px); transform: scale(0.9); }
-        20% { opacity: 1; filter: blur(0px); transform: scale(1); }
-        80% { opacity: 1; filter: blur(0px); transform: scale(1.05); }
-        100% { opacity: 0; filter: blur(30px); transform: scale(1.2); visibility: hidden; }
+        0% { opacity: 0; filter: blur(15px); transform: scale(0.9); }
+        20% { opacity: 1; filter: blur(0px); transform: scale(1); text-shadow: 0 0 15px rgba(0, 255, 65, 0.9); }
+        80% { opacity: 1; filter: blur(0px); transform: scale(1.05); text-shadow: 0 0 15px rgba(0, 255, 65, 0.9); }
+        100% { opacity: 0; filter: blur(25px); transform: scale(1.1); visibility: hidden; }
+    }
+
+    /* ---------------- START SCREEN ---------------- */
+    #start-screen {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 3000;
+        cursor: pointer;
+        letter-spacing: 5px;
+        font-weight: bold;
+        color: #00FF41;
+        text-shadow: 0 0 15px rgba(0, 255, 65, 0.8);
+        transition: opacity 0.8s ease;
+    }
+
+    .blink-text {
+        animation: blink 1.5s infinite;
+        font-size: clamp(1rem, 2.5vw, 1.8rem);
+        text-transform: uppercase;
+    }
+    
+    @keyframes blink {
+        50% { opacity: 0; }
+    }
+
+    /* ---------------- PIN SCREEN ---------------- */
+    #pin-screen {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.95);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 2500;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease;
+    }
+
+    #pin-screen.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .pin-container {
+        border: 1px solid #00FF41;
+        background: rgba(0, 10, 0, 0.9);
+        padding: 40px;
+        text-align: center;
+        box-shadow: 0 0 40px rgba(0, 255, 65, 0.15);
+        border-top: 2px solid #00FF41;
+    }
+
+    .pin-title {
+        font-size: 1.5rem;
+        color: #ffffff;
+        letter-spacing: 4px;
+        margin-bottom: 20px;
+        text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
+    }
+
+    .pin-input-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    #pin-input {
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid #00FF41;
+        color: #ffffff;
+        font-size: 2.5rem; 
+        text-align: center;
+        outline: none;
+        font-family: inherit;
+        letter-spacing: 12px;
+        width: 250px; 
+        transition: all 0.3s ease;
+        text-shadow: 0 0 10px rgba(0, 255, 65, 0.8);
+    }
+
+    #pin-input:focus {
+        border-bottom: 2px solid #ffffff;
+        box-shadow: 0 10px 10px -10px rgba(0, 255, 65, 0.5);
+    }
+
+    #pin-btn {
+        background: #00FF41;
+        color: #000;
+        border: none;
+        padding: 10px 30px;
+        font-family: inherit;
+        font-size: 1.2rem;
+        letter-spacing: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+
+    #pin-btn:hover {
+        background: #ffffff;
+        box-shadow: 0 0 15px rgba(0, 255, 65, 0.6);
+    }
+
+    .pin-error {
+        color: #d63031;
+        margin-top: 15px;
+        font-size: 1rem;
+        letter-spacing: 2px;
+        opacity: 0;
+        transition: opacity 0.3s;
+        font-weight: bold;
+    }
+
+    /* ---------------- MAIN APP UI (Scrollable) ---------------- */
+    #scroll-container {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow-y: auto;
+        z-index: 10;
     }
 
     #app-main {
         opacity: 0;
         max-width: 1000px;
         margin: 0 auto;
-        padding: 50px 20px 100px 20px;
+        /* Significantly reduced top padding to remove phantom space */
+        padding: 20px 20px 100px 20px;
         position: relative;
         transition: opacity 2s ease;
         display: none;
@@ -159,7 +295,7 @@
     header {
         text-align: center;
         margin-bottom: 30px;
-        border-bottom: 1px solid #003366;
+        border-bottom: 1px solid rgba(0, 255, 65, 0.3);
         padding-bottom: 20px;
     }
 
@@ -167,26 +303,26 @@
         font-size: 2.5rem;
         letter-spacing: 8px;
         text-transform: uppercase;
-        color: #81d4fa;
+        color: #ffffff;
         font-weight: bold;
         margin-bottom: 15px;
-        text-shadow: 2px 4px 10px rgba(0,0,0,1), 0 0 15px #00aaff;
+        margin-top: 10px;
+        text-shadow: 0 0 12px rgba(0, 255, 65, 0.8);
     }
 
     .stats-board {
         display: flex;
         justify-content: space-around;
-        background: rgba(0, 10, 20, 0.7);
+        background: rgba(0, 15, 0, 0.8);
         padding: 15px;
-        border: 1px solid #004488;
+        border: 1px solid rgba(0, 255, 65, 0.5);
         font-size: 1.2rem;
         letter-spacing: 2px;
         margin-bottom: 15px;
-        backdrop-filter: blur(5px);
-        text-shadow: 1px 2px 5px rgba(0,0,0,1);
+        box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
     }
 
-    .stat-highlight { color: #ffffff; font-weight: bold; text-shadow: 0 0 10px #00aaff; }
+    .stat-highlight { color: #00FF41; font-weight: bold; text-shadow: 0 0 8px rgba(0, 255, 65, 0.6); }
 
     .header-actions {
         text-align: right;
@@ -195,18 +331,18 @@
     .btn-text {
         background: none;
         border: none;
-        color: #b3e5fc;
-        font-family: monospace;
+        color: #a4b0be;
+        font-family: inherit;
         font-size: 0.9rem;
         letter-spacing: 2px;
         cursor: pointer;
         text-transform: uppercase;
         text-decoration: underline;
-        text-shadow: 0 2px 4px rgba(0,0,0,1);
         font-weight: bold;
     }
-    .btn-text:hover { color: #fff; text-shadow: 0 0 10px #00aaff;}
+    .btn-text:hover { color: #ffffff; text-shadow: 0 0 10px rgba(0, 255, 65, 0.8);}
 
+    /* Inputs */
     .input-section {
         display: flex;
         flex-wrap: wrap;
@@ -215,40 +351,45 @@
     }
 
     input[type="text"], input[type="number"], input[type="datetime-local"] {
-        background: rgba(0, 15, 30, 0.7);
-        border: 1px solid #005599;
-        color: #e1f5fe;
+        background: rgba(0, 10, 0, 0.8);
+        border: 1px solid rgba(0, 255, 65, 0.5);
+        color: #ffffff;
         padding: 12px;
-        font-family: monospace;
+        font-family: inherit;
         font-size: 1.1rem;
         color-scheme: dark;
-        text-shadow: 1px 1px 3px rgba(0,0,0,1);
+    }
+
+    input[type="text"]:focus, input[type="number"]:focus, input[type="datetime-local"]:focus {
+        border-color: #ffffff;
+        box-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
+        outline: none;
     }
 
     input[type="text"]::placeholder, input[type="number"]::placeholder {
-        color: #4f8ab8;
+        color: #558B55;
     }
 
     input[type="text"] { flex-grow: 1; min-width: 200px; }
     input[type="number"] { width: 120px; text-align: center; }
     
     button {
-        background: rgba(0, 34, 68, 0.8);
-        border: 1px solid #00aaff;
-        color: #fff;
+        background: rgba(0, 20, 0, 0.9);
+        border: 1px solid #00FF41;
+        color: #00FF41;
         padding: 10px 20px;
         cursor: pointer;
-        font-family: monospace;
+        font-family: inherit;
         font-weight: bold;
         font-size: 1rem;
         text-transform: uppercase;
         letter-spacing: 2px;
-        transition: background 0.3s, box-shadow 0.3s;
-        text-shadow: 1px 2px 4px rgba(0,0,0,1);
+        transition: all 0.3s;
     }
     button:hover { 
-        background: rgba(0, 51, 102, 0.9); 
-        box-shadow: 0 0 15px rgba(0, 170, 255, 0.4);
+        background: rgba(0, 50, 0, 0.9); 
+        color: #ffffff;
+        box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
     }
 
     .grid-layout {
@@ -259,26 +400,26 @@
 
     h2 {
         font-size: 1.5rem;
-        color: #e1f5fe;
-        border-bottom: 1px solid #003366;
+        color: #ffffff;
+        border-bottom: 1px solid rgba(0, 255, 65, 0.4);
         padding-bottom: 10px;
         margin-bottom: 15px;
         letter-spacing: 3px;
-        text-shadow: 2px 2px 8px rgba(0,0,0,1);
+        text-shadow: 0 0 8px rgba(0, 255, 65, 0.5);
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
     }
 
+    /* Quest List */
     .quest-list { list-style: none; }
     
     .quest-item {
-        background: rgba(0, 15, 30, 0.65);
-        border-left: 3px solid #00aaff;
+        background: rgba(0, 10, 0, 0.75);
+        border-left: 3px solid #00FF41;
         padding: 15px;
         margin-bottom: 20px;
-        backdrop-filter: blur(4px);
-        box-shadow: 2px 4px 10px rgba(0,0,0,0.5);
+        box-shadow: 2px 4px 10px rgba(0,0,0,0.8);
     }
 
     .quest-header {
@@ -288,15 +429,16 @@
         margin-bottom: 10px;
     }
 
-    .quest-title { font-size: 1.3rem; font-weight: bold; text-shadow: 1px 2px 5px rgba(0,0,0,1); }
-    .quest-reward { color: #81d4fa; font-size: 0.9rem; margin-right: 15px; font-weight: bold;}
-    .quest-deadline { color: #ff6666; font-size: 0.85rem; margin-top: 5px; font-style: italic; font-weight: bold; }
+    .quest-title { font-size: 1.3rem; font-weight: bold; color: #ffffff; }
+    .quest-reward { color: #00FF41; font-size: 0.9rem; margin-right: 15px; font-weight: bold;}
+    .quest-deadline { color: #ff4757; font-size: 0.85rem; margin-top: 5px; font-weight: bold; }
     
     .quest-actions button { padding: 5px 10px; font-size: 0.8rem; }
-    .btn-complete { border-color: #00ffaa; background: rgba(0, 50, 50, 0.8); }
-    .btn-complete:hover { background: rgba(0, 80, 80, 0.9); box-shadow: 0 0 10px rgba(0, 255, 170, 0.3); }
-    .btn-delete { border-color: #555; background: rgba(17, 17, 17, 0.8); }
+    .btn-complete { border-color: #00FF41; background: rgba(0, 30, 0, 0.8); }
+    .btn-delete { border-color: #555; background: rgba(17, 17, 17, 0.8); color: #ccc;}
+    .btn-delete:hover { border-color: #ff4757; color: #ff4757; background: rgba(30, 0, 0, 0.8); box-shadow: 0 0 10px rgba(255, 71, 87, 0.3);}
 
+    /* Sub-tasks */
     .task-list {
         list-style: none;
         margin-bottom: 10px;
@@ -308,70 +450,70 @@
         gap: 10px;
         font-size: 1rem;
         margin-bottom: 5px;
-        color: #e0f2ff;
-        text-shadow: 1px 1px 4px rgba(0,0,0,1);
+        color: #dcdde1;
     }
     .task-item input[type="checkbox"] {
-        accent-color: #00aaff;
+        accent-color: #00FF41;
         width: 15px; height: 15px;
         cursor: pointer;
     }
-    .task-done { text-decoration: line-through; color: #5588aa; text-shadow: none; }
+    .task-done { text-decoration: line-through; color: #718093; }
     
     .task-input-section { display: flex; gap: 5px; margin-bottom: 0; }
-    .task-input-section input[type="text"] { padding: 8px; font-size: 0.9rem; }
+    .task-input-section input[type="text"] { padding: 8px; font-size: 0.9rem; border-color: rgba(0, 255, 65, 0.3);}
     .task-input-section button { padding: 8px 15px; font-size: 0.8rem; }
 
+    /* Archive Section */
     #archive-section {
         display: none;
         margin-top: 40px;
         padding-top: 20px;
-        border-top: 1px dashed #004488;
+        border-top: 1px dashed rgba(0, 255, 65, 0.4);
     }
     .archived-item {
-        background: rgba(0,10,20,0.6);
-        border-left: 2px solid #5588aa;
+        background: rgba(0,15,0,0.7);
+        border-left: 2px solid #00FF41;
         margin-bottom: 10px;
         cursor: pointer;
         transition: background 0.2s;
     }
-    .archived-item:hover { background: rgba(0,25,50,0.8); }
+    .archived-item:hover { background: rgba(0,30,0,0.9); }
     .archived-header {
         padding: 10px 15px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         font-size: 1rem;
-        color: #b3e5fc;
-        font-family: monospace;
+        color: #ffffff;
     }
-    .failed-item { border-left-color: #ff3333; }
-    .failed-item .archived-header { color: #ff6666; text-decoration: line-through; }
+    .failed-item { border-left-color: #ff4757; background: rgba(20,0,0,0.7);}
+    .failed-item:hover { background: rgba(40,0,0,0.9); }
+    .failed-item .archived-header { color: #ff4757; text-decoration: line-through; }
     
     .archived-tasks {
         display: none;
         padding: 10px 15px 15px 30px;
-        background: rgba(0,0,0,0.4);
-        border-top: 1px solid #002244;
+        background: rgba(0,0,0,0.8);
+        border-top: 1px solid rgba(0, 255, 65, 0.2);
         font-size: 0.9rem;
-        color: #88bbdd;
+        color: #a4b0be;
         list-style-type: square;
     }
 
+    /* Economy Shop */
     .shop-category { margin-bottom: 40px; }
     .shop-item {
-        background: rgba(0, 15, 30, 0.65);
-        border: 1px solid #003366;
+        background: rgba(0, 10, 0, 0.75);
+        border: 1px solid rgba(0, 255, 65, 0.3);
         padding: 12px 15px;
         margin-bottom: 10px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        backdrop-filter: blur(4px);
     }
     .shop-item-info { flex-grow: 1; }
-    .shop-item-info h3 { margin-bottom: 3px; font-size: 1rem; color: #e1f5fe; display: flex; align-items: center; gap: 8px; text-shadow: 1px 2px 4px rgba(0,0,0,1);}
-    .shop-item-info p { color: #81d4fa; font-size: 0.85rem; font-weight: bold; }
+    .shop-item-info h3 { margin-bottom: 3px; font-size: 1rem; color: #ffffff; display: flex; align-items: center; gap: 8px;}
+    .shop-item-info p { color: #00FF41; font-size: 0.85rem; font-weight: bold; }
     .shop-actions { display: flex; gap: 5px; align-items: center; }
     
     .shop-item button { padding: 6px 12px; font-size: 0.8rem; }
@@ -379,22 +521,38 @@
     .btn-del-custom {
         background: transparent;
         border: none;
-        color: #5588aa;
+        color: #718093;
         padding: 0 5px;
         font-size: 1.2rem;
         cursor: pointer;
-        box-shadow: none;
-        text-shadow: none;
     }
-    .btn-del-custom:hover { color: #ff3333; background: transparent; box-shadow: none;}
+    .btn-del-custom:hover { color: #ff4757; background: transparent; box-shadow: none;}
 
+    /* Insufficient Funds Alert */
+    .shop-alert {
+        color: #ff4757;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1rem;
+        letter-spacing: 2px;
+        margin-bottom: 15px;
+        text-shadow: 0 0 10px rgba(255, 71, 87, 0.8);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        height: 20px; 
+    }
+    .shop-alert.show {
+        opacity: 1;
+    }
+
+    /* Custom Shop Inputs */
     .custom-shop-form {
         display: flex;
         gap: 5px;
         margin-bottom: 15px;
-        background: rgba(0,0,0,0.4);
+        background: rgba(0,0,0,0.6);
         padding: 10px;
-        border: 1px solid #002244;
+        border: 1px solid rgba(0, 255, 65, 0.2);
     }
     .custom-shop-form input[type="text"] { padding: 8px; font-size: 0.9rem; flex-grow: 1; min-width: 0; }
     .custom-shop-form input[type="number"] { width: 85px; padding: 8px; font-size: 0.9rem; }
@@ -410,169 +568,368 @@
         .custom-shop-form input[type="number"] { width: 100px; }
     }
 </style>
+
+<script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
 
-    <div id="start-screen">
-        <div class="blink-text">[ AWAKEN TRINETRA ]</div>
-    </div>
-
-    <div id="yt-player-container"></div>
+    <div id="yt-player" style="position: absolute; top: -9999px; left: -9999px; opacity: 0; pointer-events: none;"></div>
 
     <div id="bg-layer"></div>
     <div id="crt-layer"></div>
 
-    <div id="scroll-container">
-        
-        <div id="intro-layer">
-            <div class="pre-text">Observe the breath.</div>
-            <div class="pre-text">Time is an illusion.</div>
-            <div class="pre-text">Fulfill your Karma.</div>
-            <div class="title-text">PROJECT TRINETRA</div>
-        </div>
+    <div id="magic-circle-container">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+            <path d="M 10 25 L 10 10 L 25 10" stroke-width="1" />
+            <path d="M 75 10 L 90 10 L 90 25" stroke-width="1" />
+            <path d="M 90 75 L 90 90 L 75 90" stroke-width="1" />
+            <path d="M 25 90 L 10 90 L 10 75" stroke-width="1" />
+            
+            <circle cx="50" cy="50" r="38" stroke-width="0.5" stroke-dasharray="2 4" />
+            <circle cx="50" cy="50" r="28" stroke-width="1" />
+            
+            <line x1="50" y1="2" x2="50" y2="46" stroke-width="0.5" />
+            <line x1="50" y1="54" x2="50" y2="98" stroke-width="0.5" />
+            <line x1="2" y1="50" x2="46" y2="50" stroke-width="0.5" />
+            <line x1="54" y1="50" x2="98" y2="50" stroke-width="0.5" />
+            
+            <circle cx="50" cy="50" r="4" stroke-width="1" />
+            <circle cx="50" cy="50" r="1.5" stroke-width="2" fill="#00FF41" />
+        </svg>
+    </div>
 
+    <canvas id="embers-canvas"></canvas>
+
+    <div id="intro-layer">
+        <div class="pre-text">Establishing secure uplink...</div>
+        <div class="pre-text">Bypassing institutional firewalls...</div>
+        <div class="pre-text">Agent Veracity recognized.</div>
+        <div class="title-text">PROJECT INQUINISO</div>
+    </div>
+
+    <div id="start-screen">
+        <div class="blink-text">[ INITIATE ]</div>
+    </div>
+
+    <div id="pin-screen">
+        <div class="pin-container">
+            <div class="pin-title">AUTHORIZATION REQUIRED</div>
+            <div class="pin-input-wrapper">
+                <input type="password" id="pin-input" maxlength="4" autocomplete="off">
+                <button id="pin-btn">AUTHORIZE</button>
+            </div>
+            <div class="pin-error" id="pin-error">ACCESS DENIED.</div>
+        </div>
+    </div>
+
+    <div id="scroll-container">
         <div id="app-main">
             <header>
-                <h1>Project Trinetra</h1>
+                <h1>Operation Veracity Log</h1>
                 <div class="stats-board">
-                    <div>Karmas: <span id="stat-quests" class="stat-highlight">0</span></div>
-                    <div>Steps: <span id="stat-tasks" class="stat-highlight">0</span></div>
-                    <div>Prana Vault: <span id="stat-gold" class="stat-highlight">0🔱</span></div>
+                    <div>Missions Cleared: <span id="stat-quests" class="stat-highlight">0</span></div>
+                    <div>Objectives Met: <span id="stat-tasks" class="stat-highlight">0</span></div>
+                    <div>Agency Credits: <span id="stat-gold" class="stat-highlight">0 CR</span></div>
                 </div>
                 <div class="header-actions">
-                    <button class="btn-text" onclick="toggleArchive()">View Akashic Records</button>
+                    <button class="btn-text" onclick="toggleArchive()">Access Classified Archives</button>
                 </div>
             </header>
 
             <div class="input-section">
-                <input type="text" id="quest-input" placeholder="Draft a new Karmic directive..." autocomplete="off">
-                <input type="number" id="gold-input" placeholder="Prana 🔱" value="300" min="10">
-                <input type="datetime-local" id="deadline-input" title="Set Cosmic Deadline (Optional)">
-                <button onclick="addQuest()">Commit</button>
+                <input type="text" id="quest-input" placeholder="Draft new mission directive..." autocomplete="off">
+                <input type="number" id="gold-input" placeholder="Reward CR" value="300" min="10">
+                <input type="datetime-local" id="deadline-input" title="Set Mission Deadline (Optional)">
+                <button onclick="addQuest()">Execute</button>
             </div>
 
             <div class="grid-layout">
                 <div>
-                    <h2>Active Karmas</h2>
-                    <ul id="quest-container" class="quest-list"></ul>
+                    <h2>Active Directives</h2>
+                    <ul id="quest-container" class="quest-list">
+                        </ul>
                 </div>
 
                 <div>
+                    <div id="shop-alert" class="shop-alert">INSUFFICIENT CREDITS</div>
+                    
                     <div class="shop-category">
-                        <h2>Mortal Bindings</h2>
+                        <h2>Operational Upkeep</h2>
                         
                         <div class="custom-shop-form">
-                            <input type="text" id="custom-due-name" placeholder="Custom Binding Name...">
-                            <input type="number" id="custom-due-cost" placeholder="Cost 🔱">
-                            <button onclick="addCustomDue()">Add Binding</button>
+                            <input type="text" id="custom-due-name" placeholder="Custom upkeep item...">
+                            <input type="number" id="custom-due-cost" placeholder="Cost CR">
+                            <button onclick="addCustomDue()">Add Cost</button>
                         </div>
 
                         <div id="dues-container">
                             <div class="shop-item">
                                 <div class="shop-item-info">
-                                    <h3>Shelter (Dwelling)</h3>
-                                    <p>Cost: 500🔱</p>
+                                    <h3>Safehouse Maintenance</h3>
+                                    <p>Cost: 500 CR</p>
                                 </div>
                                 <div class="shop-actions">
-                                    <button onclick="spendGold(500)">Pay</button>
+                                    <button onclick="spendGold(500)">Deduct</button>
                                 </div>
                             </div>
                             <div class="shop-item">
                                 <div class="shop-item-info">
-                                    <h3>Sustenance (Daily Meals)</h3>
-                                    <p>Cost: 300🔱</p>
+                                    <h3>Field Rations (Daily)</h3>
+                                    <p>Cost: 300 CR</p>
                                 </div>
                                 <div class="shop-actions">
-                                    <button onclick="spendGold(300)">Pay</button>
+                                    <button onclick="spendGold(300)">Deduct</button>
                                 </div>
                             </div>
                             <div class="shop-item">
                                 <div class="shop-item-info">
-                                    <h3>Maya (Internet/Connection)</h3>
-                                    <p>Cost: 30🔱</p>
+                                    <h3>Secure Comms Network</h3>
+                                    <p>Cost: 30 CR</p>
                                 </div>
                                 <div class="shop-actions">
-                                    <button onclick="spendGold(30)">Pay</button>
+                                    <button onclick="spendGold(30)">Deduct</button>
                                 </div>
                             </div>
-                        </div>
+                            </div>
                     </div>
 
                     <div class="shop-category">
-                        <h2>Worldly Boons</h2>
+                        <h2>Asset Requisitions</h2>
                         
                         <div class="custom-shop-form">
-                            <input type="text" id="custom-reward-name" placeholder="Custom Boon Name...">
-                            <input type="number" id="custom-reward-cost" placeholder="Cost 🔱">
-                            <button onclick="addCustomReward()">Add Boon</button>
+                            <input type="text" id="custom-reward-name" placeholder="Custom requisition...">
+                            <input type="number" id="custom-reward-cost" placeholder="Cost CR">
+                            <button onclick="addCustomReward()">Authorize</button>
                         </div>
 
                         <div id="rewards-container">
                             <div class="shop-item">
                                 <div class="shop-item-info">
-                                    <h3>1hr Illusion (Entertainment)</h3>
-                                    <p>Cost: 800🔱</p>
+                                    <h3>R&R (1hr Entertainment)</h3>
+                                    <p>Cost: 800 CR</p>
                                 </div>
                                 <div class="shop-actions">
-                                    <button onclick="spendGold(800)">Claim</button>
+                                    <button onclick="spendGold(800)">Approve</button>
                                 </div>
                             </div>
                             <div class="shop-item">
                                 <div class="shop-item-info">
-                                    <h3>Worldly Indulgence (Cafe)</h3>
-                                    <p>Cost: 1000🔱</p>
+                                    <h3>Asset Rendezvous (Cafe)</h3>
+                                    <p>Cost: 1000 CR</p>
                                 </div>
                                 <div class="shop-actions">
-                                    <button onclick="spendGold(1000)">Claim</button>
+                                    <button onclick="spendGold(1000)">Approve</button>
                                 </div>
                             </div>
                             <div class="shop-item">
                                 <div class="shop-item-info">
-                                    <h3>Feast of Senses (Order Food)</h3>
-                                    <p>Cost: 2500🔱</p>
+                                    <h3>Premium Rations (Order Out)</h3>
+                                    <p>Cost: 2500 CR</p>
                                 </div>
                                 <div class="shop-actions">
-                                    <button onclick="spendGold(2500)">Claim</button>
+                                    <button onclick="spendGold(2500)">Approve</button>
                                 </div>
                             </div>
                             <div class="shop-item">
                                 <div class="shop-item-info">
-                                    <h3>Material Acquisition (Buy Item)</h3>
-                                    <p>Cost: 5000🔱</p>
+                                    <h3>Hardware Acquisition</h3>
+                                    <p>Cost: 5000 CR</p>
                                 </div>
                                 <div class="shop-actions">
-                                    <button onclick="spendGold(5000)">Claim</button>
+                                    <button onclick="spendGold(5000)">Approve</button>
                                 </div>
                             </div>
-                        </div>
+                            </div>
                     </div>
                 </div>
             </div>
 
             <div id="archive-section">
-                <h2>Akashic Records (Past Karmas)</h2>
-                <div id="archive-container"></div>
+                <h2>Classified Archives (Past Missions)</h2>
+                <div id="archive-container">
+                    </div>
             </div>
         </div>
     </div>
 
 <script>
-    document.getElementById('start-screen').addEventListener('click', function() {
-        const ytContainer = document.getElementById('yt-player-container');
-        ytContainer.innerHTML = '<iframe width="1" height="1" src="https://www.youtube.com/embed/l0ua_FD5RO8?autoplay=1&loop=1&playlist=l0ua_FD5RO8" frameborder="0" allow="autoplay; encrypted-media"></iframe>';
+    // --- YOUTUBE API SETUP ---
+    let ytPlayer;
+    function onYouTubeIframeAPIReady() {
+        ytPlayer = new YT.Player('yt-player', {
+            height: '10',
+            width: '10',
+            videoId: 'wPKkQCgf0BU', // The requested track ID
+            playerVars: {
+                'playsinline': 1,
+                'loop': 1,
+                'playlist': 'wPKkQCgf0BU'
+            }
+        });
+    }
 
+    // --- BOOT SEQUENCE & PIN LOGIC ---
+    const startScreen = document.getElementById('start-screen');
+    const pinScreen = document.getElementById('pin-screen');
+    const pinInput = document.getElementById('pin-input');
+    const pinBtn = document.getElementById('pin-btn');
+    const pinError = document.getElementById('pin-error');
+
+    // 1. Click [ INITIATE ] to transition to PIN and start music reliably
+    startScreen.addEventListener('click', function() {
         this.style.opacity = '0';
-        setTimeout(() => { this.style.display = 'none'; }, 500);
-
-        document.getElementById('intro-layer').classList.add('start-sequence');
         
+        // Physically command the player to start via API on user click. 
+        // Force unMute and volume to bypass strict browser silencers.
+        if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
+            ytPlayer.unMute();
+            ytPlayer.setVolume(100);
+            ytPlayer.playVideo();
+        }
+
+        setTimeout(() => { 
+            this.style.display = 'none'; 
+            pinScreen.classList.add('active');
+            pinInput.focus();
+        }, 800);
+    });
+
+    // 2. Validate PIN
+    function handleLogin() {
+        const val = pinInput.value;
+        if (val === '2027') {
+            initiateBootSequence();
+        } else {
+            pinError.style.opacity = '1';
+            pinInput.value = '';
+            setTimeout(() => { pinError.style.opacity = '0'; }, 2000);
+        }
+    }
+
+    pinInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') handleLogin();
+    });
+    pinBtn.addEventListener('click', handleLogin);
+
+    // 3. Start Intro and App
+    function initiateBootSequence() {
+        // Hide PIN screen
+        pinScreen.style.opacity = '0';
+        setTimeout(() => { pinScreen.style.display = 'none'; }, 800);
+
+        // Start animation sequence
+        document.getElementById('intro-layer').classList.add('start-sequence');
+        document.body.classList.add('start-main');
+        
+        // After 13.5 seconds, hide intro and show app
         setTimeout(() => {
             document.getElementById('intro-layer').style.display = 'none';
             document.getElementById('app-main').classList.add('show-app');
-        }, 14500);
+        }, 13500);
+    }
+
+    // --- INTERACTIVE DIGITAL DATA PARTICLES (MATRIX) ---
+    const canvas = document.getElementById('embers-canvas');
+    const ctx = canvas.getContext('2d');
+    const magicCircle = document.getElementById('magic-circle-container');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let mouse = { x: -1000, y: -1000 };
+
+    window.addEventListener('mousemove', (e) => {
+        mouse.x = e.x;
+        mouse.y = e.y;
+        
+        if (document.body.classList.contains('start-main')) {
+            magicCircle.style.filter = 'drop-shadow(0 0 15px rgba(0, 255, 65, 0.9))';
+            clearTimeout(window.circleGlowTimeout);
+            window.circleGlowTimeout = setTimeout(() => {
+                magicCircle.style.filter = 'drop-shadow(0 0 8px rgba(0, 255, 65, 0.5))';
+            }, 300);
+        }
     });
 
-    let state = JSON.parse(localStorage.getItem('trinetra_app_v1')) || {
+    window.addEventListener('mouseout', () => {
+        mouse.x = -1000;
+        mouse.y = -1000;
+    });
+
+    const particles = [];
+    const emberColors = [
+        'rgba(0, 255, 65, ',   // Bright Green
+        'rgba(0, 143, 17, ',   // Mid Green
+        'rgba(0, 59, 0, '      // Dark Green
+    ];
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = canvas.height + Math.random() * 100;
+            this.size = Math.random() * 2 + 0.8;
+            this.baseSpeedY = Math.random() * -2 - 0.5; 
+            this.baseSpeedX = 0; 
+            this.speedY = this.baseSpeedY;
+            this.speedX = this.baseSpeedX;
+            this.colorBase = emberColors[Math.floor(Math.random() * emberColors.length)];
+            this.life = Math.random() * 0.7 + 0.2; 
+        }
+        update() {
+            let dx = mouse.x - this.x;
+            let dy = mouse.y - this.y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            let maxDistance = 150; 
+
+            if (distance < maxDistance) {
+                let forceDirectionX = dx / distance;
+                this.speedX = -forceDirectionX * 4; 
+            } else {
+                this.speedX = this.speedX * 0.9;
+                this.speedY = this.baseSpeedY;
+            }
+
+            this.y += this.speedY;
+            this.x += this.speedX;
+            
+            if(Math.random() > 0.96) this.x += (Math.random() - 0.5) * 5;
+
+            if (this.size > 0.1) this.size -= 0.0015; 
+            
+            if (this.y < -50 || this.size <= 0.1 || this.x < -50 || this.x > canvas.width + 50) {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 10;
+                this.size = Math.random() * 2 + 0.8;
+                this.speedX = this.baseSpeedX;
+                this.speedY = this.baseSpeedY;
+            }
+        }
+        draw() {
+            ctx.fillStyle = this.colorBase + this.life + ')';
+            ctx.fillRect(this.x, this.y, this.size, this.size * 2);
+        }
+    }
+
+    for(let i = 0; i < 120; i++) { 
+        particles.push(new Particle());
+    }
+
+    function animateEmbers() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => { 
+            p.update(); 
+            p.draw(); 
+        });
+        requestAnimationFrame(animateEmbers);
+    }
+    animateEmbers();
+
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+
+    // --- APPLICATION LOGIC ---
+    let state = JSON.parse(localStorage.getItem('inquiniso_app_v3')) || {
         questsCompleted: 0,
         tasksCompleted: 0,
         gold: 0,
@@ -589,6 +946,7 @@
     const archiveContainer = document.getElementById('archive-container');
     const duesContainer = document.getElementById('dues-container');
     const rewardsContainer = document.getElementById('rewards-container');
+    const shopAlert = document.getElementById('shop-alert');
 
     function checkDeadlines() {
         const now = new Date().getTime();
@@ -608,13 +966,15 @@
     }
 
     function updateUI() {
-        localStorage.setItem('trinetra_app_v1', JSON.stringify(state));
+        localStorage.setItem('inquiniso_app_v3', JSON.stringify(state));
 
+        // Stats
         statQuests.innerText = state.questsCompleted;
         statTasks.innerText = state.tasksCompleted;
-        statGold.innerText = state.gold + "🔱";
-        statGold.style.color = state.gold < 0 ? "#ff6666" : "#ffffff";
+        statGold.innerText = state.gold + " CR";
+        statGold.style.color = state.gold < 0 ? "#ff4757" : "#00FF41";
 
+        // Render Quests
         questContainer.innerHTML = '';
         state.quests.forEach((quest, qIndex) => {
             let tasksHTML = '';
@@ -622,7 +982,12 @@
                 quest.tasks.forEach((task, tIndex) => {
                     const checked = task.done ? "checked" : "";
                     const textClass = task.done ? "task-done" : "";
-                    tasksHTML += `<li class="task-item"><input type="checkbox" ${checked} onchange="toggleTask(${qIndex}, ${tIndex})"><span class="${textClass}">${task.text}</span></li>`;
+                    tasksHTML += `
+                        <li class="task-item">
+                            <input type="checkbox" ${checked} onchange="toggleTask(${qIndex}, ${tIndex})">
+                            <span class="${textClass}">${task.text}</span>
+                        </li>
+                    `;
                 });
             }
 
@@ -634,7 +999,28 @@
 
             const li = document.createElement('li');
             li.className = 'quest-item';
-            li.innerHTML = `<div class="quest-header"><div><div class="quest-title">${quest.title}</div><div class="quest-reward">Reward: ${quest.reward}🔱</div>${deadlineText}</div><div class="quest-actions"><button class="btn-complete" onclick="completeQuest(${qIndex})">Complete</button><button class="btn-delete" onclick="deleteQuest(${qIndex})">Drop</button></div></div><ul class="task-list">${tasksHTML}</ul><div class="task-input-section"><input type="text" id="task-input-${qIndex}" placeholder="Add a step..."><button onclick="addTask(${qIndex})">Add</button></div>`;
+            li.innerHTML = `
+                <div class="quest-header">
+                    <div>
+                        <div class="quest-title">${quest.title}</div>
+                        <div class="quest-reward">Reward: ${quest.reward} CR</div>
+                        ${deadlineText}
+                    </div>
+                    <div class="quest-actions">
+                        <button class="btn-complete" onclick="completeQuest(${qIndex})">Complete</button>
+                        <button class="btn-delete" onclick="deleteQuest(${qIndex})">Abort</button>
+                    </div>
+                </div>
+                
+                <ul class="task-list">
+                    ${tasksHTML}
+                </ul>
+                
+                <div class="task-input-section">
+                    <input type="text" id="task-input-${qIndex}" placeholder="Add sub-objective...">
+                    <button onclick="addTask(${qIndex})">Add</button>
+                </div>
+            `;
             questContainer.appendChild(li);
 
             const taskInput = document.getElementById(`task-input-${qIndex}`);
@@ -643,7 +1029,18 @@
             });
         });
 
-        const customDuesHTML = state.customDues.map((due, index) => `<div class="shop-item"><div class="shop-item-info"><h3>${due.name} <button class="btn-del-custom" onclick="removeCustomDue(${index})" title="Remove">×</button></h3><p>Cost: ${due.cost}🔱</p></div><div class="shop-actions"><button onclick="spendGold(${due.cost})">Pay</button></div></div>`).join('');
+        // Render Custom Dues
+        const customDuesHTML = state.customDues.map((due, index) => `
+            <div class="shop-item">
+                <div class="shop-item-info">
+                    <h3>${due.name} <button class="btn-del-custom" onclick="removeCustomDue(${index})" title="Remove">×</button></h3>
+                    <p>Cost: ${due.cost} CR</p>
+                </div>
+                <div class="shop-actions">
+                    <button onclick="spendGold(${due.cost})">Deduct</button>
+                </div>
+            </div>
+        `).join('');
         
         const existingCustomDues = duesContainer.querySelectorAll('.dynamic-due');
         existingCustomDues.forEach(el => el.remove());
@@ -655,7 +1052,18 @@
             duesContainer.appendChild(wrapper);
         }
 
-        const customRewardsHTML = state.customRewards.map((reward, index) => `<div class="shop-item"><div class="shop-item-info"><h3>${reward.name} <button class="btn-del-custom" onclick="removeCustomReward(${index})" title="Remove">×</button></h3><p>Cost: ${reward.cost}🔱</p></div><div class="shop-actions"><button onclick="spendGold(${reward.cost})">Claim</button></div></div>`).join('');
+        // Render Custom Rewards
+        const customRewardsHTML = state.customRewards.map((reward, index) => `
+            <div class="shop-item">
+                <div class="shop-item-info">
+                    <h3>${reward.name} <button class="btn-del-custom" onclick="removeCustomReward(${index})" title="Remove">×</button></h3>
+                    <p>Cost: ${reward.cost} CR</p>
+                </div>
+                <div class="shop-actions">
+                    <button onclick="spendGold(${reward.cost})">Approve</button>
+                </div>
+            </div>
+        `).join('');
 
         const existingCustomRewards = rewardsContainer.querySelectorAll('.dynamic-reward');
         existingCustomRewards.forEach(el => el.remove());
@@ -667,9 +1075,10 @@
             rewardsContainer.appendChild(wrapper);
         }
 
+        // Render Archive
         archiveContainer.innerHTML = '';
         if (state.archive.length === 0) {
-            archiveContainer.innerHTML = '<p style="color:#777; font-family: monospace;">No Karmas completed yet.</p>';
+            archiveContainer.innerHTML = '<p style="color:#718093;">No logs recorded yet.</p>';
         } else {
             state.archive.slice().reverse().forEach((archivedQuest, i) => {
                 const isFailed = archivedQuest.status === 'failed';
@@ -688,12 +1097,23 @@
                 div.className = `archived-item ${isFailed ? 'failed-item' : ''}`;
                 const realIndex = state.archive.length - 1 - i;
                 
-                div.innerHTML = `<div class="archived-header" onclick="toggleArchiveTasks(${realIndex})"><span>${isFailed ? '⚠ FAILED: ' : '★ '}${archivedQuest.title}</span><span style="color:${isFailed ? '#ff6666' : '#ffffff'}; text-shadow: 0 0 5px ${isFailed ? '#ff0000' : '#00aaff'};">${isFailed ? '-' + archivedQuest.penalty + '🔱' : '+' + archivedQuest.reward + '🔱'}</span></div><ul class="archived-tasks" id="archive-tasks-list-${realIndex}">${subtasksHTML}</ul>`;
+                div.innerHTML = `
+                    <div class="archived-header" onclick="toggleArchiveTasks(${realIndex})">
+                        <span>${isFailed ? '⚠ COMPROMISED: ' : '★ SECURED: '}${archivedQuest.title}</span> 
+                        <span style="color:${isFailed ? '#ff4757' : '#00FF41'}; text-shadow: 0 0 5px ${isFailed ? '#ff4757' : '#00FF41'};">
+                            ${isFailed ? '-' + archivedQuest.penalty + ' CR' : '+' + archivedQuest.reward + ' CR'}
+                        </span>
+                    </div>
+                    <ul class="archived-tasks" id="archive-tasks-list-${realIndex}">
+                        ${subtasksHTML}
+                    </ul>
+                `;
                 archiveContainer.appendChild(div);
             });
         }
     }
 
+    // --- QUEST FUNCTIONS ---
     function addQuest() {
         const titleInput = document.getElementById('quest-input');
         const goldInput = document.getElementById('gold-input');
@@ -705,7 +1125,13 @@
 
         if (title === '') return;
 
-        state.quests.push({ title, reward, deadline, tasks: [] });
+        state.quests.push({ 
+            title: title, 
+            reward: reward, 
+            deadline: deadline, 
+            tasks: [] 
+        });
+        
         titleInput.value = '';
         deadlineInput.value = '';
         updateUI();
@@ -717,13 +1143,17 @@
         if (text === '') return;
 
         if(!state.quests[qIndex].tasks) state.quests[qIndex].tasks = [];
-        state.quests[qIndex].tasks.push({ text, done: false });
+        state.quests[qIndex].tasks.push({ text: text, done: false });
         updateUI();
     }
 
     function toggleTask(qIndex, tIndex) {
         state.quests[qIndex].tasks[tIndex].done = !state.quests[qIndex].tasks[tIndex].done;
-        state.tasksCompleted += state.quests[qIndex].tasks[tIndex].done ? 1 : -1;
+        if(state.quests[qIndex].tasks[tIndex].done) {
+            state.tasksCompleted++;
+        } else {
+            state.tasksCompleted--;
+        }
         updateUI();
     }
 
@@ -731,7 +1161,15 @@
         const quest = state.quests[qIndex];
         state.gold += quest.reward;
         state.questsCompleted++;
-        state.archive.push({ title: quest.title, reward: quest.reward, tasks: quest.tasks, status: 'completed', date: new Date().toLocaleDateString() });
+
+        state.archive.push({
+            title: quest.title,
+            reward: quest.reward,
+            tasks: quest.tasks,
+            status: 'completed',
+            date: new Date().toLocaleDateString()
+        });
+
         state.quests.splice(qIndex, 1);
         updateUI();
     }
@@ -739,8 +1177,18 @@
     function failQuest(qIndex) {
         const quest = state.quests[qIndex];
         const penalty = Math.floor(quest.reward / 2);
+        
         state.gold -= penalty;
-        state.archive.push({ title: quest.title, reward: quest.reward, penalty, tasks: quest.tasks, status: 'failed', date: new Date().toLocaleDateString() });
+
+        state.archive.push({
+            title: quest.title,
+            reward: quest.reward,
+            penalty: penalty,
+            tasks: quest.tasks,
+            status: 'failed',
+            date: new Date().toLocaleDateString()
+        });
+
         state.quests.splice(qIndex, 1);
     }
 
@@ -749,9 +1197,21 @@
         updateUI();
     }
 
+    // --- ECONOMY FUNCTIONS ---
     function spendGold(amount) {
-        state.gold -= amount;
-        updateUI();
+        if (state.gold >= amount) {
+            state.gold -= amount;
+            updateUI();
+        } else {
+            showInsufficientCredits();
+        }
+    }
+
+    function showInsufficientCredits() {
+        shopAlert.classList.add('show');
+        setTimeout(() => {
+            shopAlert.classList.remove('show');
+        }, 2000);
     }
 
     function addCustomDue() {
@@ -761,7 +1221,7 @@
         const cost = parseInt(costInput.value);
 
         if (name && cost > 0) {
-            state.customDues.push({ name, cost });
+            state.customDues.push({ name: name, cost: cost });
             nameInput.value = '';
             costInput.value = '';
             updateUI();
@@ -780,7 +1240,7 @@
         const cost = parseInt(costInput.value);
 
         if (name && cost > 0) {
-            state.customRewards.push({ name, cost });
+            state.customRewards.push({ name: name, cost: cost });
             nameInput.value = '';
             costInput.value = '';
             updateUI();
@@ -792,6 +1252,7 @@
         updateUI();
     }
 
+    // --- UI HELPERS ---
     function toggleArchive() {
         const archiveSection = document.getElementById('archive-section');
         if(archiveSection.style.display === 'block') {
@@ -809,7 +1270,11 @@
 
     function toggleArchiveTasks(index) {
         const taskList = document.getElementById(`archive-tasks-list-${index}`);
-        taskList.style.display = taskList.style.display === 'block' ? 'none' : 'block';
+        if(taskList.style.display === 'block') {
+            taskList.style.display = 'none';
+        } else {
+            taskList.style.display = 'block';
+        }
     }
 
     document.getElementById('quest-input').addEventListener('keypress', function (e) {
