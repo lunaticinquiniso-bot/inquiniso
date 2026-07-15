@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Just entering my logs hoo</title>
+<title>"FOCUS" - Chronicles</title>
 
 <style>
     * {
@@ -617,14 +617,14 @@
     <canvas id="embers-canvas"></canvas>
 
     <div id="start-screen">
-        <div class="blink-text">[ I Hope you did your best, well it's time to relax ]</div>
+        <div class="blink-text">[ BREATHE. REFLECT. ]</div>
     </div>
 
     <div id="intro-layer">
-        <div class="pre-text">I hope you are working</div>
-        <div class="pre-text">Because life is fun</div>
-        <div class="pre-text">But yeah you need to make it fun</div>
-        <div class="title-text">PROJECT INQUINISO</div>
+        <div class="pre-text">The day is done...</div>
+        <div class="pre-text">Leave the noise behind.</div>
+        <div class="pre-text">Confront your true self.</div>
+        <div class="title-text">"FOCUS"</div>
     </div>
 
     <div id="lock-screen">
@@ -632,22 +632,22 @@
         <div class="pin-container">
             <div class="pin-title">AUTHORIZATION REQUIRED</div>
             <input type="password" id="pin-input" maxlength="4" placeholder="••••" autocomplete="off">
-            <div id="pin-error" class="pin-error">You are still wandering.</div>
+            <div id="pin-error" class="pin-error">The mind rejects this.</div>
         </div>
     </div>
 
     <div id="scroll-container">
         <div id="app-main">
             <header>
-                <h1>Secure Field Logs</h1>
+                <h1>Chronicles of the Self</h1>
                 <div class="stats-board">
-                    <div>Encrypted Logs: <span id="stat-entries" class="stat-highlight">0</span></div>
+                    <div>Sealed Memories: <span id="stat-entries" class="stat-highlight">0</span></div>
                 </div>
             </header>
 
             <div class="grid-layout">
                 <div>
-                    <h2>Temporal Records</h2>
+                    <h2>Echoes of Time</h2>
                     <div class="calendar-container">
                         <div class="calendar-nav">
                             <button class="nav-btn" onclick="changeMonth(-1)">&#10094;</button>
@@ -665,12 +665,12 @@
                 </div>
 
                 <div>
-                    <h2>The Mind's Reflection</h2>
+                    <h2>The Mirror</h2>
                     <div class="entry-container">
                         <div id="entry-date-display" class="entry-date-display">Date</div>
                         <div id="entry-status" class="status-msg"></div>
-                        <textarea id="diary-entry" placeholder="Log your observations..."></textarea>
-                        <button id="save-btn" class="commit-btn" onclick="saveEntry()">Encrypt & Save</button>
+                        <textarea id="diary-entry" placeholder="What did you learn about yourself today?..."></textarea>
+                        <button id="save-btn" class="commit-btn" onclick="saveEntry()">Seal Memory</button>
                     </div>
                 </div>
             </div>
@@ -679,7 +679,7 @@
 
     <div class="modal-overlay" id="modal-overlay" onclick="closeMonthSelector()"></div>
     <div class="month-selector" id="month-selector">
-        <h3>Access Temporal Database</h3>
+        <h3>Navigate Past Echoes</h3>
         
         <div class="year-nav">
             <button onclick="changeYear(-1)">&#10094;</button>
@@ -951,12 +951,12 @@
 
         if (selectedDateStr === todayString) {
             if (entry) {
-                statusMsg.innerText = "Record logged. Modification denied.";
+                statusMsg.innerText = "Memory sealed. The past cannot be rewritten.";
                 textArea.value = entry;
                 textArea.disabled = true;
                 saveBtn.style.display = 'none';
             } else {
-                statusMsg.innerText = "Awaiting mental reflection...";
+                statusMsg.innerText = "The page is blank. Speak your truth...";
                 textArea.value = "";
                 textArea.disabled = false;
                 saveBtn.style.display = 'block';
@@ -966,13 +966,13 @@
             textArea.disabled = true;
             
             if (entry) {
-                statusMsg.innerText = "Accessing stored memory.";
+                statusMsg.innerText = "Retrieving past reflection.";
                 textArea.value = entry;
             } else {
                 if (selectedDateStr > todayString) {
-                    statusMsg.innerText = "The future is unwritten.";
+                    statusMsg.innerText = "Tomorrow is yet to be shaped.";
                 } else {
-                    statusMsg.innerText = "No data found for this timestamp.";
+                    statusMsg.innerText = "A day lost to the void.";
                 }
                 textArea.value = "";
             }
