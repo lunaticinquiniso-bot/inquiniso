@@ -16,37 +16,35 @@
         width: 100%;
         height: 100vh; 
         overflow: hidden; 
-        color: #fff;
+        color: #ffffff !important;
         background-color: #000000 !important; 
         font-family: "AR PL Ukai CN Book", "AR PL Ukai CN", "Times New Roman", STSong, serif;
     }
 
-    /* Fixed Background Layer */
+    /* Minimal Dark Background */
     #bg-layer {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
         background: 
-            linear-gradient(rgba(0, 5, 0, 0.65), rgba(0, 10, 0, 0.85)), 
-            url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1920&auto=format&fit=crop');
+            linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.95)), 
+            url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop');
         background-size: cover;
         background-position: center;
         z-index: 0; 
+        filter: grayscale(100%);
     }
 
-    /* CRT Scanline & Terminal Vignette */
+    /* Subtle Vignette & Grain */
     #crt-layer {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
-        background: 
-            linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 20, 0, 0.2) 50%),
-            radial-gradient(circle, rgba(0,0,0,0) 50%, rgba(0,0,0,0.95) 100%);
-        background-size: 100% 4px, 100% 100%;
+        background: radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(0,0,0,0.95) 100%);
         z-index: 9999;
         pointer-events: none;
-        opacity: 0.8;
+        opacity: 0.9;
     }
 
-    /* Digital Data Canvas Layer (Matrix Effect) */
+    /* Digital Data Canvas Layer */
     #embers-canvas {
         position: fixed;
         top: 0;
@@ -57,7 +55,7 @@
         pointer-events: none;
     }
 
-    /* Spy Radar / Sniper Crosshair */
+    /* Geometric Mandala SVG */
     #magic-circle-container {
         position: fixed;
         top: 0; left: 0; right: 0; bottom: 0;
@@ -67,22 +65,21 @@
         z-index: 1;
         opacity: 0;
         pointer-events: none;
-        transition: filter 0.3s ease, opacity 2s ease;
+        transition: filter 0.3s ease, opacity 3s ease;
     }
 
     .start-main #magic-circle-container {
-        opacity: 0.15; 
+        opacity: 0.05; 
     }
 
     #magic-circle-container svg {
-        width: 90vw;
-        max-width: 700px;
-        height: 90vw;
-        max-height: 700px;
-        stroke: #00FF41; 
+        width: 80vw;
+        max-width: 600px;
+        height: 80vw;
+        max-height: 600px;
+        stroke: #ffffff; 
         fill: none;
-        filter: drop-shadow(0 0 8px rgba(0, 255, 65, 0.5));
-        animation: rotateCircle 60s linear infinite;
+        animation: rotateCircle 180s linear infinite;
     }
 
     @keyframes rotateCircle {
@@ -101,16 +98,15 @@
         z-index: 3000;
         cursor: pointer;
         letter-spacing: 5px;
-        font-weight: bold;
-        color: #00FF41;
-        text-shadow: 0 0 15px rgba(0, 255, 65, 0.8);
-        transition: opacity 0.5s ease;
+        color: #ffffff;
+        transition: opacity 1.5s ease;
     }
 
     .blink-text {
-        animation: blink 1.5s infinite;
+        animation: blink 2s infinite;
         font-size: clamp(1rem, 2.5vw, 1.8rem);
         text-transform: uppercase;
+        font-style: italic;
     }
     
     @keyframes blink {
@@ -132,12 +128,10 @@
         grid-area: 1 / 1; 
         opacity: 0;
         font-size: clamp(1.2rem, 3vw, 2rem);
-        letter-spacing: 6px;
-        font-weight: bold;
-        text-transform: uppercase;
+        letter-spacing: 4px;
         text-align: center;
         color: #ffffff;
-        text-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
+        font-style: italic;
     }
 
     .title-text {
@@ -146,28 +140,27 @@
         font-size: clamp(3rem, 7vw, 6rem);
         letter-spacing: 12px;
         color: #ffffff;
-        font-weight: bold;
-        text-shadow: 0 0 15px rgba(0, 255, 65, 0.9);
+        text-transform: uppercase;
         text-align: center;
     }
 
-    .start-sequence .pre-text:nth-child(1) { animation: cinematicFade 3s ease 0.5s forwards; }
-    .start-sequence .pre-text:nth-child(2) { animation: cinematicFade 3s ease 3.5s forwards; }
-    .start-sequence .pre-text:nth-child(3) { animation: cinematicFade 3s ease 6.5s forwards; }
-    .start-sequence .title-text { animation: finalReveal 4s ease 9.5s forwards; }
+    .start-sequence .pre-text:nth-child(1) { animation: cinematicFade 3.5s ease 0.5s forwards; }
+    .start-sequence .pre-text:nth-child(2) { animation: cinematicFade 3.5s ease 4s forwards; }
+    .start-sequence .pre-text:nth-child(3) { animation: cinematicFade 3.5s ease 7.5s forwards; }
+    .start-sequence .title-text { animation: finalReveal 4s ease 11s forwards; }
 
     @keyframes cinematicFade {
-        0% { opacity: 0; filter: blur(5px); transform: scale(0.95); }
+        0% { opacity: 0; filter: blur(5px); transform: scale(0.98); }
         30% { opacity: 1; filter: blur(0px); transform: scale(1); }
-        70% { opacity: 1; filter: blur(0px); transform: scale(1.02); }
-        100% { opacity: 0; filter: blur(10px); transform: scale(1.05); }
+        70% { opacity: 1; filter: blur(0px); transform: scale(1); }
+        100% { opacity: 0; filter: blur(10px); transform: scale(1.02); }
     }
 
     @keyframes finalReveal {
-        0% { opacity: 0; filter: blur(15px); transform: scale(0.9); }
-        20% { opacity: 1; filter: blur(0px); transform: scale(1); text-shadow: 0 0 15px rgba(0, 255, 65, 0.9); }
-        80% { opacity: 1; filter: blur(0px); transform: scale(1.05); text-shadow: 0 0 15px rgba(0, 255, 65, 0.9); }
-        100% { opacity: 0; filter: blur(25px); transform: scale(1.1); visibility: hidden; }
+        0% { opacity: 0; filter: blur(15px); transform: scale(0.95); }
+        20% { opacity: 1; filter: blur(0px); transform: scale(1); }
+        80% { opacity: 1; filter: blur(0px); transform: scale(1); }
+        100% { opacity: 0; filter: blur(25px); transform: scale(1.05); visibility: hidden; }
     }
 
     /* ---------------- LOCK SCREEN (PIN & QUOTES) ---------------- */
@@ -185,67 +178,60 @@
     }
 
     #quote-display {
-        font-size: clamp(1.2rem, 2.5vw, 2rem);
-        letter-spacing: 6px;
-        text-transform: uppercase;
+        font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+        letter-spacing: 2px;
         text-align: center;
         color: #ffffff;
         margin-bottom: 40px;
         opacity: 0;
         transition: opacity 2s ease-in-out;
         max-width: 80%;
-        text-shadow: 0 0 10px rgba(0, 255, 65, 0.8);
         min-height: 80px;
-        font-weight: bold;
+        font-style: italic;
     }
 
     .pin-container {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 15px;
-        background: rgba(0, 5, 0, 0.8);
+        gap: 20px;
+        background: transparent;
         padding: 30px;
-        border: 1px solid #00FF41;
-        box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
     }
 
     .pin-title {
         font-size: 1.2rem;
         color: #ffffff;
-        letter-spacing: 4px;
-        text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
+        letter-spacing: 6px;
+        opacity: 0.7;
     }
 
     #pin-input {
-        background: rgba(0, 10, 0, 0.7);
+        background: transparent;
         border: none;
-        border-bottom: 2px solid #00FF41;
-        color: #00FF41;
-        padding: 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        color: #ffffff;
+        padding: 10px;
         font-family: inherit;
         font-size: 2.5rem;
         text-align: center;
-        letter-spacing: 12px;
+        letter-spacing: 15px;
         width: 250px;
         outline: none;
-        transition: border 0.3s, box-shadow 0.3s;
-        text-shadow: 0 0 10px rgba(0, 255, 65, 0.8);
+        transition: border 0.3s;
     }
 
     #pin-input:focus {
         border-bottom-color: #ffffff;
-        box-shadow: 0 10px 10px -10px rgba(0, 255, 65, 0.5);
     }
 
     .pin-error {
-        color: #ff4757;
+        color: #ffffff;
+        font-style: italic;
         font-size: 1rem;
         letter-spacing: 2px;
         opacity: 0;
         transition: opacity 0.3s;
-        font-weight: bold;
-        text-shadow: 0 0 5px rgba(255, 71, 87, 0.5);
     }
 
     /* ---------------- MAIN APP UI (Scrollable) ---------------- */
@@ -279,7 +265,7 @@
     header {
         text-align: center;
         margin-bottom: 30px;
-        border-bottom: 1px solid rgba(0, 255, 65, 0.3);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         padding-bottom: 20px;
     }
 
@@ -288,28 +274,24 @@
         letter-spacing: 8px;
         text-transform: uppercase;
         color: #ffffff;
-        font-weight: bold;
         margin-bottom: 15px;
-        text-shadow: 0 0 12px rgba(0, 255, 65, 0.8);
     }
 
     .stats-board {
         display: flex;
         justify-content: center;
-        background: rgba(0, 10, 0, 0.8);
+        background: rgba(20, 20, 20, 0.5);
         padding: 15px;
-        border: 1px solid rgba(0, 255, 65, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         font-size: 1.2rem;
         letter-spacing: 2px;
         margin-bottom: 30px;
-        box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
     }
 
     .stat-highlight { 
-        color: #00FF41; 
+        color: #ffffff; 
         font-weight: bold; 
         margin-left: 10px; 
-        text-shadow: 0 0 8px rgba(0, 255, 65, 0.6); 
     }
 
     .grid-layout {
@@ -321,19 +303,18 @@
     h2 {
         font-size: 1.5rem;
         color: #ffffff;
-        border-bottom: 1px solid rgba(0, 255, 65, 0.4);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         padding-bottom: 10px;
         margin-bottom: 15px;
         letter-spacing: 3px;
-        text-shadow: 0 0 8px rgba(0, 255, 65, 0.5);
+        text-transform: uppercase;
     }
 
     /* Calendar Styling */
     .calendar-container {
-        background: rgba(0, 10, 0, 0.7);
-        border: 1px solid rgba(0, 255, 65, 0.3);
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.2);
         padding: 20px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.8);
     }
 
     .calendar-nav {
@@ -347,7 +328,7 @@
     .nav-btn {
         background: transparent;
         border: none;
-        color: #a4b0be;
+        color: #888888;
         font-size: 1.5rem;
         cursor: pointer;
         transition: all 0.3s;
@@ -356,25 +337,21 @@
 
     .nav-btn:hover {
         color: #ffffff;
-        text-shadow: 0 0 10px rgba(0, 255, 65, 0.8);
     }
 
     .month-header {
         text-align: center;
         font-size: 1.2rem;
         color: #ffffff;
-        font-weight: bold;
         letter-spacing: 2px;
         text-transform: uppercase;
         flex: 1;
         cursor: pointer;
         transition: all 0.3s;
-        text-shadow: 0 0 8px rgba(0, 255, 65, 0.5);
     }
 
     .month-header:hover {
-        text-shadow: 0 0 12px rgba(0, 255, 65, 1);
-        color: #00FF41;
+        color: #aaaaaa;
     }
 
     .calendar-grid {
@@ -386,9 +363,8 @@
     .day-name {
         text-align: center;
         font-size: 0.8rem;
-        color: #7bed9f;
+        color: #aaaaaa;
         margin-bottom: 5px;
-        font-weight: bold;
     }
 
     .calendar-day {
@@ -396,126 +372,118 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: rgba(0, 15, 0, 0.6);
-        border: 1px solid rgba(0, 255, 65, 0.2);
-        color: #747d8c;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid transparent;
+        color: #666666;
         font-size: 0.9rem;
         transition: all 0.3s ease;
     }
 
     .calendar-day.active-month {
-        color: #ffffff;
+        color: #cccccc;
         cursor: pointer;
     }
 
     .calendar-day.active-month:hover {
-        background: rgba(0, 255, 65, 0.2);
+        background: rgba(255, 255, 255, 0.1);
     }
 
     .calendar-day.logged {
-        background: rgba(0, 40, 0, 0.8);
-        border-color: #00FF41;
-        color: #00FF41;
-        box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.3);
-        font-weight: bold;
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.4);
+        color: #ffffff;
     }
 
     .calendar-day.today {
         border-color: #ffffff;
-        box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
     }
     
     .calendar-day.selected {
-        background: rgba(0, 255, 65, 0.4);
+        background: rgba(255, 255, 255, 0.3);
         border-color: #ffffff;
-        box-shadow: 0 0 12px rgba(0, 255, 65, 0.6);
-        color: #fff;
+        color: #000000;
     }
 
     /* Diary Entry Styling */
     .entry-container {
-        background: rgba(0, 10, 0, 0.7);
-        border-left: 3px solid #00FF41;
+        background: transparent;
+        border-left: 1px solid rgba(255, 255, 255, 0.5);
         padding: 20px;
         display: flex;
         flex-direction: column;
-        box-shadow: 2px 4px 10px rgba(0,0,0,0.8);
     }
 
     .entry-date-display {
         font-size: 1.2rem;
         color: #ffffff;
-        font-weight: bold;
         margin-bottom: 15px;
         letter-spacing: 2px;
-        text-shadow: 0 0 8px rgba(0, 255, 65, 0.5);
+        text-transform: uppercase;
     }
 
     textarea {
         width: 100%;
         flex-grow: 1;
         min-height: 300px;
-        background: rgba(0, 5, 0, 0.8);
-        border: 1px solid rgba(0, 255, 65, 0.4);
+        background: rgba(20, 20, 20, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         color: #ffffff;
         padding: 15px;
         font-family: inherit;
         font-size: 1.1rem;
-        line-height: 1.6;
+        line-height: 1.8;
         resize: vertical;
         outline: none;
         margin-bottom: 15px;
+        transition: border-color 0.3s;
     }
 
     textarea::placeholder {
-        color: #558B55;
+        color: #666666;
+        font-style: italic;
     }
 
     textarea:focus { 
         border-color: #ffffff; 
-        box-shadow: 0 0 10px rgba(0, 255, 65, 0.4); 
     }
     
     textarea:disabled {
-        background: rgba(5, 5, 5, 0.9);
-        color: #7bed9f;
-        border-color: rgba(0, 255, 65, 0.2);
+        background: transparent;
+        color: #aaaaaa;
+        border-color: rgba(255, 255, 255, 0.1);
         cursor: not-allowed;
     }
 
     button.commit-btn {
-        background: rgba(0, 20, 0, 0.9);
-        border: 1px solid #00FF41;
-        color: #00FF41;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        color: #ffffff;
         padding: 12px 20px;
         cursor: pointer;
         font-family: inherit;
-        font-weight: bold;
-        font-size: 1.1rem;
+        font-size: 1rem;
         text-transform: uppercase;
         letter-spacing: 3px;
-        transition: all 0.3s;
+        transition: all 0.5s;
         align-self: flex-end;
     }
 
     button.commit-btn:hover { 
-        background: rgba(0, 50, 0, 0.9); 
-        color: #ffffff;
-        box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
+        background: #ffffff; 
+        color: #000000;
     }
 
     .status-msg {
-        color: #7bed9f;
+        color: #aaaaaa;
         font-style: italic;
         margin-bottom: 10px;
-        text-shadow: 0 0 5px rgba(0, 255, 65, 0.3);
     }
 
     /* Modal / Month Selector */
     .modal-overlay {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0, 0, 0, 0.8);
+        background: rgba(0, 0, 0, 0.85);
         display: none;
         z-index: 9999;
     }
@@ -525,15 +493,14 @@
     }
 
     .month-selector {
-        background: rgba(0, 10, 0, 0.95);
-        border: 1px solid #00FF41;
+        background: #0a0a0a;
+        border: 1px solid rgba(255, 255, 255, 0.3);
         padding: 20px;
         position: fixed;
         z-index: 10000;
         top: 50%; left: 50%;
         transform: translate(-50%, -50%);
         display: none;
-        box-shadow: 0 0 30px rgba(0, 255, 65, 0.2);
         width: 90%;
         max-width: 400px;
     }
@@ -548,7 +515,7 @@
         text-align: center;
         font-size: 1.2rem;
         letter-spacing: 2px;
-        text-shadow: 0 0 8px rgba(0, 255, 65, 0.5);
+        text-transform: uppercase;
     }
 
     .selector-content {
@@ -559,8 +526,8 @@
     }
 
     .month-option {
-        background: rgba(0, 20, 0, 0.8);
-        border: 1px solid rgba(0, 255, 65, 0.4);
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.2);
         color: #ffffff;
         padding: 10px 5px;
         cursor: pointer;
@@ -570,9 +537,8 @@
     }
 
     .month-option:hover {
-        background: rgba(0, 50, 0, 0.9);
-        border-color: #00FF41;
-        box-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
+        background: rgba(255, 255, 255, 0.1);
+        border-color: #ffffff;
     }
 
     .selector-buttons {
@@ -581,18 +547,18 @@
     }
 
     .selector-buttons button {
-        background: rgba(0, 20, 0, 0.9);
-        border: 1px solid #00FF41;
-        color: #00FF41;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        color: #ffffff;
         padding: 8px 20px;
         cursor: pointer;
-        font-weight: bold;
         transition: all 0.3s;
+        text-transform: uppercase;
+        letter-spacing: 2px;
     }
     .selector-buttons button:hover {
         background: #ffffff;
-        color: #000;
-        box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+        color: #000000;
     }
 
     .year-nav {
@@ -604,16 +570,15 @@
     }
 
     .year-display {
-        color: #00FF41;
+        color: #ffffff;
         text-align: center;
         flex: 1;
-        font-weight: bold;
         font-size: 1.2rem;
     }
 
     .year-nav button {
-        background: none;
-        border: 1px solid rgba(0, 255, 65, 0.5);
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.3);
         color: #ffffff;
         padding: 5px 15px;
         cursor: pointer;
@@ -621,9 +586,7 @@
     }
 
     .year-nav button:hover {
-        border-color: #00FF41;
-        color: #00FF41;
-        box-shadow: 0 0 8px rgba(0, 255, 65, 0.4);
+        border-color: #ffffff;
     }
 
     @media (max-width: 768px) {
@@ -640,25 +603,21 @@
 
     <div id="magic-circle-container">
         <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
-            <path d="M 10 25 L 10 10 L 25 10" stroke-width="1" />
-            <path d="M 75 10 L 90 10 L 90 25" stroke-width="1" />
-            <path d="M 90 75 L 90 90 L 75 90" stroke-width="1" />
-            <path d="M 25 90 L 10 90 L 10 75" stroke-width="1" />
-            <circle cx="50" cy="50" r="38" stroke-width="0.5" stroke-dasharray="2 4" />
-            <circle cx="50" cy="50" r="28" stroke-width="1" />
-            <line x1="50" y1="2" x2="50" y2="46" stroke-width="0.5" />
-            <line x1="50" y1="54" x2="50" y2="98" stroke-width="0.5" />
-            <line x1="2" y1="50" x2="46" y2="50" stroke-width="0.5" />
-            <line x1="54" y1="50" x2="98" y2="50" stroke-width="0.5" />
-            <circle cx="50" cy="50" r="4" stroke-width="1" />
-            <circle cx="50" cy="50" r="1.5" stroke-width="2" fill="#00FF41" />
+            <circle cx="50" cy="50" r="45" stroke-width="0.2" stroke-dasharray="1 3" />
+            <polygon points="50,5 82,18 95,50 82,82 50,95 18,82 5,50 18,18" stroke-width="0.2" />
+            <polygon points="50,5 95,50 50,95 5,50" stroke-width="0.3" />
+            <polygon points="82,18 82,82 18,82 18,18" stroke-width="0.3" />
+            <circle cx="50" cy="50" r="25" stroke-width="0.4" />
+            <polygon points="50,25 75,50 50,75 25,50" stroke-width="0.5" />
+            <circle cx="50" cy="50" r="4" stroke-width="0.5" />
+            <circle cx="50" cy="50" r="1.5" stroke-width="1.5" fill="#ffffff" />
         </svg>
     </div>
 
     <canvas id="embers-canvas"></canvas>
 
     <div id="start-screen">
-        <div class="blink-text">[ I Hope you did your best,well it's time to relax ]</div>
+        <div class="blink-text">[ I Hope you did your best, well it's time to relax ]</div>
     </div>
 
     <div id="intro-layer">
@@ -673,7 +632,7 @@
         <div class="pin-container">
             <div class="pin-title">AUTHORIZATION REQUIRED</div>
             <input type="password" id="pin-input" maxlength="4" placeholder="••••" autocomplete="off">
-            <div id="pin-error" class="pin-error">ACCESS DENIED. INVALID KEY.</div>
+            <div id="pin-error" class="pin-error">You are still wandering.</div>
         </div>
     </div>
 
@@ -688,7 +647,7 @@
 
             <div class="grid-layout">
                 <div>
-                    <h2>Operational Timeline</h2>
+                    <h2>Temporal Records</h2>
                     <div class="calendar-container">
                         <div class="calendar-nav">
                             <button class="nav-btn" onclick="changeMonth(-1)">&#10094;</button>
@@ -706,11 +665,11 @@
                 </div>
 
                 <div>
-                    <h2>Field Report</h2>
+                    <h2>The Mind's Reflection</h2>
                     <div class="entry-container">
                         <div id="entry-date-display" class="entry-date-display">Date</div>
                         <div id="entry-status" class="status-msg"></div>
-                        <textarea id="diary-entry" placeholder="Log field observations..."></textarea>
+                        <textarea id="diary-entry" placeholder="Log your observations..."></textarea>
                         <button id="save-btn" class="commit-btn" onclick="saveEntry()">Encrypt & Save</button>
                     </div>
                 </div>
@@ -754,12 +713,12 @@
         this.style.opacity = '0';
         
         // FOOLPROOF AUDIO INJECTION: 
-        // Injecting the iframe exactly upon user click forces the browser to honor the autoplay parameter.
         const ytContainer = document.createElement('div');
-        ytContainer.innerHTML = '<iframe width="10" height="10" src="https://www.youtube.com/embed/h6736Y6_AZU?autoplay=1&loop=1&playlist=h6736Y6_AZU" frameborder="0" allow="autoplay" style="position: absolute; left: -9999px; opacity: 0.01; pointer-events: none;"></iframe>';
+        // Using requested Alter Ego YouTube Track
+        ytContainer.innerHTML = '<iframe width="10" height="10" src="https://www.youtube.com/embed/gftNh2HbLKM?autoplay=1&loop=1&playlist=gftNh2HbLKM" frameborder="0" allow="autoplay" style="position: absolute; left: -9999px; opacity: 0.01; pointer-events: none;"></iframe>';
         document.body.appendChild(ytContainer);
 
-        setTimeout(() => { this.style.display = 'none'; }, 800);
+        setTimeout(() => { this.style.display = 'none'; }, 1500);
 
         // Start Intro
         document.getElementById('intro-layer').classList.add('start-sequence');
@@ -774,17 +733,16 @@
                 lockScreen.style.opacity = 1;
                 document.getElementById('pin-input').focus();
             }, 50);
-        }, 13500); // Intro length
+        }, 15000); // Intro length aligned with new animations
     });
 
-    // --- SPY QUOTES ---
+    // --- SPY QUOTES (Altered slightly for aesthetic) ---
     const quotes = [
-        "Information is the ultimate weapon.",
-        "A spy does not rely on luck.",
-        "Operate in the shadows.",
-        "Mission parameters are set.",
-        "Leave no trace. Leave no doubt.",
-        "The mind is a mirror. Write what it reflects."
+        '"What I hated more than anything was myself for being so weak..."',
+        '"To know thyself is the beginning of wisdom."',
+        '"The mind is its own place, and in itself can make a heaven of hell, a hell of heaven."',
+        '"Focus is the art of knowing exactly what to ignore."',
+        '"Do not let the noise of others drown out your inner voice."'
     ];
     
     let quoteIndex = 0;
@@ -817,7 +775,7 @@
                 setTimeout(() => { 
                     this.value = ''; 
                     pinError.style.opacity = 0; 
-                }, 1000);
+                }, 1500);
             }
         }
     });
@@ -832,7 +790,7 @@
         }, 1500); 
     }
 
-    // --- MATRIX PARTICLES ---
+    // --- MATRIX PARTICLES (Monochrome) ---
     const canvas = document.getElementById('embers-canvas');
     const ctx = canvas.getContext('2d');
     const magicCircle = document.getElementById('magic-circle-container');
@@ -844,34 +802,26 @@
     window.addEventListener('mousemove', (e) => {
         mouse.x = e.x;
         mouse.y = e.y;
-        
-        if (document.body.classList.contains('start-main')) {
-            magicCircle.style.filter = 'drop-shadow(0 0 15px rgba(0, 255, 65, 0.9))';
-            clearTimeout(window.circleGlowTimeout);
-            window.circleGlowTimeout = setTimeout(() => {
-                magicCircle.style.filter = 'drop-shadow(0 0 8px rgba(0, 255, 65, 0.5))';
-            }, 300);
-        }
     });
 
     const particles = [];
     const emberColors = [
-        'rgba(0, 255, 65, ',   // Bright Green
-        'rgba(0, 143, 17, ',   // Mid Green
-        'rgba(0, 59, 0, '      // Dark Green
+        'rgba(255, 255, 255, ',   // Pure White
+        'rgba(200, 200, 200, ',   // Light Gray
+        'rgba(120, 120, 120, '    // Mid Gray
     ];
 
     class Particle {
         constructor() {
             this.x = Math.random() * canvas.width;
             this.y = canvas.height + Math.random() * 100;
-            this.size = Math.random() * 2 + 0.8;
-            this.baseSpeedY = Math.random() * -2 - 0.5; 
+            this.size = Math.random() * 1.5 + 0.5;
+            this.baseSpeedY = Math.random() * -1.5 - 0.2; 
             this.baseSpeedX = 0; 
             this.speedY = this.baseSpeedY;
             this.speedX = this.baseSpeedX;
             this.colorBase = emberColors[Math.floor(Math.random() * emberColors.length)];
-            this.life = Math.random() * 0.7 + 0.2; 
+            this.life = Math.random() * 0.6 + 0.1; 
         }
         update() {
             let dx = mouse.x - this.x;
@@ -879,7 +829,7 @@
             let distance = Math.sqrt(dx * dx + dy * dy);
             
             if (distance < 150) {
-                this.speedX = -(dx / distance) * 4; 
+                this.speedX = -(dx / distance) * 2.5; 
             } else {
                 this.speedX = this.speedX * 0.9;
                 this.speedY = this.baseSpeedY;
@@ -887,13 +837,13 @@
 
             this.y += this.speedY;
             this.x += this.speedX;
-            if(Math.random() > 0.96) this.x += (Math.random() - 0.5) * 5;
-            if (this.size > 0.1) this.size -= 0.0015; 
+            if(Math.random() > 0.97) this.x += (Math.random() - 0.5) * 3;
+            if (this.size > 0.05) this.size -= 0.0008; 
             
-            if (this.y < -50 || this.size <= 0.1 || this.x < -50 || this.x > canvas.width + 50) {
+            if (this.y < -50 || this.size <= 0.05 || this.x < -50 || this.x > canvas.width + 50) {
                 this.x = Math.random() * canvas.width;
                 this.y = canvas.height + 10;
-                this.size = Math.random() * 2 + 0.8;
+                this.size = Math.random() * 1.5 + 0.5;
                 this.speedX = this.baseSpeedX;
                 this.speedY = this.baseSpeedY;
             }
@@ -904,7 +854,7 @@
         }
     }
 
-    for(let i = 0; i < 120; i++) { particles.push(new Particle()); }
+    for(let i = 0; i < 90; i++) { particles.push(new Particle()); }
 
     function animateEmbers() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -919,7 +869,6 @@
     });
 
     // --- APPLICATION LOGIC (DIARY) ---
-    // Using a new storage key to avoid loading old crescent data
     let diaryState = JSON.parse(localStorage.getItem('inquiniso_diary_v1')) || { entries: {} };
 
     const todayDate = new Date();
@@ -1002,12 +951,12 @@
 
         if (selectedDateStr === todayString) {
             if (entry) {
-                statusMsg.innerText = "Report encrypted. Modification denied.";
+                statusMsg.innerText = "Record logged. Modification denied.";
                 textArea.value = entry;
                 textArea.disabled = true;
                 saveBtn.style.display = 'none';
             } else {
-                statusMsg.innerText = "Awaiting field data...";
+                statusMsg.innerText = "Awaiting mental reflection...";
                 textArea.value = "";
                 textArea.disabled = false;
                 saveBtn.style.display = 'block';
@@ -1017,11 +966,11 @@
             textArea.disabled = true;
             
             if (entry) {
-                statusMsg.innerText = "Accessing decrypted log.";
+                statusMsg.innerText = "Accessing stored memory.";
                 textArea.value = entry;
             } else {
                 if (selectedDateStr > todayString) {
-                    statusMsg.innerText = "Temporal paradox. Date invalid.";
+                    statusMsg.innerText = "The future is unwritten.";
                 } else {
                     statusMsg.innerText = "No data found for this timestamp.";
                 }
