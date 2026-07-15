@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yo jo admi ho na,adat se gareeb ho!!</title>
+<title>"FOCUS"</title>
 
 <style>
     * {
@@ -16,37 +16,35 @@
         width: 100%;
         height: 100vh; 
         overflow: hidden; 
-        color: #fff;
+        color: #ffffff !important;
         background-color: #000000 !important; 
         font-family: "AR PL Ukai CN Book", "AR PL Ukai CN", "Times New Roman", STSong, serif;
     }
 
-    /* Fixed Background Layer */
+    /* Minimal Dark Background */
     #bg-layer {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
         background: 
-            linear-gradient(rgba(0, 5, 0, 0.65), rgba(0, 10, 0, 0.85)), 
-            url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1920&auto=format&fit=crop');
+            linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.95)), 
+            url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop');
         background-size: cover;
         background-position: center;
-        z-index: 0;
+        z-index: 0; 
+        filter: grayscale(100%);
     }
 
-    /* CRT Scanline & Terminal Vignette */
+    /* Subtle Vignette & Grain */
     #crt-layer {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
-        background: 
-            linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 20, 0, 0.2) 50%),
-            radial-gradient(circle, rgba(0,0,0,0) 50%, rgba(0,0,0,0.95) 100%);
-        background-size: 100% 4px, 100% 100%;
+        background: radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(0,0,0,0.95) 100%);
         z-index: 9999;
         pointer-events: none;
-        opacity: 0.8;
+        opacity: 0.9;
     }
 
-    /* Digital Data Canvas Layer (Matrix Effect) */
+    /* Digital Data Canvas Layer */
     #embers-canvas {
         position: fixed;
         top: 0;
@@ -57,7 +55,7 @@
         pointer-events: none;
     }
 
-    /* Magical Crest / Radar Crosshair */
+    /* Geometric Mandala SVG */
     #magic-circle-container {
         position: fixed;
         top: 0; left: 0; right: 0; bottom: 0;
@@ -67,22 +65,21 @@
         z-index: 1;
         opacity: 0;
         pointer-events: none;
-        transition: filter 0.3s ease, opacity 2s ease;
+        transition: filter 0.3s ease, opacity 3s ease;
     }
 
     .start-main #magic-circle-container {
-        opacity: 0.2; 
+        opacity: 0.05; 
     }
 
     #magic-circle-container svg {
-        width: 90vw;
-        max-width: 700px;
-        height: 90vw;
-        max-height: 700px;
-        stroke: #00FF41; 
+        width: 80vw;
+        max-width: 600px;
+        height: 80vw;
+        max-height: 600px;
+        stroke: #ffffff; 
         fill: none;
-        filter: drop-shadow(0 0 8px rgba(0, 255, 65, 0.5));
-        animation: rotateCircle 60s linear infinite;
+        animation: rotateCircle 180s linear infinite;
     }
 
     @keyframes rotateCircle {
@@ -105,12 +102,10 @@
         grid-area: 1 / 1; 
         opacity: 0;
         font-size: clamp(1.2rem, 3vw, 2rem);
-        letter-spacing: 6px;
-        font-weight: bold;
-        text-transform: uppercase;
+        letter-spacing: 4px;
         text-align: center;
         color: #ffffff;
-        text-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
+        font-style: italic;
     }
 
     .title-text {
@@ -119,28 +114,27 @@
         font-size: clamp(3rem, 7vw, 6rem);
         letter-spacing: 12px;
         color: #ffffff;
-        font-weight: bold;
-        text-shadow: 0 0 15px rgba(0, 255, 65, 0.9);
+        text-transform: uppercase;
         text-align: center;
     }
 
-    .start-sequence .pre-text:nth-child(1) { animation: cinematicFade 3s ease 0.5s forwards; }
-    .start-sequence .pre-text:nth-child(2) { animation: cinematicFade 3s ease 3.5s forwards; }
-    .start-sequence .pre-text:nth-child(3) { animation: cinematicFade 3s ease 6.5s forwards; }
-    .start-sequence .title-text { animation: finalReveal 4s ease 9.5s forwards; }
+    .start-sequence .pre-text:nth-child(1) { animation: cinematicFade 3.5s ease 0.5s forwards; }
+    .start-sequence .pre-text:nth-child(2) { animation: cinematicFade 3.5s ease 4s forwards; }
+    .start-sequence .pre-text:nth-child(3) { animation: cinematicFade 3.5s ease 7.5s forwards; }
+    .start-sequence .title-text { animation: finalReveal 4s ease 11s forwards; }
 
     @keyframes cinematicFade {
-        0% { opacity: 0; filter: blur(5px); transform: scale(0.95); }
+        0% { opacity: 0; filter: blur(5px); transform: scale(0.98); }
         30% { opacity: 1; filter: blur(0px); transform: scale(1); }
-        70% { opacity: 1; filter: blur(0px); transform: scale(1.02); }
-        100% { opacity: 0; filter: blur(10px); transform: scale(1.05); }
+        70% { opacity: 1; filter: blur(0px); transform: scale(1); }
+        100% { opacity: 0; filter: blur(10px); transform: scale(1.02); }
     }
 
     @keyframes finalReveal {
-        0% { opacity: 0; filter: blur(15px); transform: scale(0.9); }
-        20% { opacity: 1; filter: blur(0px); transform: scale(1); text-shadow: 0 0 15px rgba(0, 255, 65, 0.9); }
-        80% { opacity: 1; filter: blur(0px); transform: scale(1.05); text-shadow: 0 0 15px rgba(0, 255, 65, 0.9); }
-        100% { opacity: 0; filter: blur(25px); transform: scale(1.1); visibility: hidden; }
+        0% { opacity: 0; filter: blur(15px); transform: scale(0.95); }
+        20% { opacity: 1; filter: blur(0px); transform: scale(1); }
+        80% { opacity: 1; filter: blur(0px); transform: scale(1); }
+        100% { opacity: 0; filter: blur(25px); transform: scale(1.05); visibility: hidden; }
     }
 
     /* ---------------- START SCREEN ---------------- */
@@ -154,16 +148,15 @@
         z-index: 3000;
         cursor: pointer;
         letter-spacing: 5px;
-        font-weight: bold;
-        color: #00FF41;
-        text-shadow: 0 0 15px rgba(0, 255, 65, 0.8);
-        transition: opacity 0.8s ease;
+        color: #ffffff;
+        transition: opacity 1.5s ease;
     }
 
     .blink-text {
-        animation: blink 1.5s infinite;
-        font-size: clamp(1rem, 2.5vw, 1.8rem);
+        animation: blink 2s infinite;
+        font-size: clamp(1.2rem, 3vw, 2rem);
         text-transform: uppercase;
+        font-style: italic;
     }
     
     @keyframes blink {
@@ -191,20 +184,20 @@
     }
 
     .pin-container {
-        border: 1px solid #00FF41;
-        background: rgba(0, 10, 0, 0.9);
-        padding: 40px;
-        text-align: center;
-        box-shadow: 0 0 40px rgba(0, 255, 65, 0.15);
-        border-top: 2px solid #00FF41;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        background: transparent;
+        padding: 30px;
     }
 
     .pin-title {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         color: #ffffff;
-        letter-spacing: 4px;
+        letter-spacing: 6px;
+        opacity: 0.7;
         margin-bottom: 20px;
-        text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
     }
 
     .pin-input-wrapper {
@@ -217,49 +210,46 @@
     #pin-input {
         background: transparent;
         border: none;
-        border-bottom: 2px solid #00FF41;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         color: #ffffff;
         font-size: 2.5rem; 
         text-align: center;
         outline: none;
         font-family: inherit;
-        letter-spacing: 12px;
+        letter-spacing: 15px;
         width: 250px; 
         transition: all 0.3s ease;
-        text-shadow: 0 0 10px rgba(0, 255, 65, 0.8);
     }
 
     #pin-input:focus {
-        border-bottom: 2px solid #ffffff;
-        box-shadow: 0 10px 10px -10px rgba(0, 255, 65, 0.5);
+        border-bottom: 1px solid #ffffff;
     }
 
     #pin-btn {
-        background: #00FF41;
-        color: #000;
-        border: none;
-        padding: 10px 30px;
+        background: transparent;
+        color: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 12px 40px;
         font-family: inherit;
-        font-size: 1.2rem;
-        letter-spacing: 4px;
+        font-size: 1rem;
+        letter-spacing: 5px;
         cursor: pointer;
-        font-weight: bold;
-        transition: all 0.3s;
+        transition: all 0.5s;
     }
 
     #pin-btn:hover {
         background: #ffffff;
-        box-shadow: 0 0 15px rgba(0, 255, 65, 0.6);
+        color: #000000;
     }
 
     .pin-error {
-        color: #d63031;
+        color: #ffffff;
         margin-top: 15px;
         font-size: 1rem;
+        font-style: italic;
         letter-spacing: 2px;
         opacity: 0;
         transition: opacity 0.3s;
-        font-weight: bold;
     }
 
     /* ---------------- MAIN APP UI (Scrollable) ---------------- */
@@ -293,7 +283,7 @@
     header {
         text-align: center;
         margin-bottom: 30px;
-        border-bottom: 1px solid rgba(0, 255, 65, 0.3);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         padding-bottom: 20px;
     }
 
@@ -302,25 +292,22 @@
         letter-spacing: 8px;
         text-transform: uppercase;
         color: #ffffff;
-        font-weight: bold;
         margin-bottom: 15px;
         margin-top: 10px;
-        text-shadow: 0 0 12px rgba(0, 255, 65, 0.8);
     }
 
     .stats-board {
         display: flex;
         justify-content: space-around;
-        background: rgba(0, 15, 0, 0.8);
+        background: transparent;
         padding: 15px;
-        border: 1px solid rgba(0, 255, 65, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         font-size: 1.2rem;
         letter-spacing: 2px;
         margin-bottom: 15px;
-        box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
     }
 
-    .stat-highlight { color: #00FF41; font-weight: bold; text-shadow: 0 0 8px rgba(0, 255, 65, 0.6); }
+    .stat-highlight { color: #ffffff; font-weight: bold; }
 
     .header-actions {
         text-align: right;
@@ -329,16 +316,15 @@
     .btn-text {
         background: none;
         border: none;
-        color: #a4b0be;
+        color: #aaaaaa;
         font-family: inherit;
         font-size: 0.9rem;
         letter-spacing: 2px;
         cursor: pointer;
         text-transform: uppercase;
         text-decoration: underline;
-        font-weight: bold;
     }
-    .btn-text:hover { color: #ffffff; text-shadow: 0 0 10px rgba(0, 255, 65, 0.8);}
+    .btn-text:hover { color: #ffffff; }
 
     /* Inputs */
     .input-section {
@@ -349,8 +335,8 @@
     }
 
     input[type="text"], input[type="number"], input[type="datetime-local"] {
-        background: rgba(0, 10, 0, 0.8);
-        border: 1px solid rgba(0, 255, 65, 0.5);
+        background: rgba(20, 20, 20, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         color: #ffffff;
         padding: 12px;
         font-family: inherit;
@@ -360,34 +346,32 @@
 
     input[type="text"]:focus, input[type="number"]:focus, input[type="datetime-local"]:focus {
         border-color: #ffffff;
-        box-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
         outline: none;
     }
 
     input[type="text"]::placeholder, input[type="number"]::placeholder {
-        color: #558B55;
+        color: #666666;
+        font-style: italic;
     }
 
     input[type="text"] { flex-grow: 1; min-width: 200px; }
     input[type="number"] { width: 120px; text-align: center; }
     
     button {
-        background: rgba(0, 20, 0, 0.9);
-        border: 1px solid #00FF41;
-        color: #00FF41;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        color: #ffffff;
         padding: 10px 20px;
         cursor: pointer;
         font-family: inherit;
-        font-weight: bold;
         font-size: 1rem;
         text-transform: uppercase;
         letter-spacing: 2px;
         transition: all 0.3s;
     }
     button:hover { 
-        background: rgba(0, 50, 0, 0.9); 
-        color: #ffffff;
-        box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
+        background: #ffffff; 
+        color: #000000;
     }
 
     .grid-layout {
@@ -399,11 +383,11 @@
     h2 {
         font-size: 1.5rem;
         color: #ffffff;
-        border-bottom: 1px solid rgba(0, 255, 65, 0.4);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         padding-bottom: 10px;
         margin-bottom: 15px;
         letter-spacing: 3px;
-        text-shadow: 0 0 8px rgba(0, 255, 65, 0.5);
+        text-transform: uppercase;
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
@@ -413,11 +397,10 @@
     .quest-list { list-style: none; }
     
     .quest-item {
-        background: rgba(0, 10, 0, 0.75);
-        border-left: 3px solid #00FF41;
+        background: transparent;
+        border-left: 1px solid rgba(255, 255, 255, 0.5);
         padding: 15px;
         margin-bottom: 20px;
-        box-shadow: 2px 4px 10px rgba(0,0,0,0.8);
     }
 
     .quest-header {
@@ -427,14 +410,14 @@
         margin-bottom: 10px;
     }
 
-    .quest-title { font-size: 1.3rem; font-weight: bold; color: #ffffff; }
-    .quest-reward { color: #00FF41; font-size: 0.9rem; margin-right: 15px; font-weight: bold;}
-    .quest-deadline { color: #ff4757; font-size: 0.85rem; margin-top: 5px; font-weight: bold; }
+    .quest-title { font-size: 1.3rem; color: #ffffff; letter-spacing: 1px; }
+    .quest-reward { color: #aaaaaa; font-size: 0.9rem; margin-right: 15px; }
+    .quest-deadline { color: #888888; font-size: 0.85rem; margin-top: 5px; font-style: italic;}
     
     .quest-actions button { padding: 5px 10px; font-size: 0.8rem; }
-    .btn-complete { border-color: #00FF41; background: rgba(0, 30, 0, 0.8); }
-    .btn-delete { border-color: #555; background: rgba(17, 17, 17, 0.8); color: #ccc;}
-    .btn-delete:hover { border-color: #ff4757; color: #ff4757; background: rgba(30, 0, 0, 0.8); box-shadow: 0 0 10px rgba(255, 71, 87, 0.3);}
+    .btn-complete { border-color: #ffffff; background: transparent; }
+    .btn-delete { border-color: rgba(255, 255, 255, 0.2); background: transparent; color: #aaaaaa;}
+    .btn-delete:hover { border-color: #ffffff; color: #000000; background: #ffffff; }
 
     /* Sub-tasks */
     .task-list {
@@ -448,17 +431,17 @@
         gap: 10px;
         font-size: 1rem;
         margin-bottom: 5px;
-        color: #dcdde1;
+        color: #cccccc;
     }
     .task-item input[type="checkbox"] {
-        accent-color: #00FF41;
+        accent-color: #ffffff;
         width: 15px; height: 15px;
         cursor: pointer;
     }
-    .task-done { text-decoration: line-through; color: #718093; }
+    .task-done { text-decoration: line-through; color: #666666; }
     
     .task-input-section { display: flex; gap: 5px; margin-bottom: 0; }
-    .task-input-section input[type="text"] { padding: 8px; font-size: 0.9rem; border-color: rgba(0, 255, 65, 0.3);}
+    .task-input-section input[type="text"] { padding: 8px; font-size: 0.9rem; border-color: rgba(255, 255, 255, 0.2);}
     .task-input-section button { padding: 8px 15px; font-size: 0.8rem; }
 
     /* Archive Section */
@@ -466,16 +449,16 @@
         display: none;
         margin-top: 40px;
         padding-top: 20px;
-        border-top: 1px dashed rgba(0, 255, 65, 0.4);
+        border-top: 1px dashed rgba(255, 255, 255, 0.2);
     }
     .archived-item {
-        background: rgba(0,15,0,0.7);
-        border-left: 2px solid #00FF41;
+        background: transparent;
+        border-left: 1px solid rgba(255, 255, 255, 0.5);
         margin-bottom: 10px;
         cursor: pointer;
         transition: background 0.2s;
     }
-    .archived-item:hover { background: rgba(0,30,0,0.9); }
+    .archived-item:hover { background: rgba(255, 255, 255, 0.05); }
     .archived-header {
         padding: 10px 15px;
         display: flex;
@@ -484,25 +467,24 @@
         font-size: 1rem;
         color: #ffffff;
     }
-    .failed-item { border-left-color: #ff4757; background: rgba(20,0,0,0.7);}
-    .failed-item:hover { background: rgba(40,0,0,0.9); }
-    .failed-item .archived-header { color: #ff4757; text-decoration: line-through; }
+    .failed-item { border-left-color: #555555; }
+    .failed-item .archived-header { color: #888888; text-decoration: line-through; }
     
     .archived-tasks {
         display: none;
         padding: 10px 15px 15px 30px;
-        background: rgba(0,0,0,0.8);
-        border-top: 1px solid rgba(0, 255, 65, 0.2);
+        background: rgba(0, 0, 0, 0.5);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
         font-size: 0.9rem;
-        color: #a4b0be;
+        color: #aaaaaa;
         list-style-type: square;
     }
 
     /* Economy Shop */
     .shop-category { margin-bottom: 40px; }
     .shop-item {
-        background: rgba(0, 10, 0, 0.75);
-        border: 1px solid rgba(0, 255, 65, 0.3);
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.2);
         padding: 12px 15px;
         margin-bottom: 10px;
         display: flex;
@@ -511,7 +493,7 @@
     }
     .shop-item-info { flex-grow: 1; }
     .shop-item-info h3 { margin-bottom: 3px; font-size: 1rem; color: #ffffff; display: flex; align-items: center; gap: 8px;}
-    .shop-item-info p { color: #00FF41; font-size: 0.85rem; font-weight: bold; }
+    .shop-item-info p { color: #aaaaaa; font-size: 0.85rem; }
     .shop-actions { display: flex; gap: 5px; align-items: center; }
     
     .shop-item button { padding: 6px 12px; font-size: 0.8rem; }
@@ -519,22 +501,21 @@
     .btn-del-custom {
         background: transparent;
         border: none;
-        color: #718093;
+        color: #666666;
         padding: 0 5px;
         font-size: 1.2rem;
         cursor: pointer;
     }
-    .btn-del-custom:hover { color: #ff4757; background: transparent; box-shadow: none;}
+    .btn-del-custom:hover { color: #ffffff; background: transparent; }
 
     /* Insufficient Funds Alert */
     .shop-alert {
-        color: #ff4757;
+        color: #ffffff;
         text-align: center;
-        font-weight: bold;
         font-size: 1rem;
         letter-spacing: 2px;
         margin-bottom: 15px;
-        text-shadow: 0 0 10px rgba(255, 71, 87, 0.8);
+        font-style: italic;
         opacity: 0;
         transition: opacity 0.3s ease;
         height: 20px; 
@@ -548,9 +529,9 @@
         display: flex;
         gap: 5px;
         margin-bottom: 15px;
-        background: rgba(0,0,0,0.6);
+        background: transparent;
         padding: 10px;
-        border: 1px solid rgba(0, 255, 65, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.2);
     }
     .custom-shop-form input[type="text"] { padding: 8px; font-size: 0.9rem; flex-grow: 1; min-width: 0; }
     .custom-shop-form input[type="number"] { width: 85px; padding: 8px; font-size: 0.9rem; }
@@ -571,7 +552,7 @@
 </head>
 <body>
 
-    <div style="position: absolute; top: 0; left: 0; width: 200px; height: 200px; z-index: -100; overflow: hidden; pointer-events: none; opacity: 0.05;">
+    <div style="position: absolute; top: 0; left: 0; width: 200px; height: 200px; z-index: -100; overflow: hidden; pointer-events: none; opacity: 0.01;">
         <div id="yt-player"></div>
     </div>
 
@@ -580,56 +561,49 @@
 
     <div id="magic-circle-container">
         <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
-            <path d="M 10 25 L 10 10 L 25 10" stroke-width="1" />
-            <path d="M 75 10 L 90 10 L 90 25" stroke-width="1" />
-            <path d="M 90 75 L 90 90 L 75 90" stroke-width="1" />
-            <path d="M 25 90 L 10 90 L 10 75" stroke-width="1" />
-            
-            <circle cx="50" cy="50" r="38" stroke-width="0.5" stroke-dasharray="2 4" />
-            <circle cx="50" cy="50" r="28" stroke-width="1" />
-            
-            <line x1="50" y1="2" x2="50" y2="46" stroke-width="0.5" />
-            <line x1="50" y1="54" x2="50" y2="98" stroke-width="0.5" />
-            <line x1="2" y1="50" x2="46" y2="50" stroke-width="0.5" />
-            <line x1="54" y1="50" x2="98" y2="50" stroke-width="0.5" />
-            
-            <circle cx="50" cy="50" r="4" stroke-width="1" />
-            <circle cx="50" cy="50" r="1.5" stroke-width="2" fill="#00FF41" />
+            <circle cx="50" cy="50" r="45" stroke-width="0.2" stroke-dasharray="1 3" />
+            <polygon points="50,5 82,18 95,50 82,82 50,95 18,82 5,50 18,18" stroke-width="0.2" />
+            <polygon points="50,5 95,50 50,95 5,50" stroke-width="0.3" />
+            <polygon points="82,18 82,82 18,82 18,18" stroke-width="0.3" />
+            <circle cx="50" cy="50" r="25" stroke-width="0.4" />
+            <polygon points="50,25 75,50 50,75 25,50" stroke-width="0.5" />
+            <circle cx="50" cy="50" r="4" stroke-width="0.5" />
+            <circle cx="50" cy="50" r="1.5" stroke-width="1.5" fill="#ffffff" />
         </svg>
     </div>
 
     <canvas id="embers-canvas"></canvas>
 
     <div id="intro-layer">
-        <div class="pre-text">REMEMBER</div>
-        <div class="pre-text">LIFE IS FUN</div>
-        <div class="pre-text">MAKE IT EVEN MORE FUN</div>
-        <div class="title-text">PROJECT INQUINISO</div>
+        <div class="pre-text">The world is chaotic and loud...</div>
+        <div class="pre-text">But in here, there is only the self.</div>
+        <div class="pre-text">Shed the distractions. Face the mirror.</div>
+        <div class="title-text">"FOCUS"</div>
     </div>
 
     <div id="start-screen">
-        <div class="blink-text">[ STUDY! ]</div>
+        <div class="blink-text">[ AWAKEN ]</div>
     </div>
 
     <div id="pin-screen">
         <div class="pin-container">
-            <div class="pin-title">AUTHORIZATION REQUIRED</div>
+            <div class="pin-title">ENTER THE MIND</div>
             <div class="pin-input-wrapper">
-                <input type="password" id="pin-input" maxlength="4" autocomplete="off">
+                <input type="password" id="pin-input" maxlength="4" autocomplete="off" placeholder="••••">
                 <button id="pin-btn">AUTHORIZE</button>
             </div>
-            <div class="pin-error" id="pin-error">SASTE NASHE,SORRY PIN GALAT HAI</div>
+            <div class="pin-error" id="pin-error">You are still wandering.</div>
         </div>
     </div>
 
     <div id="scroll-container">
         <div id="app-main">
             <header>
-                <h1>Operation Veracity Log</h1>
+                <h1>Internal Directives Log</h1>
                 <div class="stats-board">
                     <div>Missions Cleared: <span id="stat-quests" class="stat-highlight">0</span></div>
                     <div>Objectives Met: <span id="stat-tasks" class="stat-highlight">0</span></div>
-                    <div>Agency Credits: <span id="stat-gold" class="stat-highlight">0 CR</span></div>
+                    <div>Focus Credits: <span id="stat-gold" class="stat-highlight">0 CR</span></div>
                 </div>
                 <div class="header-actions">
                     <button class="btn-text" onclick="toggleArchive()">Access Classified Archives</button>
@@ -637,9 +611,9 @@
             </header>
 
             <div class="input-section">
-                <input type="text" id="quest-input" placeholder="Draft new mission directive..." autocomplete="off">
+                <input type="text" id="quest-input" placeholder="Draft new directive..." autocomplete="off">
                 <input type="number" id="gold-input" placeholder="Reward CR" value="300" min="10">
-                <input type="datetime-local" id="deadline-input" title="Set Mission Deadline (Optional)">
+                <input type="datetime-local" id="deadline-input" title="Set Deadline (Optional)">
                 <button onclick="addQuest()">Execute</button>
             </div>
 
@@ -651,7 +625,7 @@
                 </div>
 
                 <div>
-                    <div id="shop-alert" class="shop-alert">GAREEB BHAI KUCH PADHLE!!</div>
+                    <div id="shop-alert" class="shop-alert">INSUFFICIENT FOCUS CREDITS.</div>
                     
                     <div class="shop-category">
                         <h2>Operational Upkeep</h2>
@@ -665,7 +639,7 @@
                         <div id="dues-container">
                             <div class="shop-item">
                                 <div class="shop-item-info">
-                                    <h3>Safehouse Maintenance</h3>
+                                    <h3>Mental Maintenance</h3>
                                     <p>Cost: 500 CR</p>
                                 </div>
                                 <div class="shop-item-actions">
@@ -674,20 +648,11 @@
                             </div>
                             <div class="shop-item">
                                 <div class="shop-item-info">
-                                    <h3>Field Rations (Daily)</h3>
+                                    <h3>Daily Sustenance</h3>
                                     <p>Cost: 300 CR</p>
                                 </div>
                                 <div class="shop-item-actions">
                                     <button onclick="spendGold(300)">Deduct</button>
-                                </div>
-                            </div>
-                            <div class="shop-item">
-                                <div class="shop-item-info">
-                                    <h3>Secure Comms Network</h3>
-                                    <p>Cost: 30 CR</p>
-                                </div>
-                                <div class="shop-item-actions">
-                                    <button onclick="spendGold(30)">Deduct</button>
                                 </div>
                             </div>
                             </div>
@@ -705,7 +670,7 @@
                         <div id="rewards-container">
                             <div class="shop-item">
                                 <div class="shop-item-info">
-                                    <h3>R&R (1hr Entertainment)</h3>
+                                    <h3>R&R (1hr Downtime)</h3>
                                     <p>Cost: 800 CR</p>
                                 </div>
                                 <div class="shop-item-actions">
@@ -714,29 +679,11 @@
                             </div>
                             <div class="shop-item">
                                 <div class="shop-item-info">
-                                    <h3>Asset Rendezvous (Cafe)</h3>
+                                    <h3>Asset Rendezvous</h3>
                                     <p>Cost: 1000 CR</p>
                                 </div>
                                 <div class="shop-item-actions">
                                     <button onclick="spendGold(1000)">Approve</button>
-                                </div>
-                            </div>
-                            <div class="shop-item">
-                                <div class="shop-item-info">
-                                    <h3>Premium Rations (Order Out)</h3>
-                                    <p>Cost: 2500 CR</p>
-                                </div>
-                                <div class="shop-item-actions">
-                                    <button onclick="spendGold(2500)">Approve</button>
-                                </div>
-                            </div>
-                            <div class="shop-item">
-                                <div class="shop-item-info">
-                                    <h3>Hardware Acquisition</h3>
-                                    <p>Cost: 5000 CR</p>
-                                </div>
-                                <div class="shop-item-actions">
-                                    <button onclick="spendGold(5000)">Approve</button>
                                 </div>
                             </div>
                             </div>
@@ -753,7 +700,7 @@
     </div>
 
 <script>
-    // --- YOUTUBE API SETUP (Muted Autoplay Bypass) ---
+    // --- YOUTUBE API SETUP (Alter Ego Track) ---
     let ytPlayer;
     let isPlayerReady = false;
 
@@ -761,11 +708,11 @@
         ytPlayer = new YT.Player('yt-player', {
             height: '200',
             width: '200',
-            videoId: 'h6736Y6_AZU', // Target music track
+            videoId: 'gftNh2HbLKM', // Alter Ego requested track
             playerVars: {
                 'playsinline': 1,
                 'loop': 1,
-                'playlist': 'h6736Y6_AZU',
+                'playlist': 'gftNh2HbLKM',
                 'controls': 0,
                 'autoplay': 1, 
                 'mute': 1 // MUST start muted for browsers to allow it
@@ -773,7 +720,7 @@
             events: {
                 'onReady': function(event) {
                     isPlayerReady = true;
-                    event.target.playVideo(); // Start the background stream silently
+                    event.target.playVideo(); 
                 }
             }
         });
@@ -786,11 +733,9 @@
     const pinBtn = document.getElementById('pin-btn');
     const pinError = document.getElementById('pin-error');
 
-    // Click [ INITIATE ] -> Unmute the pre-playing video
     startScreen.addEventListener('click', function() {
         this.style.opacity = '0';
         
-        // This is the critical moment: User interaction allows us to unmute.
         if (isPlayerReady && ytPlayer && typeof ytPlayer.unMute === 'function') {
             ytPlayer.unMute();
             ytPlayer.setVolume(100);
@@ -803,7 +748,6 @@
         }, 800);
     });
 
-    // Validate PIN
     function handleLogin() {
         const val = pinInput.value;
         if (val === '2027') {
@@ -820,7 +764,6 @@
     });
     pinBtn.addEventListener('click', handleLogin);
 
-    // Start Intro and App
     function initiateBootSequence() {
         pinScreen.style.opacity = '0';
         setTimeout(() => { pinScreen.style.display = 'none'; }, 800);
@@ -834,7 +777,7 @@
         }, 13500);
     }
 
-    // --- INTERACTIVE DIGITAL DATA PARTICLES (MATRIX) ---
+    // --- INTERACTIVE DIGITAL DATA PARTICLES (Monochrome) ---
     const canvas = document.getElementById('embers-canvas');
     const ctx = canvas.getContext('2d');
     const magicCircle = document.getElementById('magic-circle-container');
@@ -846,14 +789,6 @@
     window.addEventListener('mousemove', (e) => {
         mouse.x = e.x;
         mouse.y = e.y;
-        
-        if (document.body.classList.contains('start-main')) {
-            magicCircle.style.filter = 'drop-shadow(0 0 15px rgba(0, 255, 65, 0.9))';
-            clearTimeout(window.circleGlowTimeout);
-            window.circleGlowTimeout = setTimeout(() => {
-                magicCircle.style.filter = 'drop-shadow(0 0 8px rgba(0, 255, 65, 0.5))';
-            }, 300);
-        }
     });
 
     window.addEventListener('mouseout', () => {
@@ -863,32 +798,30 @@
 
     const particles = [];
     const emberColors = [
-        'rgba(0, 255, 65, ',   // Bright Green
-        'rgba(0, 143, 17, ',   // Mid Green
-        'rgba(0, 59, 0, '      // Dark Green
+        'rgba(255, 255, 255, ',   // Pure White
+        'rgba(200, 200, 200, ',   // Light Gray
+        'rgba(120, 120, 120, '    // Mid Gray
     ];
 
     class Particle {
         constructor() {
             this.x = Math.random() * canvas.width;
             this.y = canvas.height + Math.random() * 100;
-            this.size = Math.random() * 2 + 0.8;
-            this.baseSpeedY = Math.random() * -2 - 0.5; 
+            this.size = Math.random() * 1.5 + 0.5;
+            this.baseSpeedY = Math.random() * -1.5 - 0.2; 
             this.baseSpeedX = 0; 
             this.speedY = this.baseSpeedY;
             this.speedX = this.baseSpeedX;
             this.colorBase = emberColors[Math.floor(Math.random() * emberColors.length)];
-            this.life = Math.random() * 0.7 + 0.2; 
+            this.life = Math.random() * 0.6 + 0.1; 
         }
         update() {
             let dx = mouse.x - this.x;
             let dy = mouse.y - this.y;
             let distance = Math.sqrt(dx * dx + dy * dy);
-            let maxDistance = 150; 
-
-            if (distance < maxDistance) {
-                let forceDirectionX = dx / distance;
-                this.speedX = -forceDirectionX * 4; 
+            
+            if (distance < 150) {
+                this.speedX = -(dx / distance) * 2.5; 
             } else {
                 this.speedX = this.speedX * 0.9;
                 this.speedY = this.baseSpeedY;
@@ -896,15 +829,13 @@
 
             this.y += this.speedY;
             this.x += this.speedX;
+            if(Math.random() > 0.97) this.x += (Math.random() - 0.5) * 3;
+            if (this.size > 0.05) this.size -= 0.0008; 
             
-            if(Math.random() > 0.96) this.x += (Math.random() - 0.5) * 5;
-
-            if (this.size > 0.1) this.size -= 0.0015; 
-            
-            if (this.y < -50 || this.size <= 0.1 || this.x < -50 || this.x > canvas.width + 50) {
+            if (this.y < -50 || this.size <= 0.05 || this.x < -50 || this.x > canvas.width + 50) {
                 this.x = Math.random() * canvas.width;
                 this.y = canvas.height + 10;
-                this.size = Math.random() * 2 + 0.8;
+                this.size = Math.random() * 1.5 + 0.5;
                 this.speedX = this.baseSpeedX;
                 this.speedY = this.baseSpeedY;
             }
@@ -915,16 +846,11 @@
         }
     }
 
-    for(let i = 0; i < 120; i++) { 
-        particles.push(new Particle());
-    }
+    for(let i = 0; i < 90; i++) { particles.push(new Particle()); }
 
     function animateEmbers() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => { 
-            p.update(); 
-            p.draw(); 
-        });
+        particles.forEach(p => { p.update(); p.draw(); });
         requestAnimationFrame(animateEmbers);
     }
     animateEmbers();
@@ -935,7 +861,7 @@
     });
 
     // --- APPLICATION LOGIC ---
-    let state = JSON.parse(localStorage.getItem('inquiniso_app_v3')) || {
+    let state = JSON.parse(localStorage.getItem('inquiniso_app_v4')) || {
         questsCompleted: 0,
         tasksCompleted: 0,
         gold: 0,
@@ -972,12 +898,12 @@
     }
 
     function updateUI() {
-        localStorage.setItem('inquiniso_app_v3', JSON.stringify(state));
+        localStorage.setItem('inquiniso_app_v4', JSON.stringify(state));
 
         statQuests.innerText = state.questsCompleted;
         statTasks.innerText = state.tasksCompleted;
         statGold.innerText = state.gold + " CR";
-        statGold.style.color = state.gold < 0 ? "#ff4757" : "#00FF41";
+        statGold.style.color = state.gold < 0 ? "#aaaaaa" : "#ffffff";
 
         questContainer.innerHTML = '';
         state.quests.forEach((quest, qIndex) => {
@@ -1101,7 +1027,7 @@
                 div.innerHTML = `
                     <div class="archived-header" onclick="toggleArchiveTasks(${realIndex})">
                         <span>${isFailed ? '⚠ COMPROMISED: ' : '★ SECURED: '}${archivedQuest.title}</span> 
-                        <span style="color:${isFailed ? '#ff4757' : '#00FF41'}; text-shadow: 0 0 5px ${isFailed ? '#ff4757' : '#00FF41'};">
+                        <span style="color:${isFailed ? '#aaaaaa' : '#ffffff'};">
                             ${isFailed ? '-' + archivedQuest.penalty + ' CR' : '+' + archivedQuest.reward + ' CR'}
                         </span>
                     </div>
