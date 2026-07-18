@@ -47,10 +47,7 @@
     /* Digital Data Canvas Layer */
     #embers-canvas {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
+        top: 0; left: 0; width: 100vw; height: 100vh;
         z-index: 2; 
         pointer-events: none;
     }
@@ -59,26 +56,16 @@
     #magic-circle-container {
         position: fixed;
         top: 0; left: 0; right: 0; bottom: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1;
-        opacity: 0;
-        pointer-events: none;
+        display: flex; justify-content: center; align-items: center;
+        z-index: 1; opacity: 0; pointer-events: none;
         transition: filter 0.3s ease, opacity 3s ease;
     }
 
-    .start-main #magic-circle-container {
-        opacity: 0.05; 
-    }
+    .start-main #magic-circle-container { opacity: 0.05; }
 
     #magic-circle-container svg {
-        width: 80vw;
-        max-width: 600px;
-        height: 80vw;
-        max-height: 600px;
-        stroke: #ffffff; 
-        fill: none;
+        width: 80vw; max-width: 600px; height: 80vw; max-height: 600px;
+        stroke: #ffffff; fill: none;
         animation: rotateCircle 180s linear infinite;
     }
 
@@ -89,33 +76,21 @@
 
     /* ---------------- INTRO SEQUENCE ---------------- */
     #intro-layer {
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100vh;
-        display: grid;
-        place-items: center;
-        z-index: 100;
-        background: transparent;
-        pointer-events: none;
+        position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+        display: grid; place-items: center; z-index: 100;
+        background: transparent; pointer-events: none;
     }
 
     .pre-text {
-        grid-area: 1 / 1; 
-        opacity: 0;
+        grid-area: 1 / 1; opacity: 0;
         font-size: clamp(1.2rem, 3vw, 2rem);
-        letter-spacing: 4px;
-        text-align: center;
-        color: #ffffff;
-        font-style: italic;
+        letter-spacing: 4px; text-align: center; color: #ffffff; font-style: italic;
     }
 
     .title-text {
-        grid-area: 1 / 1;
-        opacity: 0;
+        grid-area: 1 / 1; opacity: 0;
         font-size: clamp(3rem, 7vw, 6rem);
-        letter-spacing: 12px;
-        color: #ffffff;
-        text-transform: uppercase;
-        text-align: center;
+        letter-spacing: 12px; color: #ffffff; text-transform: uppercase; text-align: center;
     }
 
     .start-sequence .pre-text:nth-child(1) { animation: cinematicFade 3.5s ease 0.5s forwards; }
@@ -139,323 +114,128 @@
 
     /* ---------------- START SCREEN ---------------- */
     #start-screen {
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: #000;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 3000;
-        cursor: pointer;
-        letter-spacing: 5px;
-        color: #ffffff;
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: #000; display: flex; justify-content: center; align-items: center;
+        z-index: 3000; cursor: pointer; letter-spacing: 5px; color: #ffffff;
         transition: opacity 1.5s ease;
     }
 
     .blink-text {
         animation: blink 2s infinite;
         font-size: clamp(1.2rem, 3vw, 2rem);
-        text-transform: uppercase;
-        font-style: italic;
+        text-transform: uppercase; font-style: italic;
     }
     
-    @keyframes blink {
-        50% { opacity: 0; }
-    }
+    @keyframes blink { 50% { opacity: 0; } }
 
     /* ---------------- PIN SCREEN ---------------- */
     #pin-screen {
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         background: rgba(0,0,0,0.95);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        z-index: 2500;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.5s ease;
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        z-index: 2500; opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
     }
 
-    #pin-screen.active {
-        opacity: 1;
-        pointer-events: auto;
-    }
+    #pin-screen.active { opacity: 1; pointer-events: auto; }
 
-    .pin-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-        background: transparent;
-        padding: 30px;
-    }
-
-    .pin-title {
-        font-size: 1.2rem;
-        color: #ffffff;
-        letter-spacing: 6px;
-        opacity: 0.7;
-        margin-bottom: 20px;
-    }
-
-    .pin-input-wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-    }
+    .pin-container { display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 30px; }
+    .pin-title { font-size: 1.2rem; color: #ffffff; letter-spacing: 6px; opacity: 0.7; margin-bottom: 20px; }
+    .pin-input-wrapper { display: flex; flex-direction: column; align-items: center; gap: 20px; }
 
     #pin-input {
-        background: transparent;
-        border: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-        color: #ffffff;
-        font-size: 2.5rem; 
-        text-align: center;
-        outline: none;
-        font-family: inherit;
-        letter-spacing: 15px;
-        width: 250px; 
-        transition: all 0.3s ease;
+        background: transparent; border: none; border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        color: #ffffff; font-size: 2.5rem; text-align: center; outline: none; font-family: inherit;
+        letter-spacing: 15px; width: 250px; transition: all 0.3s ease;
     }
-
     #pin-input:focus { border-bottom: 1px solid #ffffff; }
 
     #pin-btn {
-        background: transparent;
-        color: #ffffff;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        padding: 12px 40px;
-        font-family: inherit;
-        font-size: 1rem;
-        letter-spacing: 5px;
-        cursor: pointer;
-        transition: all 0.5s;
+        background: transparent; color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 12px 40px; font-family: inherit; font-size: 1rem; letter-spacing: 5px;
+        cursor: pointer; transition: all 0.5s;
     }
-
-    #pin-btn:hover {
-        background: #ffffff;
-        color: #000000;
-    }
+    #pin-btn:hover { background: #ffffff; color: #000000; }
 
     .pin-error {
-        color: #ffffff;
-        margin-top: 15px;
-        font-size: 1rem;
-        font-style: italic;
-        letter-spacing: 2px;
-        opacity: 0;
-        transition: opacity 0.3s;
+        color: #ffffff; margin-top: 15px; font-size: 1rem; font-style: italic;
+        letter-spacing: 2px; opacity: 0; transition: opacity 0.3s;
     }
 
-    /* ---------------- MAIN APP UI (Scrollable) ---------------- */
-    #scroll-container {
-        position: relative;
-        width: 100%;
-        height: 100vh;
-        overflow-y: auto;
-        z-index: 10;
-    }
-
+    /* ---------------- MAIN APP UI ---------------- */
+    #scroll-container { position: relative; width: 100%; height: 100vh; overflow-y: auto; z-index: 10; }
     #app-main {
-        opacity: 0;
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 20px 20px 100px 20px;
-        position: relative;
-        transition: opacity 2s ease;
-        display: none;
+        opacity: 0; max-width: 1000px; margin: 0 auto; padding: 20px 20px 100px 20px;
+        position: relative; transition: opacity 2s ease; display: none;
     }
-
-    .show-app {
-        display: block !important;
-        animation: fadeInApp 2s ease forwards;
-    }
-
-    @keyframes fadeInApp {
-        to { opacity: 1; }
-    }
+    .show-app { display: block !important; animation: fadeInApp 2s ease forwards; }
+    @keyframes fadeInApp { to { opacity: 1; } }
 
     header {
-        text-align: center;
-        margin-bottom: 30px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        padding-bottom: 20px;
+        text-align: center; margin-bottom: 30px; border-bottom: 1px solid rgba(255, 255, 255, 0.2); padding-bottom: 20px;
     }
 
     h1 {
-        font-size: 2.5rem;
-        letter-spacing: 8px;
-        text-transform: uppercase;
-        color: #ffffff;
-        margin-bottom: 15px;
-        margin-top: 10px;
+        font-size: 2.5rem; letter-spacing: 8px; text-transform: uppercase; color: #ffffff; margin-bottom: 15px; margin-top: 10px;
     }
 
     .stats-board {
-        display: flex;
-        justify-content: space-around;
-        background: transparent;
-        padding: 15px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        font-size: 1.2rem;
-        letter-spacing: 2px;
-        margin-bottom: 15px;
+        display: flex; justify-content: space-around; background: transparent; padding: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.2); font-size: 1.2rem; letter-spacing: 2px; margin-bottom: 15px;
     }
 
     .stat-highlight { color: #ffffff; font-weight: bold; }
     .header-actions { text-align: right; }
 
     .btn-text {
-        background: none;
-        border: none;
-        color: #aaaaaa;
-        font-family: inherit;
-        font-size: 0.9rem;
-        letter-spacing: 2px;
-        cursor: pointer;
-        text-transform: uppercase;
-        text-decoration: underline;
+        background: none; border: none; color: #aaaaaa; font-family: inherit; font-size: 0.9rem;
+        letter-spacing: 2px; cursor: pointer; text-transform: uppercase; text-decoration: underline;
     }
     .btn-text:hover { color: #ffffff; }
 
     /* Inputs */
-    .input-section {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-bottom: 30px;
-    }
-
+    .input-section { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
     input[type="text"], input[type="number"], input[type="datetime-local"] {
-        background: rgba(20, 20, 20, 0.5);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        color: #ffffff;
-        padding: 12px;
-        font-family: inherit;
-        font-size: 1.1rem;
-        color-scheme: dark;
+        background: rgba(20, 20, 20, 0.5); border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #ffffff; padding: 12px; font-family: inherit; font-size: 1.1rem; color-scheme: dark;
     }
-
-    input[type="text"]:focus, input[type="number"]:focus, input[type="datetime-local"]:focus {
-        border-color: #ffffff;
-        outline: none;
-    }
-
-    input[type="text"]::placeholder, input[type="number"]::placeholder {
-        color: #666666;
-        font-style: italic;
-    }
-
+    input[type="text"]:focus, input[type="number"]:focus, input[type="datetime-local"]:focus { border-color: #ffffff; outline: none; }
+    input[type="text"]::placeholder, input[type="number"]::placeholder { color: #666666; font-style: italic; }
     input[type="text"] { flex-grow: 1; min-width: 200px; }
     input[type="number"] { width: 120px; text-align: center; }
     
     button {
-        background: transparent;
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        color: #ffffff;
-        padding: 10px 20px;
-        cursor: pointer;
-        font-family: inherit;
-        font-size: 1rem;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        transition: all 0.3s;
+        background: transparent; border: 1px solid rgba(255, 255, 255, 0.5); color: #ffffff;
+        padding: 10px 20px; cursor: pointer; font-family: inherit; font-size: 1rem;
+        text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s;
     }
-    button:hover { 
-        background: #ffffff; 
-        color: #000000;
-    }
+    button:hover { background: #ffffff; color: #000000; }
 
-    .grid-layout {
-        display: grid;
-        grid-template-columns: 1.8fr 1.2fr;
-        gap: 30px;
-    }
+    .grid-layout { display: grid; grid-template-columns: 1.8fr 1.2fr; gap: 30px; }
 
     h2 {
-        font-size: 1.5rem;
-        color: #ffffff;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        padding-bottom: 10px;
-        margin-bottom: 15px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
+        font-size: 1.5rem; color: #ffffff; border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        padding-bottom: 10px; margin-bottom: 15px; letter-spacing: 3px; text-transform: uppercase;
+        display: flex; justify-content: space-between; align-items: flex-end;
     }
 
     /* DAILY PROTOCOLS SECTION */
-    .daily-section {
-        margin-bottom: 40px;
-        background: transparent;
-    }
-    
-    .daily-list {
-        list-style: none;
-    }
-
+    .daily-section { margin-bottom: 40px; background: transparent; }
+    .daily-list { list-style: none; }
     .daily-item {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 12px 15px;
-        margin-bottom: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        transition: background 0.3s;
+        background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 12px 15px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; transition: background 0.3s;
     }
-
-    .daily-item:hover {
-        background: rgba(255, 255, 255, 0.07);
-    }
-
-    .daily-item-left {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-size: 1.1rem;
-    }
-
-    .daily-item input[type="checkbox"] {
-        width: 18px; 
-        height: 18px; 
-        accent-color: #ffffff; 
-        cursor: pointer;
-    }
-
-    .daily-input-row {
-        display: flex;
-        gap: 10px;
-        margin-top: 10px;
-    }
-
-    .daily-input-row input {
-        flex-grow: 1;
-        padding: 10px;
-        font-size: 1rem;
-    }
+    .daily-item:hover { background: rgba(255, 255, 255, 0.07); }
+    .daily-item-left { display: flex; align-items: center; gap: 12px; font-size: 1.1rem; }
+    .daily-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: #ffffff; cursor: pointer; }
+    
+    .daily-input-row { display: flex; gap: 10px; margin-top: 10px; }
+    .daily-input-row input { flex-grow: 1; padding: 10px; font-size: 1rem; }
 
     /* Quest List */
     .quest-list { list-style: none; }
-    
-    .quest-item {
-        background: transparent;
-        border-left: 1px solid rgba(255, 255, 255, 0.5);
-        padding: 15px;
-        margin-bottom: 20px;
-    }
-
-    .quest-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-
+    .quest-item { background: transparent; border-left: 1px solid rgba(255, 255, 255, 0.5); padding: 15px; margin-bottom: 20px; }
+    .quest-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
     .quest-title { font-size: 1.3rem; color: #ffffff; letter-spacing: 1px; }
     .quest-reward { color: #aaaaaa; font-size: 0.9rem; margin-right: 15px; }
     .quest-deadline { color: #888888; font-size: 0.85rem; margin-top: 5px; font-style: italic;}
@@ -466,24 +246,9 @@
     .btn-delete:hover { border-color: #ffffff; color: #000000; background: #ffffff; }
 
     /* Sub-tasks */
-    .task-list {
-        list-style: none;
-        margin-bottom: 10px;
-        padding-left: 10px;
-    }
-    .task-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 1rem;
-        margin-bottom: 5px;
-        color: #cccccc;
-    }
-    .task-item input[type="checkbox"] {
-        accent-color: #ffffff;
-        width: 15px; height: 15px;
-        cursor: pointer;
-    }
+    .task-list { list-style: none; margin-bottom: 10px; padding-left: 10px; }
+    .task-item { display: flex; align-items: center; gap: 10px; font-size: 1rem; margin-bottom: 5px; color: #cccccc; }
+    .task-item input[type="checkbox"] { accent-color: #ffffff; width: 15px; height: 15px; cursor: pointer; }
     .task-done { text-decoration: line-through; color: #666666; }
     
     .task-input-section { display: flex; gap: 5px; margin-bottom: 0; }
@@ -491,90 +256,39 @@
     .task-input-section button { padding: 8px 15px; font-size: 0.8rem; }
 
     /* Archive Section */
-    #archive-section {
-        display: none;
-        margin-top: 40px;
-        padding-top: 20px;
-        border-top: 1px dashed rgba(255, 255, 255, 0.2);
-    }
-    .archived-item {
-        background: transparent;
-        border-left: 1px solid rgba(255, 255, 255, 0.5);
-        margin-bottom: 10px;
-        cursor: pointer;
-        transition: background 0.2s;
-    }
+    #archive-section { display: none; margin-top: 40px; padding-top: 20px; border-top: 1px dashed rgba(255, 255, 255, 0.2); }
+    .archived-item { background: transparent; border-left: 1px solid rgba(255, 255, 255, 0.5); margin-bottom: 10px; cursor: pointer; transition: background 0.2s; }
     .archived-item:hover { background: rgba(255, 255, 255, 0.05); }
-    .archived-header {
-        padding: 10px 15px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 1rem;
-        color: #ffffff;
-    }
+    .archived-header { padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; font-size: 1rem; color: #ffffff; }
     .failed-item { border-left-color: #555555; }
     .failed-item .archived-header { color: #888888; text-decoration: line-through; }
-    
     .archived-tasks {
-        display: none;
-        padding: 10px 15px 15px 30px;
-        background: rgba(0, 0, 0, 0.5);
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        font-size: 0.9rem;
-        color: #aaaaaa;
-        list-style-type: square;
+        display: none; padding: 10px 15px 15px 30px; background: rgba(0, 0, 0, 0.5);
+        border-top: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.9rem; color: #aaaaaa; list-style-type: square;
     }
 
     /* Economy Shop */
     .shop-category { margin-bottom: 40px; }
     .shop-item {
-        background: transparent;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        padding: 12px 15px;
-        margin-bottom: 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        background: transparent; border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 12px 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;
     }
     .shop-item-info { flex-grow: 1; }
     .shop-item-info h3 { margin-bottom: 3px; font-size: 1rem; color: #ffffff; display: flex; align-items: center; gap: 8px;}
     .shop-item-info p { color: #aaaaaa; font-size: 0.85rem; }
     .shop-actions { display: flex; gap: 5px; align-items: center; }
-    
     .shop-item button { padding: 6px 12px; font-size: 0.8rem; }
     
-    .btn-del-custom {
-        background: transparent;
-        border: none;
-        color: #666666;
-        padding: 0 5px;
-        font-size: 1.2rem;
-        cursor: pointer;
-    }
+    .btn-del-custom { background: transparent; border: none; color: #666666; padding: 0 5px; font-size: 1.2rem; cursor: pointer; }
     .btn-del-custom:hover { color: #ffffff; background: transparent; }
 
     .shop-alert {
-        color: #ffffff;
-        text-align: center;
-        font-size: 1rem;
-        letter-spacing: 2px;
-        margin-bottom: 15px;
-        font-style: italic;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        height: 20px; 
+        color: #ffffff; text-align: center; font-size: 1rem; letter-spacing: 2px;
+        margin-bottom: 15px; font-style: italic; opacity: 0; transition: opacity 0.3s ease; height: 20px; 
     }
     .shop-alert.show { opacity: 1; }
 
-    .custom-shop-form {
-        display: flex;
-        gap: 5px;
-        margin-bottom: 15px;
-        background: transparent;
-        padding: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-    }
+    .custom-shop-form { display: flex; gap: 5px; margin-bottom: 15px; background: transparent; padding: 10px; border: 1px solid rgba(255, 255, 255, 0.2); }
     .custom-shop-form input[type="text"] { padding: 8px; font-size: 0.9rem; flex-grow: 1; min-width: 0; }
     .custom-shop-form input[type="number"] { width: 85px; padding: 8px; font-size: 0.9rem; }
     .custom-shop-form button { padding: 8px 10px; font-size: 0.8rem; white-space: nowrap;}
@@ -589,14 +303,8 @@
         .custom-shop-form input[type="number"] { width: 100px; }
     }
 </style>
-
-<script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
-
-    <div style="position: absolute; top: 0; left: 0; width: 200px; height: 200px; z-index: -100; overflow: hidden; pointer-events: none; opacity: 0.01;">
-        <div id="yt-player"></div>
-    </div>
 
     <div id="bg-layer"></div>
     <div id="crt-layer"></div>
@@ -663,8 +371,7 @@
                 <div>
                     <div class="daily-section">
                         <h2>Daily Protocols</h2>
-                        <ul id="daily-container" class="daily-list">
-                            </ul>
+                        <ul id="daily-container" class="daily-list"></ul>
                         <div class="daily-input-row">
                             <input type="text" id="daily-input" placeholder="Add recurring daily task...">
                             <button onclick="addDaily()">Add</button>
@@ -672,8 +379,7 @@
                     </div>
 
                     <h2>Active Directives</h2>
-                    <ul id="quest-container" class="quest-list">
-                        </ul>
+                    <ul id="quest-container" class="quest-list"></ul>
                 </div>
 
                 <div>
@@ -710,13 +416,11 @@
 
                     <div class="shop-category">
                         <h2>Asset Requisitions</h2>
-                        
                         <div class="custom-shop-form">
                             <input type="text" id="custom-reward-name" placeholder="Custom requisition...">
                             <input type="number" id="custom-reward-cost" placeholder="Cost CR">
                             <button onclick="addCustomReward()">Authorize</button>
                         </div>
-
                         <div id="rewards-container">
                             <div class="shop-item">
                                 <div class="shop-item-info">
@@ -743,8 +447,7 @@
 
             <div id="archive-section">
                 <h2>Classified Archives (Past Missions)</h2>
-                <div id="archive-container">
-                </div>
+                <div id="archive-container"></div>
             </div>
         </div>
     </div>
@@ -784,30 +487,6 @@
         }
     }
 
-    // --- YOUTUBE API SETUP ---
-    let ytPlayer;
-    let isPlayerReady = false;
-
-    function onYouTubeIframeAPIReady() {
-        ytPlayer = new YT.Player('yt-player', {
-            height: '200',
-            width: '200',
-            videoId: 'gftNh2HbLKM',
-            playerVars: {
-                'playsinline': 1,
-                'loop': 1,
-                'playlist': 'gftNh2HbLKM',
-                'controls': 0
-                // Removed autoplay/mute to rely on explicit start command on user click
-            },
-            events: {
-                'onReady': function(event) {
-                    isPlayerReady = true;
-                }
-            }
-        });
-    }
-
     // --- BOOT SEQUENCE & PIN LOGIC ---
     const startScreen = document.getElementById('start-screen');
     const pinScreen = document.getElementById('pin-screen');
@@ -817,13 +496,8 @@
 
     startScreen.addEventListener('click', function() {
         this.style.opacity = '0';
-        
-        // FORCE YouTube playback synchronously on user click
-        if (isPlayerReady && ytPlayer) {
-            ytPlayer.unMute();
-            ytPlayer.setVolume(100);
-            ytPlayer.playVideo();
-        }
+        // Initialize Audio Engine on first interaction to bypass browser restrictions
+        if (audioCtx.state === 'suspended') audioCtx.resume();
 
         setTimeout(() => { 
             this.style.display = 'none'; 
@@ -933,7 +607,7 @@
     });
 
     // --- APPLICATION LOGIC ---
-    let state = JSON.parse(localStorage.getItem('inquiniso_app_v6')) || {
+    let state = JSON.parse(localStorage.getItem('inquiniso_app_v7')) || {
         questsCompleted: 0, tasksCompleted: 0, gold: 0,
         quests: [], archive: [], customDues: [], customRewards: [],
         dailies: [], lastLoginDate: new Date().toDateString()
@@ -944,7 +618,7 @@
     if (state.lastLoginDate !== todayStr) {
         if (state.dailies) { state.dailies.forEach(d => d.done = false); }
         state.lastLoginDate = todayStr;
-        localStorage.setItem('inquiniso_app_v6', JSON.stringify(state));
+        localStorage.setItem('inquiniso_app_v7', JSON.stringify(state));
     }
 
     const statQuests = document.getElementById('stat-quests');
@@ -971,7 +645,7 @@
     }
 
     function updateUI() {
-        localStorage.setItem('inquiniso_app_v6', JSON.stringify(state));
+        localStorage.setItem('inquiniso_app_v7', JSON.stringify(state));
 
         statQuests.innerText = state.questsCompleted;
         statTasks.innerText = state.tasksCompleted;
@@ -1047,7 +721,7 @@
             `;
             questContainer.appendChild(li);
 
-            // Correctly re-attach the Enter Key Listener!
+            // Correctly re-attach the Enter Key Listener
             const taskInput = document.getElementById(`task-input-${qIndex}`);
             taskInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') addTask(qIndex);
