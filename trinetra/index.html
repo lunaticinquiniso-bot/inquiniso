@@ -3,62 +3,121 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FOCUS</title>
+<title>"FOCUS"</title>
 
 <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
     html, body {
-        width: 100%; height: 100vh; overflow: hidden; 
-        color: #ffffff !important; background-color: #000000 !important; 
+        width: 100%;
+        height: 100vh; 
+        overflow: hidden; 
+        color: #ffffff !important;
+        background-color: #000000 !important; 
         font-family: "AR PL Ukai CN Book", "AR PL Ukai CN", "Times New Roman", STSong, serif;
     }
 
     /* Minimal Dark Background */
     #bg-layer {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.95)), 
-                    url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop');
-        background-size: cover; background-position: center; z-index: 0; filter: grayscale(100%);
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: 
+            linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.95)), 
+            url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+        z-index: 0; 
+        filter: grayscale(100%);
     }
 
     /* Subtle Vignette & Grain */
     #crt-layer {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
         background: radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(0,0,0,0.95) 100%);
-        z-index: 9999; pointer-events: none; opacity: 0.9;
+        z-index: 9999;
+        pointer-events: none;
+        opacity: 0.9;
     }
 
     /* Digital Data Canvas Layer */
-    #embers-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2; pointer-events: none; }
+    #embers-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 2; 
+        pointer-events: none;
+    }
 
     /* Geometric Mandala SVG */
     #magic-circle-container {
-        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-        display: flex; justify-content: center; align-items: center;
-        z-index: 1; opacity: 0; pointer-events: none;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+        opacity: 0;
+        pointer-events: none;
         transition: filter 0.3s ease, opacity 3s ease;
     }
-    .start-main #magic-circle-container { opacity: 0.05; }
-    #magic-circle-container svg {
-        width: 80vw; max-width: 600px; height: 80vw; max-height: 600px;
-        stroke: #ffffff; fill: none; animation: rotateCircle 180s linear infinite;
+
+    .start-main #magic-circle-container {
+        opacity: 0.05; 
     }
-    @keyframes rotateCircle { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    #magic-circle-container svg {
+        width: 80vw;
+        max-width: 600px;
+        height: 80vw;
+        max-height: 600px;
+        stroke: #ffffff; 
+        fill: none;
+        animation: rotateCircle 180s linear infinite;
+    }
+
+    @keyframes rotateCircle {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 
     /* ---------------- INTRO SEQUENCE ---------------- */
     #intro-layer {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-        display: grid; place-items: center; z-index: 100; background: transparent; pointer-events: none;
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100vh;
+        display: grid;
+        place-items: center;
+        z-index: 100;
+        background: transparent;
+        pointer-events: none;
     }
+
     .pre-text {
-        grid-area: 1 / 1; opacity: 0; font-size: clamp(1.2rem, 3vw, 2rem);
-        letter-spacing: 4px; text-align: center; color: #ffffff; font-style: italic;
+        grid-area: 1 / 1; 
+        opacity: 0;
+        font-size: clamp(1.2rem, 3vw, 2rem);
+        letter-spacing: 4px;
+        text-align: center;
+        color: #ffffff;
+        font-style: italic;
     }
+
     .title-text {
-        grid-area: 1 / 1; opacity: 0; font-size: clamp(3rem, 7vw, 6rem);
-        letter-spacing: 12px; color: #ffffff; text-transform: uppercase; text-align: center;
+        grid-area: 1 / 1;
+        opacity: 0;
+        font-size: clamp(3rem, 7vw, 6rem);
+        letter-spacing: 12px;
+        color: #ffffff;
+        text-transform: uppercase;
+        text-align: center;
     }
+
     .start-sequence .pre-text:nth-child(1) { animation: cinematicFade 3.5s ease 0.5s forwards; }
     .start-sequence .pre-text:nth-child(2) { animation: cinematicFade 3.5s ease 4s forwards; }
     .start-sequence .pre-text:nth-child(3) { animation: cinematicFade 3.5s ease 7.5s forwards; }
@@ -70,6 +129,7 @@
         70% { opacity: 1; filter: blur(0px); transform: scale(1); }
         100% { opacity: 0; filter: blur(10px); transform: scale(1.02); }
     }
+
     @keyframes finalReveal {
         0% { opacity: 0; filter: blur(15px); transform: scale(0.95); }
         20% { opacity: 1; filter: blur(0px); transform: scale(1); }
@@ -79,153 +139,462 @@
 
     /* ---------------- START SCREEN ---------------- */
     #start-screen {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000;
-        display: flex; justify-content: center; align-items: center;
-        z-index: 3000; cursor: pointer; letter-spacing: 5px; color: #ffffff; transition: opacity 1.5s ease;
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 3000;
+        cursor: pointer;
+        letter-spacing: 5px;
+        color: #ffffff;
+        transition: opacity 1.5s ease;
     }
-    .blink-text { animation: blink 2s infinite; font-size: clamp(1.2rem, 3vw, 2rem); text-transform: uppercase; font-style: italic; }
-    @keyframes blink { 50% { opacity: 0; } }
+
+    .blink-text {
+        animation: blink 2s infinite;
+        font-size: clamp(1.2rem, 3vw, 2rem);
+        text-transform: uppercase;
+        font-style: italic;
+    }
+    
+    @keyframes blink {
+        50% { opacity: 0; }
+    }
 
     /* ---------------- PIN SCREEN ---------------- */
     #pin-screen {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95);
-        display: flex; flex-direction: column; justify-content: center; align-items: center;
-        z-index: 2500; opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.95);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 2500;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease;
     }
-    #pin-screen.active { opacity: 1; pointer-events: auto; }
-    .pin-container { display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 30px; }
-    .pin-title { font-size: 1.2rem; color: #ffffff; letter-spacing: 6px; opacity: 0.7; margin-bottom: 20px; }
-    .pin-input-wrapper { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+
+    #pin-screen.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .pin-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        background: transparent;
+        padding: 30px;
+    }
+
+    .pin-title {
+        font-size: 1.2rem;
+        color: #ffffff;
+        letter-spacing: 6px;
+        opacity: 0.7;
+        margin-bottom: 20px;
+    }
+
+    .pin-input-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
     #pin-input {
-        background: transparent; border: none; border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-        color: #ffffff; font-size: 2.5rem; text-align: center; outline: none;
-        font-family: inherit; letter-spacing: 15px; width: 250px; transition: all 0.3s ease;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        color: #ffffff;
+        font-size: 2.5rem; 
+        text-align: center;
+        outline: none;
+        font-family: inherit;
+        letter-spacing: 15px;
+        width: 250px; 
+        transition: all 0.3s ease;
     }
+
     #pin-input:focus { border-bottom: 1px solid #ffffff; }
+
     #pin-btn {
-        background: transparent; color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.3);
-        padding: 12px 40px; font-family: inherit; font-size: 1rem; letter-spacing: 5px; cursor: pointer; transition: all 0.5s;
+        background: transparent;
+        color: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 12px 40px;
+        font-family: inherit;
+        font-size: 1rem;
+        letter-spacing: 5px;
+        cursor: pointer;
+        transition: all 0.5s;
     }
-    #pin-btn:hover { background: #ffffff; color: #000000; }
-    .pin-error { color: #ffffff; margin-top: 15px; font-size: 1rem; font-style: italic; letter-spacing: 2px; opacity: 0; transition: opacity 0.3s; }
+
+    #pin-btn:hover {
+        background: #ffffff;
+        color: #000000;
+    }
+
+    .pin-error {
+        color: #ffffff;
+        margin-top: 15px;
+        font-size: 1rem;
+        font-style: italic;
+        letter-spacing: 2px;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
 
     /* ---------------- MAIN APP UI (Scrollable) ---------------- */
-    #scroll-container { position: relative; width: 100%; height: 100vh; overflow-y: auto; z-index: 10; }
-    #app-main {
-        opacity: 0; max-width: 1000px; margin: 0 auto; padding: 20px 20px 100px 20px;
-        position: relative; transition: opacity 2s ease; display: none;
+    #scroll-container {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow-y: auto;
+        z-index: 10;
     }
-    .show-app { display: block !important; animation: fadeInApp 2s ease forwards; }
-    @keyframes fadeInApp { to { opacity: 1; } }
 
-    header { text-align: center; margin-bottom: 30px; border-bottom: 1px solid rgba(255, 255, 255, 0.2); padding-bottom: 20px; }
-    h1 { font-size: 2.5rem; letter-spacing: 8px; text-transform: uppercase; color: #ffffff; margin-bottom: 15px; margin-top: 10px; }
-    .stats-board {
-        display: flex; justify-content: space-around; padding: 15px;
-        border: 1px solid rgba(255, 255, 255, 0.2); font-size: 1.2rem; letter-spacing: 2px; margin-bottom: 15px;
+    #app-main {
+        opacity: 0;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px 20px 100px 20px;
+        position: relative;
+        transition: opacity 2s ease;
+        display: none;
     }
+
+    .show-app {
+        display: block !important;
+        animation: fadeInApp 2s ease forwards;
+    }
+
+    @keyframes fadeInApp {
+        to { opacity: 1; }
+    }
+
+    header {
+        text-align: center;
+        margin-bottom: 30px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        padding-bottom: 20px;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        letter-spacing: 8px;
+        text-transform: uppercase;
+        color: #ffffff;
+        margin-bottom: 15px;
+        margin-top: 10px;
+    }
+
+    .stats-board {
+        display: flex;
+        justify-content: space-around;
+        background: transparent;
+        padding: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+        margin-bottom: 15px;
+    }
+
     .stat-highlight { color: #ffffff; font-weight: bold; }
     .header-actions { text-align: right; }
+
     .btn-text {
-        background: none; border: none; color: #aaaaaa; font-family: inherit; font-size: 0.9rem;
-        letter-spacing: 2px; cursor: pointer; text-transform: uppercase; text-decoration: underline;
+        background: none;
+        border: none;
+        color: #aaaaaa;
+        font-family: inherit;
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+        cursor: pointer;
+        text-transform: uppercase;
+        text-decoration: underline;
     }
     .btn-text:hover { color: #ffffff; }
 
     /* Inputs */
-    .input-section { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
-    input[type="text"], input[type="number"], input[type="datetime-local"] {
-        background: rgba(20, 20, 20, 0.5); border: 1px solid rgba(255, 255, 255, 0.2); color: #ffffff;
-        padding: 12px; font-family: inherit; font-size: 1.1rem; color-scheme: dark;
+    .input-section {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 30px;
     }
-    input:focus { border-color: #ffffff; outline: none; }
-    input::placeholder { color: #666666; font-style: italic; }
+
+    input[type="text"], input[type="number"], input[type="datetime-local"] {
+        background: rgba(20, 20, 20, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        padding: 12px;
+        font-family: inherit;
+        font-size: 1.1rem;
+        color-scheme: dark;
+    }
+
+    input[type="text"]:focus, input[type="number"]:focus, input[type="datetime-local"]:focus {
+        border-color: #ffffff;
+        outline: none;
+    }
+
+    input[type="text"]::placeholder, input[type="number"]::placeholder {
+        color: #666666;
+        font-style: italic;
+    }
+
     input[type="text"] { flex-grow: 1; min-width: 200px; }
     input[type="number"] { width: 120px; text-align: center; }
     
     button {
-        background: transparent; border: 1px solid rgba(255, 255, 255, 0.5); color: #ffffff;
-        padding: 10px 20px; cursor: pointer; font-family: inherit; font-size: 1rem;
-        text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        color: #ffffff;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        transition: all 0.3s;
     }
-    button:hover { background: #ffffff; color: #000000; }
+    button:hover { 
+        background: #ffffff; 
+        color: #000000;
+    }
 
-    .grid-layout { display: grid; grid-template-columns: 1.8fr 1.2fr; gap: 30px; }
+    .grid-layout {
+        display: grid;
+        grid-template-columns: 1.8fr 1.2fr;
+        gap: 30px;
+    }
+
     h2 {
-        font-size: 1.5rem; color: #ffffff; border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        padding-bottom: 10px; margin-bottom: 15px; letter-spacing: 3px; text-transform: uppercase;
-        display: flex; justify-content: space-between; align-items: flex-end;
+        font-size: 1.5rem;
+        color: #ffffff;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
     }
 
-    /* Daily Protocols */
-    .daily-section { margin-bottom: 30px; padding: 15px; border: 1px dashed rgba(255, 255, 255, 0.3); background: rgba(0,0,0,0.4); }
-    .daily-list { list-style: none; margin-bottom: 15px; }
-    .daily-item {
-        display: flex; align-items: center; justify-content: space-between; padding: 8px 10px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 5px;
+    /* DAILY PROTOCOLS SECTION */
+    .daily-section {
+        margin-bottom: 40px;
+        background: transparent;
     }
-    .daily-item-left { display: flex; align-items: center; gap: 10px; }
-    .daily-item input[type="checkbox"] { width: 15px; height: 15px; accent-color: #ffffff; cursor: pointer; }
-    .daily-input-row { display: flex; gap: 10px; }
-    .daily-input-row input { padding: 8px; font-size: 0.9rem; flex-grow: 1; }
-    .daily-input-row button { padding: 8px 15px; font-size: 0.8rem; }
+    
+    .daily-list {
+        list-style: none;
+    }
+
+    .daily-item {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 12px 15px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: background 0.3s;
+    }
+
+    .daily-item:hover {
+        background: rgba(255, 255, 255, 0.07);
+    }
+
+    .daily-item-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 1.1rem;
+    }
+
+    .daily-item input[type="checkbox"] {
+        width: 18px; 
+        height: 18px; 
+        accent-color: #ffffff; 
+        cursor: pointer;
+    }
+
+    .daily-input-row {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .daily-input-row input {
+        flex-grow: 1;
+        padding: 10px;
+        font-size: 1rem;
+    }
 
     /* Quest List */
     .quest-list { list-style: none; }
-    .quest-item { background: transparent; border-left: 1px solid rgba(255, 255, 255, 0.5); padding: 15px; margin-bottom: 20px; }
-    .quest-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    
+    .quest-item {
+        background: transparent;
+        border-left: 1px solid rgba(255, 255, 255, 0.5);
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .quest-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
     .quest-title { font-size: 1.3rem; color: #ffffff; letter-spacing: 1px; }
     .quest-reward { color: #aaaaaa; font-size: 0.9rem; margin-right: 15px; }
     .quest-deadline { color: #888888; font-size: 0.85rem; margin-top: 5px; font-style: italic;}
+    
     .quest-actions button { padding: 5px 10px; font-size: 0.8rem; }
     .btn-complete { border-color: #ffffff; background: transparent; }
     .btn-delete { border-color: rgba(255, 255, 255, 0.2); background: transparent; color: #aaaaaa;}
     .btn-delete:hover { border-color: #ffffff; color: #000000; background: #ffffff; }
 
     /* Sub-tasks */
-    .task-list { list-style: none; margin-bottom: 10px; padding-left: 10px; }
-    .task-item { display: flex; align-items: center; gap: 10px; font-size: 1rem; margin-bottom: 5px; color: #cccccc; }
-    .task-item input[type="checkbox"] { accent-color: #ffffff; width: 15px; height: 15px; cursor: pointer; }
+    .task-list {
+        list-style: none;
+        margin-bottom: 10px;
+        padding-left: 10px;
+    }
+    .task-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1rem;
+        margin-bottom: 5px;
+        color: #cccccc;
+    }
+    .task-item input[type="checkbox"] {
+        accent-color: #ffffff;
+        width: 15px; height: 15px;
+        cursor: pointer;
+    }
     .task-done { text-decoration: line-through; color: #666666; }
+    
     .task-input-section { display: flex; gap: 5px; margin-bottom: 0; }
     .task-input-section input[type="text"] { padding: 8px; font-size: 0.9rem; border-color: rgba(255, 255, 255, 0.2);}
     .task-input-section button { padding: 8px 15px; font-size: 0.8rem; }
 
+    /* Archive Section */
+    #archive-section {
+        display: none;
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px dashed rgba(255, 255, 255, 0.2);
+    }
+    .archived-item {
+        background: transparent;
+        border-left: 1px solid rgba(255, 255, 255, 0.5);
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .archived-item:hover { background: rgba(255, 255, 255, 0.05); }
+    .archived-header {
+        padding: 10px 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1rem;
+        color: #ffffff;
+    }
+    .failed-item { border-left-color: #555555; }
+    .failed-item .archived-header { color: #888888; text-decoration: line-through; }
+    
+    .archived-tasks {
+        display: none;
+        padding: 10px 15px 15px 30px;
+        background: rgba(0, 0, 0, 0.5);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 0.9rem;
+        color: #aaaaaa;
+        list-style-type: square;
+    }
+
     /* Economy Shop */
     .shop-category { margin-bottom: 40px; }
     .shop-item {
-        background: transparent; border: 1px solid rgba(255, 255, 255, 0.2);
-        padding: 12px 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 12px 15px;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
-    .shop-item-info h3 { margin-bottom: 3px; font-size: 1rem; display: flex; align-items: center; gap: 8px;}
+    .shop-item-info { flex-grow: 1; }
+    .shop-item-info h3 { margin-bottom: 3px; font-size: 1rem; color: #ffffff; display: flex; align-items: center; gap: 8px;}
     .shop-item-info p { color: #aaaaaa; font-size: 0.85rem; }
-    .shop-item button { padding: 6px 12px; font-size: 0.8rem; }
-    .btn-del-custom { background: transparent; border: none; color: #666666; padding: 0 5px; font-size: 1.2rem; cursor: pointer; }
-    .btn-del-custom:hover { color: #ffffff; }
-
-    .shop-alert { color: #ffffff; text-align: center; font-style: italic; opacity: 0; transition: opacity 0.3s ease; height: 20px; margin-bottom: 15px;}
-    .shop-alert.show { opacity: 1; }
+    .shop-actions { display: flex; gap: 5px; align-items: center; }
     
-    .custom-shop-form { display: flex; gap: 5px; margin-bottom: 15px; padding: 10px; border: 1px solid rgba(255, 255, 255, 0.2); }
-    .custom-shop-form input[type="text"] { padding: 8px; font-size: 0.9rem; flex-grow: 1; }
-    .custom-shop-form input[type="number"] { width: 85px; padding: 8px; font-size: 0.9rem; }
-    .custom-shop-form button { padding: 8px 10px; font-size: 0.8rem; }
+    .shop-item button { padding: 6px 12px; font-size: 0.8rem; }
+    
+    .btn-del-custom {
+        background: transparent;
+        border: none;
+        color: #666666;
+        padding: 0 5px;
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+    .btn-del-custom:hover { color: #ffffff; background: transparent; }
 
-    /* Archive Section */
-    #archive-section { display: none; margin-top: 40px; padding-top: 20px; border-top: 1px dashed rgba(255, 255, 255, 0.2); }
-    .archived-item { border-left: 1px solid rgba(255, 255, 255, 0.5); margin-bottom: 10px; cursor: pointer; }
-    .archived-item:hover { background: rgba(255, 255, 255, 0.05); }
-    .archived-header { padding: 10px 15px; display: flex; justify-content: space-between; font-size: 1rem; }
-    .failed-item { border-left-color: #555555; }
-    .failed-item .archived-header { color: #888888; text-decoration: line-through; }
-    .archived-tasks { display: none; padding: 10px 15px 15px 30px; background: rgba(0, 0, 0, 0.5); font-size: 0.9rem; color: #aaaaaa; }
+    .shop-alert {
+        color: #ffffff;
+        text-align: center;
+        font-size: 1rem;
+        letter-spacing: 2px;
+        margin-bottom: 15px;
+        font-style: italic;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        height: 20px; 
+    }
+    .shop-alert.show { opacity: 1; }
+
+    .custom-shop-form {
+        display: flex;
+        gap: 5px;
+        margin-bottom: 15px;
+        background: transparent;
+        padding: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .custom-shop-form input[type="text"] { padding: 8px; font-size: 0.9rem; flex-grow: 1; min-width: 0; }
+    .custom-shop-form input[type="number"] { width: 85px; padding: 8px; font-size: 0.9rem; }
+    .custom-shop-form button { padding: 8px 10px; font-size: 0.8rem; white-space: nowrap;}
+
+    @media (max-width: 768px) {
+        .grid-layout { grid-template-columns: 1fr; }
+        .stats-board { flex-direction: column; text-align: center; gap: 10px; }
+        .quest-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+        .input-section { flex-direction: column; }
+        input[type="number"], input[type="datetime-local"] { width: 100%; }
+        .custom-shop-form { flex-wrap: wrap; }
+        .custom-shop-form input[type="number"] { width: 100px; }
+    }
 </style>
 
 <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
 
-    <div style="position: absolute; top: 0; left: 0; width: 200px; height: 200px; z-index: -100; overflow: hidden; opacity: 0.01;">
+    <div style="position: absolute; top: 0; left: 0; width: 200px; height: 200px; z-index: -100; overflow: hidden; pointer-events: none; opacity: 0.01;">
         <div id="yt-player"></div>
     </div>
 
@@ -286,23 +655,25 @@
             <div class="input-section">
                 <input type="text" id="quest-input" placeholder="Draft new directive..." autocomplete="off">
                 <input type="number" id="gold-input" placeholder="Reward CR" value="300" min="10">
-                <input type="datetime-local" id="deadline-input">
+                <input type="datetime-local" id="deadline-input" title="Set Deadline (Optional)">
                 <button onclick="addQuest()">Execute</button>
             </div>
 
             <div class="grid-layout">
                 <div>
                     <div class="daily-section">
-                        <h2>Daily Protocols (Recurring)</h2>
-                        <ul id="daily-container" class="daily-list"></ul>
+                        <h2>Daily Protocols</h2>
+                        <ul id="daily-container" class="daily-list">
+                            </ul>
                         <div class="daily-input-row">
-                            <input type="text" id="daily-input" placeholder="Add daily task (e.g. Code for 1hr)">
+                            <input type="text" id="daily-input" placeholder="Add recurring daily task...">
                             <button onclick="addDaily()">Add</button>
                         </div>
                     </div>
 
                     <h2>Active Directives</h2>
-                    <ul id="quest-container" class="quest-list"></ul>
+                    <ul id="quest-container" class="quest-list">
+                        </ul>
                 </div>
 
                 <div>
@@ -317,23 +688,53 @@
                         </div>
                         <div id="dues-container">
                             <div class="shop-item">
-                                <div class="shop-item-info"><h3>Mental Maintenance</h3><p>Cost: 500 CR</p></div>
-                                <button onclick="spendGold(500)">Deduct</button>
+                                <div class="shop-item-info">
+                                    <h3>Mental Maintenance</h3>
+                                    <p>Cost: 500 CR</p>
+                                </div>
+                                <div class="shop-item-actions">
+                                    <button onclick="spendGold(500)">Deduct</button>
+                                </div>
+                            </div>
+                            <div class="shop-item">
+                                <div class="shop-item-info">
+                                    <h3>Daily Sustenance</h3>
+                                    <p>Cost: 300 CR</p>
+                                </div>
+                                <div class="shop-item-actions">
+                                    <button onclick="spendGold(300)">Deduct</button>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="shop-category">
                         <h2>Asset Requisitions</h2>
+                        
                         <div class="custom-shop-form">
                             <input type="text" id="custom-reward-name" placeholder="Custom requisition...">
                             <input type="number" id="custom-reward-cost" placeholder="Cost CR">
                             <button onclick="addCustomReward()">Authorize</button>
                         </div>
+
                         <div id="rewards-container">
                             <div class="shop-item">
-                                <div class="shop-item-info"><h3>R&R (1hr Downtime)</h3><p>Cost: 800 CR</p></div>
-                                <button onclick="spendGold(800)">Approve</button>
+                                <div class="shop-item-info">
+                                    <h3>R&R (1hr Downtime)</h3>
+                                    <p>Cost: 800 CR</p>
+                                </div>
+                                <div class="shop-item-actions">
+                                    <button onclick="spendGold(800)">Approve</button>
+                                </div>
+                            </div>
+                            <div class="shop-item">
+                                <div class="shop-item-info">
+                                    <h3>Asset Rendezvous</h3>
+                                    <p>Cost: 1000 CR</p>
+                                </div>
+                                <div class="shop-item-actions">
+                                    <button onclick="spendGold(1000)">Approve</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -341,14 +742,15 @@
             </div>
 
             <div id="archive-section">
-                <h2>Classified Archives</h2>
-                <div id="archive-container"></div>
+                <h2>Classified Archives (Past Missions)</h2>
+                <div id="archive-container">
+                </div>
             </div>
         </div>
     </div>
 
 <script>
-    // --- SYNTH AUDIO ENGINE (NEW) ---
+    // --- SYNTH AUDIO ENGINE ---
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     const audioCtx = new AudioContext();
 
@@ -383,160 +785,351 @@
     }
 
     // --- YOUTUBE API SETUP ---
-    let ytPlayer; let isPlayerReady = false;
+    let ytPlayer;
+    let isPlayerReady = false;
+
     function onYouTubeIframeAPIReady() {
         ytPlayer = new YT.Player('yt-player', {
-            height: '200', width: '200', videoId: 'gftNh2HbLKM',
-            playerVars: { 'playsinline': 1, 'loop': 1, 'playlist': 'gftNh2HbLKM', 'controls': 0, 'autoplay': 1, 'mute': 1 },
-            events: { 'onReady': function(event) { isPlayerReady = true; event.target.playVideo(); } }
+            height: '200',
+            width: '200',
+            videoId: 'gftNh2HbLKM',
+            playerVars: {
+                'playsinline': 1,
+                'loop': 1,
+                'playlist': 'gftNh2HbLKM',
+                'controls': 0
+                // Removed autoplay/mute to rely on explicit start command on user click
+            },
+            events: {
+                'onReady': function(event) {
+                    isPlayerReady = true;
+                }
+            }
         });
     }
 
-    // --- BOOT SEQUENCE ---
+    // --- BOOT SEQUENCE & PIN LOGIC ---
     const startScreen = document.getElementById('start-screen');
     const pinScreen = document.getElementById('pin-screen');
     const pinInput = document.getElementById('pin-input');
+    const pinBtn = document.getElementById('pin-btn');
+    const pinError = document.getElementById('pin-error');
 
     startScreen.addEventListener('click', function() {
         this.style.opacity = '0';
-        if (isPlayerReady && ytPlayer && typeof ytPlayer.unMute === 'function') {
-            ytPlayer.unMute(); ytPlayer.setVolume(100);
+        
+        // FORCE YouTube playback synchronously on user click
+        if (isPlayerReady && ytPlayer) {
+            ytPlayer.unMute();
+            ytPlayer.setVolume(100);
+            ytPlayer.playVideo();
         }
-        setTimeout(() => { this.style.display = 'none'; pinScreen.classList.add('active'); pinInput.focus(); }, 800);
+
+        setTimeout(() => { 
+            this.style.display = 'none'; 
+            pinScreen.classList.add('active');
+            pinInput.focus();
+        }, 800);
     });
 
     function handleLogin() {
-        if (pinInput.value === '2027') {
-            playSound('success'); // Audio feedback
-            pinScreen.style.opacity = '0';
-            setTimeout(() => { pinScreen.style.display = 'none'; }, 800);
-            document.getElementById('intro-layer').classList.add('start-sequence');
-            document.body.classList.add('start-main');
-            setTimeout(() => {
-                document.getElementById('intro-layer').style.display = 'none';
-                document.getElementById('app-main').classList.add('show-app');
-            }, 13500);
+        const val = pinInput.value;
+        if (val === '2027') {
+            playSound('success');
+            initiateBootSequence();
         } else {
-            playSound('error'); // Audio feedback
-            document.getElementById('pin-error').style.opacity = '1'; pinInput.value = '';
-            setTimeout(() => { document.getElementById('pin-error').style.opacity = '0'; }, 2000);
+            playSound('error');
+            pinError.style.opacity = '1';
+            pinInput.value = '';
+            setTimeout(() => { pinError.style.opacity = '0'; }, 2000);
         }
     }
-    pinInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') handleLogin(); });
-    document.getElementById('pin-btn').addEventListener('click', handleLogin);
 
-    // --- EMBERS CANVAS ---
-    const canvas = document.getElementById('embers-canvas'); const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    pinInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') handleLogin();
+    });
+    pinBtn.addEventListener('click', handleLogin);
+
+    function initiateBootSequence() {
+        pinScreen.style.opacity = '0';
+        setTimeout(() => { pinScreen.style.display = 'none'; }, 800);
+
+        document.getElementById('intro-layer').classList.add('start-sequence');
+        document.body.classList.add('start-main');
+        
+        setTimeout(() => {
+            document.getElementById('intro-layer').style.display = 'none';
+            document.getElementById('app-main').classList.add('show-app');
+        }, 13500);
+    }
+
+    // --- INTERACTIVE DIGITAL DATA PARTICLES ---
+    const canvas = document.getElementById('embers-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
     let mouse = { x: -1000, y: -1000 };
     window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
-    
+    window.addEventListener('mouseout', () => { mouse.x = -1000; mouse.y = -1000; });
+
+    const particles = [];
+    const emberColors = [ 'rgba(255, 255, 255, ', 'rgba(200, 200, 200, ', 'rgba(120, 120, 120, ' ];
+
     class Particle {
         constructor() {
-            this.x = Math.random() * canvas.width; this.y = canvas.height + Math.random() * 100;
-            this.size = Math.random() * 1.5 + 0.5; this.speedY = Math.random() * -1.5 - 0.2; this.speedX = 0;
-            this.color = 'rgba(200, 200, 200, '; this.life = Math.random() * 0.6 + 0.1; 
+            this.x = Math.random() * canvas.width;
+            this.y = canvas.height + Math.random() * 100;
+            this.size = Math.random() * 1.5 + 0.5;
+            this.baseSpeedY = Math.random() * -1.5 - 0.2; 
+            this.baseSpeedX = 0; 
+            this.speedY = this.baseSpeedY;
+            this.speedX = this.baseSpeedX;
+            this.colorBase = emberColors[Math.floor(Math.random() * emberColors.length)];
+            this.life = Math.random() * 0.6 + 0.1; 
         }
         update() {
-            let dx = mouse.x - this.x; let dy = mouse.y - this.y;
-            if (Math.sqrt(dx * dx + dy * dy) < 150) this.speedX = -(dx / Math.sqrt(dx * dx + dy * dy)) * 2.5; 
-            else this.speedX *= 0.9;
-            this.y += this.speedY; this.x += this.speedX;
+            let dx = mouse.x - this.x;
+            let dy = mouse.y - this.y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < 150) {
+                this.speedX = -(dx / distance) * 2.5; 
+            } else {
+                this.speedX = this.speedX * 0.9;
+                this.speedY = this.baseSpeedY;
+            }
+
+            this.y += this.speedY;
+            this.x += this.speedX;
             if(Math.random() > 0.97) this.x += (Math.random() - 0.5) * 3;
             if (this.size > 0.05) this.size -= 0.0008; 
+            
             if (this.y < -50 || this.size <= 0.05 || this.x < -50 || this.x > canvas.width + 50) {
-                this.x = Math.random() * canvas.width; this.y = canvas.height + 10;
-                this.size = Math.random() * 1.5 + 0.5; this.speedX = 0;
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 10;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.speedX = this.baseSpeedX;
+                this.speedY = this.baseSpeedY;
             }
         }
-        draw() { ctx.fillStyle = this.color + this.life + ')'; ctx.fillRect(this.x, this.y, this.size, this.size * 2); }
+        draw() {
+            ctx.fillStyle = this.colorBase + this.life + ')';
+            ctx.fillRect(this.x, this.y, this.size, this.size * 2);
+        }
     }
-    const particles = []; for(let i = 0; i < 90; i++) particles.push(new Particle());
+
+    for(let i = 0; i < 90; i++) { particles.push(new Particle()); }
     function animateEmbers() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateEmbers);
+        particles.forEach(p => { p.update(); p.draw(); });
+        requestAnimationFrame(animateEmbers);
     }
     animateEmbers();
 
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+
     // --- APPLICATION LOGIC ---
-    let state = JSON.parse(localStorage.getItem('inquiniso_app_v5')) || {
+    let state = JSON.parse(localStorage.getItem('inquiniso_app_v6')) || {
         questsCompleted: 0, tasksCompleted: 0, gold: 0,
         quests: [], archive: [], customDues: [], customRewards: [],
-        dailies: [], lastLoginDate: new Date().toDateString() // NEW State vars
+        dailies: [], lastLoginDate: new Date().toDateString()
     };
 
-    // --- RECURRING DIRECTIVES RESET LOGIC ---
+    // --- DAILY RESET LOGIC ---
     const todayStr = new Date().toDateString();
     if (state.lastLoginDate !== todayStr) {
-        // A new day has passed! Reset dailies.
         if (state.dailies) { state.dailies.forEach(d => d.done = false); }
         state.lastLoginDate = todayStr;
-        localStorage.setItem('inquiniso_app_v5', JSON.stringify(state));
+        localStorage.setItem('inquiniso_app_v6', JSON.stringify(state));
+    }
+
+    const statQuests = document.getElementById('stat-quests');
+    const statTasks = document.getElementById('stat-tasks');
+    const statGold = document.getElementById('stat-gold');
+    const questContainer = document.getElementById('quest-container');
+    const dailyContainer = document.getElementById('daily-container');
+    const archiveContainer = document.getElementById('archive-container');
+    const duesContainer = document.getElementById('dues-container');
+    const rewardsContainer = document.getElementById('rewards-container');
+    const shopAlert = document.getElementById('shop-alert');
+
+    function checkDeadlines() {
+        const now = new Date().getTime();
+        let changed = false;
+        for (let i = state.quests.length - 1; i >= 0; i--) {
+            const quest = state.quests[i];
+            if (quest.deadline) {
+                const deadTime = new Date(quest.deadline).getTime();
+                if (now > deadTime) { failQuest(i); changed = true; }
+            }
+        }
+        if (changed) updateUI();
     }
 
     function updateUI() {
-        localStorage.setItem('inquiniso_app_v5', JSON.stringify(state));
-        document.getElementById('stat-quests').innerText = state.questsCompleted;
-        document.getElementById('stat-tasks').innerText = state.tasksCompleted;
-        document.getElementById('stat-gold').innerText = state.gold + " CR";
-        document.getElementById('stat-gold').style.color = state.gold < 0 ? "#aaaaaa" : "#ffffff";
+        localStorage.setItem('inquiniso_app_v6', JSON.stringify(state));
 
-        // Render Dailies
-        const dailyContainer = document.getElementById('daily-container');
+        statQuests.innerText = state.questsCompleted;
+        statTasks.innerText = state.tasksCompleted;
+        statGold.innerText = state.gold + " CR";
+        statGold.style.color = state.gold < 0 ? "#aaaaaa" : "#ffffff";
+
+        // Render Dailies safely using DOM API
         dailyContainer.innerHTML = '';
         if (state.dailies) {
             state.dailies.forEach((d, index) => {
                 const checked = d.done ? "checked" : "";
                 const textClass = d.done ? "task-done" : "";
-                dailyContainer.innerHTML += `
-                    <li class="daily-item">
-                        <div class="daily-item-left">
-                            <input type="checkbox" ${checked} onchange="toggleDaily(${index})">
-                            <span class="${textClass}">${d.text}</span>
-                        </div>
-                        <button class="btn-del-custom" onclick="deleteDaily(${index})">×</button>
-                    </li>
+                
+                const li = document.createElement('li');
+                li.className = 'daily-item';
+                li.innerHTML = `
+                    <div class="daily-item-left">
+                        <input type="checkbox" ${checked} onchange="toggleDaily(${index})">
+                        <span class="${textClass}">${d.text}</span>
+                    </div>
+                    <button class="btn-del-custom" onclick="deleteDaily(${index})">×</button>
                 `;
+                dailyContainer.appendChild(li);
             });
         }
 
-        // Render Quests (Original Logic untouched)
-        const questContainer = document.getElementById('quest-container');
+        // Render Quests safely without breaking input listeners
         questContainer.innerHTML = '';
         state.quests.forEach((quest, qIndex) => {
             let tasksHTML = '';
-            if(quest.tasks) {
+            if(quest.tasks && quest.tasks.length > 0) {
                 quest.tasks.forEach((task, tIndex) => {
+                    const checked = task.done ? "checked" : "";
+                    const textClass = task.done ? "task-done" : "";
                     tasksHTML += `
                         <li class="task-item">
-                            <input type="checkbox" ${task.done ? "checked" : ""} onchange="toggleTask(${qIndex}, ${tIndex})">
-                            <span class="${task.done ? "task-done" : ""}">${task.text}</span>
+                            <input type="checkbox" ${checked} onchange="toggleTask(${qIndex}, ${tIndex})">
+                            <span class="${textClass}">${task.text}</span>
                         </li>
                     `;
                 });
             }
-            let deadlineText = quest.deadline ? `<div class="quest-deadline">Deadline: ${new Date(quest.deadline).toLocaleString()}</div>` : '';
-            questContainer.innerHTML += `
-                <li class="quest-item">
-                    <div class="quest-header">
-                        <div>
-                            <div class="quest-title">${quest.title}</div>
-                            <div class="quest-reward">Reward: ${quest.reward} CR</div>
-                            ${deadlineText}
-                        </div>
-                        <div class="quest-actions">
-                            <button class="btn-complete" onclick="completeQuest(${qIndex})">Complete</button>
-                            <button class="btn-delete" onclick="deleteQuest(${qIndex})">Abort</button>
-                        </div>
+
+            let deadlineText = '';
+            if(quest.deadline) {
+                const d = new Date(quest.deadline);
+                deadlineText = `<div class="quest-deadline">Deadline: ${d.toLocaleString()}</div>`;
+            }
+
+            const li = document.createElement('li');
+            li.className = 'quest-item';
+            li.innerHTML = `
+                <div class="quest-header">
+                    <div>
+                        <div class="quest-title">${quest.title}</div>
+                        <div class="quest-reward">Reward: ${quest.reward} CR</div>
+                        ${deadlineText}
                     </div>
-                    <ul class="task-list">${tasksHTML}</ul>
-                    <div class="task-input-section">
-                        <input type="text" id="task-input-${qIndex}" placeholder="Add sub-objective...">
-                        <button onclick="addTask(${qIndex})">Add</button>
+                    <div class="quest-actions">
+                        <button class="btn-complete" onclick="completeQuest(${qIndex})">Complete</button>
+                        <button class="btn-delete" onclick="deleteQuest(${qIndex})">Abort</button>
                     </div>
-                </li>
+                </div>
+                
+                <ul class="task-list">
+                    ${tasksHTML}
+                </ul>
+                
+                <div class="task-input-section">
+                    <input type="text" id="task-input-${qIndex}" placeholder="Add sub-objective...">
+                    <button onclick="addTask(${qIndex})">Add</button>
+                </div>
             `;
+            questContainer.appendChild(li);
+
+            // Correctly re-attach the Enter Key Listener!
+            const taskInput = document.getElementById(`task-input-${qIndex}`);
+            taskInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') addTask(qIndex);
+            });
         });
+
+        // Custom Upkeep rendering
+        const existingCustomDues = duesContainer.querySelectorAll('.dynamic-due');
+        existingCustomDues.forEach(el => el.remove());
+        if (state.customDues.length > 0) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'dynamic-due';
+            wrapper.innerHTML = state.customDues.map((due, index) => `
+                <div class="shop-item">
+                    <div class="shop-item-info">
+                        <h3>${due.name} <button class="btn-del-custom" onclick="removeCustomDue(${index})" title="Remove">×</button></h3>
+                        <p>Cost: ${due.cost} CR</p>
+                    </div>
+                    <div class="shop-item-actions">
+                        <button onclick="spendGold(${due.cost})">Deduct</button>
+                    </div>
+                </div>
+            `).join('');
+            duesContainer.appendChild(wrapper);
+        }
+
+        // Custom Rewards rendering
+        const existingCustomRewards = rewardsContainer.querySelectorAll('.dynamic-reward');
+        existingCustomRewards.forEach(el => el.remove());
+        if (state.customRewards.length > 0) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'dynamic-reward';
+            wrapper.innerHTML = state.customRewards.map((reward, index) => `
+                <div class="shop-item">
+                    <div class="shop-item-info">
+                        <h3>${reward.name} <button class="btn-del-custom" onclick="removeCustomReward(${index})" title="Remove">×</button></h3>
+                        <p>Cost: ${reward.cost} CR</p>
+                    </div>
+                    <div class="shop-item-actions">
+                        <button onclick="spendGold(${reward.cost})">Approve</button>
+                    </div>
+                </div>
+            `).join('');
+            rewardsContainer.appendChild(wrapper);
+        }
+
+        // Render Archive safely
+        archiveContainer.innerHTML = '';
+        if (state.archive.length === 0) {
+            archiveContainer.innerHTML = '<p style="color:#718093;">No logs recorded yet.</p>';
+        } else {
+            state.archive.slice().reverse().forEach((archivedQuest, i) => {
+                const isFailed = archivedQuest.status === 'failed';
+                let subtasksHTML = '';
+                
+                if(archivedQuest.tasks && archivedQuest.tasks.length > 0) {
+                    archivedQuest.tasks.forEach(t => {
+                        const mark = t.done ? '✓' : '✗';
+                        subtasksHTML += `<li>[${mark}] ${t.text}</li>`;
+                    });
+                } else {
+                    subtasksHTML = '<li>No steps logged.</li>';
+                }
+
+                const div = document.createElement('div');
+                div.className = `archived-item ${isFailed ? 'failed-item' : ''}`;
+                const realIndex = state.archive.length - 1 - i;
+                
+                div.innerHTML = `
+                    <div class="archived-header" onclick="toggleArchiveTasks(${realIndex})">
+                        <span>${isFailed ? '⚠ COMPROMISED: ' : '★ SECURED: '}${archivedQuest.title}</span> 
+                        <span style="color:${isFailed ? '#aaaaaa' : '#ffffff'};">
+                            ${isFailed ? '-' + archivedQuest.penalty + ' CR' : '+' + archivedQuest.reward + ' CR'}
+                        </span>
+                    </div>
+                    <ul class="archived-tasks" id="archive-tasks-list-${realIndex}">
+                        ${subtasksHTML}
+                    </ul>
+                `;
+                archiveContainer.appendChild(div);
+            });
+        }
     }
 
     // --- DAILY LOGIC ---
@@ -545,15 +1138,16 @@
         if (input.value.trim() === '') return;
         if (!state.dailies) state.dailies = [];
         state.dailies.push({ text: input.value.trim(), done: false });
-        input.value = ''; updateUI();
+        input.value = ''; 
+        updateUI();
     }
-    
+
     function toggleDaily(index) {
         state.dailies[index].done = !state.dailies[index].done;
         if (state.dailies[index].done) {
-            playSound('click'); 
+            playSound('click');
             state.tasksCompleted++;
-            state.gold += 10; // Small bonus for dailies
+            state.gold += 10;
         } else {
             state.tasksCompleted--;
             state.gold -= 10;
@@ -562,58 +1156,165 @@
     }
 
     function deleteDaily(index) {
-        state.dailies.splice(index, 1); updateUI();
+        state.dailies.splice(index, 1); 
+        updateUI();
     }
 
-    // --- QUEST LOGIC ---
+    // --- QUEST FUNCTIONS ---
     function addQuest() {
-        const title = document.getElementById('quest-input').value.trim();
+        const titleInput = document.getElementById('quest-input');
+        const goldInput = document.getElementById('gold-input');
+        const deadlineInput = document.getElementById('deadline-input');
+        
+        const title = titleInput.value.trim();
+        const reward = parseInt(goldInput.value) || 300;
+        const deadline = deadlineInput.value; 
+
         if (title === '') return;
-        state.quests.push({ 
-            title: title, 
-            reward: parseInt(document.getElementById('gold-input').value) || 300, 
-            deadline: document.getElementById('deadline-input').value, 
-            tasks: [] 
-        });
-        document.getElementById('quest-input').value = ''; updateUI();
+
+        state.quests.push({ title: title, reward: reward, deadline: deadline, tasks: [] });
+        
+        titleInput.value = '';
+        deadlineInput.value = '';
+        updateUI();
     }
 
     function addTask(qIndex) {
-        const input = document.getElementById(`task-input-${qIndex}`);
-        if (input.value.trim() === '') return;
-        state.quests[qIndex].tasks.push({ text: input.value.trim(), done: false });
+        const taskInput = document.getElementById(`task-input-${qIndex}`);
+        const text = taskInput.value.trim();
+        if (text === '') return;
+
+        if(!state.quests[qIndex].tasks) state.quests[qIndex].tasks = [];
+        state.quests[qIndex].tasks.push({ text: text, done: false });
         updateUI();
     }
 
     function toggleTask(qIndex, tIndex) {
         state.quests[qIndex].tasks[tIndex].done = !state.quests[qIndex].tasks[tIndex].done;
-        if(state.quests[qIndex].tasks[tIndex].done) { playSound('click'); state.tasksCompleted++; } 
-        else { state.tasksCompleted--; }
+        if(state.quests[qIndex].tasks[tIndex].done) {
+            playSound('click');
+            state.tasksCompleted++;
+        } else {
+            state.tasksCompleted--;
+        }
         updateUI();
     }
 
     function completeQuest(qIndex) {
-        playSound('success'); // AUDIO
-        state.gold += state.quests[qIndex].reward; state.questsCompleted++;
-        state.quests.splice(qIndex, 1); updateUI();
-    }
-    
-    function deleteQuest(qIndex) { state.quests.splice(qIndex, 1); updateUI(); }
+        playSound('success');
+        const quest = state.quests[qIndex];
+        state.gold += quest.reward;
+        state.questsCompleted++;
 
-    // --- ECONOMY ---
+        state.archive.push({
+            title: quest.title, reward: quest.reward, tasks: quest.tasks,
+            status: 'completed', date: new Date().toLocaleDateString()
+        });
+
+        state.quests.splice(qIndex, 1);
+        updateUI();
+    }
+
+    function failQuest(qIndex) {
+        playSound('error');
+        const quest = state.quests[qIndex];
+        const penalty = Math.floor(quest.reward / 2);
+        
+        state.gold -= penalty;
+
+        state.archive.push({
+            title: quest.title, reward: quest.reward, penalty: penalty, tasks: quest.tasks,
+            status: 'failed', date: new Date().toLocaleDateString()
+        });
+
+        state.quests.splice(qIndex, 1);
+    }
+
+    function deleteQuest(qIndex) {
+        state.quests.splice(qIndex, 1);
+        updateUI();
+    }
+
+    // --- ECONOMY FUNCTIONS ---
     function spendGold(amount) {
         if (state.gold >= amount) {
-            playSound('click'); // AUDIO
-            state.gold -= amount; updateUI();
+            playSound('click');
+            state.gold -= amount;
+            updateUI();
         } else {
-            playSound('error'); // AUDIO
-            const alert = document.getElementById('shop-alert');
-            alert.classList.add('show'); setTimeout(() => { alert.classList.remove('show'); }, 2000);
+            playSound('error');
+            shopAlert.classList.add('show');
+            setTimeout(() => { shopAlert.classList.remove('show'); }, 2000);
         }
     }
 
-    document.getElementById('quest-input').addEventListener('keypress', e => { if (e.key === 'Enter') addQuest(); });
-    document.getElementById('daily-input').addEventListener('keypress', e => { if (e.key === 'Enter') addDaily(); });
+    function addCustomDue() {
+        const nameInput = document.getElementById('custom-due-name');
+        const costInput = document.getElementById('custom-due-cost');
+        const name = nameInput.value.trim();
+        const cost = parseInt(costInput.value);
+
+        if (name && cost > 0) {
+            state.customDues.push({ name: name, cost: cost });
+            nameInput.value = ''; costInput.value = ''; updateUI();
+        }
+    }
+
+    function removeCustomDue(index) {
+        state.customDues.splice(index, 1); updateUI();
+    }
+
+    function addCustomReward() {
+        const nameInput = document.getElementById('custom-reward-name');
+        const costInput = document.getElementById('custom-reward-cost');
+        const name = nameInput.value.trim();
+        const cost = parseInt(costInput.value);
+
+        if (name && cost > 0) {
+            state.customRewards.push({ name: name, cost: cost });
+            nameInput.value = ''; costInput.value = ''; updateUI();
+        }
+    }
+
+    function removeCustomReward(index) {
+        state.customRewards.splice(index, 1); updateUI();
+    }
+
+    // --- UI HELPERS ---
+    function toggleArchive() {
+        const archiveSection = document.getElementById('archive-section');
+        if(archiveSection.style.display === 'block') {
+            archiveSection.style.display = 'none';
+        } else {
+            archiveSection.style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('scroll-container').scrollTo({
+                    top: document.getElementById('scroll-container').scrollHeight,
+                    behavior: 'smooth'
+                });
+            }, 100);
+        }
+    }
+
+    function toggleArchiveTasks(index) {
+        const taskList = document.getElementById(`archive-tasks-list-${index}`);
+        if(taskList.style.display === 'block') {
+            taskList.style.display = 'none';
+        } else {
+            taskList.style.display = 'block';
+        }
+    }
+
+    document.getElementById('quest-input').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') addQuest();
+    });
+    
+    document.getElementById('daily-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') addDaily();
+    });
+
+    setInterval(checkDeadlines, 10000);
+    checkDeadlines();
     updateUI();
 </script>
 
