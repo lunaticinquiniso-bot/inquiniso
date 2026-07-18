@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>"FOCUS" - Chronicles</title>
+<title>"BLOOM" - Reflection</title>
 
 <style>
     * {
@@ -16,35 +16,33 @@
         width: 100%;
         height: 100vh; 
         overflow: hidden; 
-        color: #ffffff !important;
-        background-color: #000000 !important; 
+        color: #f0d8e0 !important;
+        background-color: #1a1215 !important; 
         font-family: "AR PL Ukai CN Book", "AR PL Ukai CN", "Times New Roman", STSong, serif;
     }
 
-    /* Minimal Dark Background */
+    /* Softly Darkened Floral Background */
     #bg-layer {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
         background: 
-            linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.95)), 
-            url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop');
+            linear-gradient(rgba(26, 18, 21, 0.85), rgba(15, 8, 12, 0.95)), 
+            url('https://images.unsplash.com/photo-1522383225653-ed111181a951?q=80&w=2565&auto=format&fit=crop');
         background-size: cover;
         background-position: center;
         z-index: 0; 
-        filter: grayscale(100%);
     }
 
-    /* Subtle Vignette & Grain */
+    /* Gentle Dark Vignette */
     #crt-layer {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
-        background: radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(0,0,0,0.95) 100%);
+        background: radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(20, 10, 15, 0.7) 100%);
         z-index: 9999;
         pointer-events: none;
-        opacity: 0.9;
     }
 
-    /* Digital Data Canvas Layer */
+    /* Digital Data Canvas Layer (Petals) */
     #embers-canvas {
         position: fixed;
         top: 0;
@@ -55,7 +53,7 @@
         pointer-events: none;
     }
 
-    /* Geometric Mandala SVG */
+    /* Floral Mandala SVG */
     #magic-circle-container {
         position: fixed;
         top: 0; left: 0; right: 0; bottom: 0;
@@ -69,7 +67,7 @@
     }
 
     .start-main #magic-circle-container {
-        opacity: 0.05; 
+        opacity: 0.15; 
     }
 
     #magic-circle-container svg {
@@ -77,8 +75,6 @@
         max-width: 600px;
         height: 80vw;
         max-height: 600px;
-        stroke: #ffffff; 
-        fill: none;
         animation: rotateCircle 180s linear infinite;
     }
 
@@ -91,19 +87,19 @@
     #start-screen {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
-        background: #000;
+        background: #1a1215;
         display: flex;
         justify-content: center;
         align-items: center;
         z-index: 3000;
         cursor: pointer;
         letter-spacing: 5px;
-        color: #ffffff;
+        color: #e3a8b9;
         transition: opacity 1.5s ease;
     }
 
     .blink-text {
-        animation: blink 2s infinite;
+        animation: blink 2.5s infinite;
         font-size: clamp(1rem, 2.5vw, 1.8rem);
         text-transform: uppercase;
         font-style: italic;
@@ -130,7 +126,7 @@
         font-size: clamp(1.2rem, 3vw, 2rem);
         letter-spacing: 4px;
         text-align: center;
-        color: #ffffff;
+        color: #f0d8e0;
         font-style: italic;
     }
 
@@ -139,7 +135,7 @@
         opacity: 0;
         font-size: clamp(3rem, 7vw, 6rem);
         letter-spacing: 12px;
-        color: #ffffff;
+        color: #e3a8b9;
         text-transform: uppercase;
         text-align: center;
     }
@@ -181,7 +177,7 @@
         font-size: clamp(1.2rem, 2.2vw, 1.6rem);
         letter-spacing: 2px;
         text-align: center;
-        color: #ffffff;
+        color: #f0d8e0;
         margin-bottom: 40px;
         opacity: 0;
         transition: opacity 2s ease-in-out;
@@ -201,16 +197,16 @@
 
     .pin-title {
         font-size: 1.2rem;
-        color: #ffffff;
+        color: #d68ca3;
         letter-spacing: 6px;
-        opacity: 0.7;
+        opacity: 0.8;
     }
 
     #pin-input {
         background: transparent;
         border: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-        color: #ffffff;
+        border-bottom: 2px solid rgba(214, 140, 163, 0.3);
+        color: #e3a8b9;
         padding: 10px;
         font-family: inherit;
         font-size: 2.5rem;
@@ -222,11 +218,11 @@
     }
 
     #pin-input:focus {
-        border-bottom-color: #ffffff;
+        border-bottom-color: #e3a8b9;
     }
 
     .pin-error {
-        color: #ffffff;
+        color: #e3a8b9;
         font-style: italic;
         font-size: 1rem;
         letter-spacing: 2px;
@@ -265,7 +261,7 @@
     header {
         text-align: center;
         margin-bottom: 30px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        border-bottom: 1px solid rgba(214, 140, 163, 0.2);
         padding-bottom: 20px;
     }
 
@@ -273,23 +269,24 @@
         font-size: 2.5rem;
         letter-spacing: 8px;
         text-transform: uppercase;
-        color: #ffffff;
+        color: #e3a8b9;
         margin-bottom: 15px;
     }
 
     .stats-board {
         display: flex;
         justify-content: center;
-        background: rgba(20, 20, 20, 0.5);
+        background: rgba(214, 140, 163, 0.05);
         padding: 15px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(214, 140, 163, 0.2);
+        border-radius: 8px;
         font-size: 1.2rem;
         letter-spacing: 2px;
         margin-bottom: 30px;
     }
 
     .stat-highlight { 
-        color: #ffffff; 
+        color: #f0d8e0; 
         font-weight: bold; 
         margin-left: 10px; 
     }
@@ -302,8 +299,8 @@
 
     h2 {
         font-size: 1.5rem;
-        color: #ffffff;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        color: #e3a8b9;
+        border-bottom: 1px solid rgba(214, 140, 163, 0.2);
         padding-bottom: 10px;
         margin-bottom: 15px;
         letter-spacing: 3px;
@@ -312,8 +309,9 @@
 
     /* Calendar Styling */
     .calendar-container {
-        background: transparent;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(214, 140, 163, 0.03);
+        border: 1px solid rgba(214, 140, 163, 0.2);
+        border-radius: 8px;
         padding: 20px;
     }
 
@@ -328,7 +326,7 @@
     .nav-btn {
         background: transparent;
         border: none;
-        color: #888888;
+        color: #c4a2ad;
         font-size: 1.5rem;
         cursor: pointer;
         transition: all 0.3s;
@@ -336,13 +334,13 @@
     }
 
     .nav-btn:hover {
-        color: #ffffff;
+        color: #f0d8e0;
     }
 
     .month-header {
         text-align: center;
         font-size: 1.2rem;
-        color: #ffffff;
+        color: #f0d8e0;
         letter-spacing: 2px;
         text-transform: uppercase;
         flex: 1;
@@ -351,7 +349,7 @@
     }
 
     .month-header:hover {
-        color: #aaaaaa;
+        color: #e3a8b9;
     }
 
     .calendar-grid {
@@ -363,7 +361,7 @@
     .day-name {
         text-align: center;
         font-size: 0.8rem;
-        color: #aaaaaa;
+        color: #967682;
         margin-bottom: 5px;
     }
 
@@ -372,50 +370,51 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(214, 140, 163, 0.05);
         border: 1px solid transparent;
-        color: #666666;
+        border-radius: 4px;
+        color: #967682;
         font-size: 0.9rem;
         transition: all 0.3s ease;
     }
 
     .calendar-day.active-month {
-        color: #cccccc;
+        color: #c4a2ad;
         cursor: pointer;
     }
 
     .calendar-day.active-month:hover {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(214, 140, 163, 0.15);
     }
 
     .calendar-day.logged {
-        background: rgba(255, 255, 255, 0.15);
-        border-color: rgba(255, 255, 255, 0.4);
-        color: #ffffff;
+        background: rgba(214, 140, 163, 0.25);
+        border-color: rgba(214, 140, 163, 0.5);
+        color: #f0d8e0;
     }
 
     .calendar-day.today {
-        border-color: #ffffff;
+        border-color: #e3a8b9;
     }
     
     .calendar-day.selected {
-        background: rgba(255, 255, 255, 0.3);
-        border-color: #ffffff;
-        color: #000000;
+        background: rgba(214, 140, 163, 0.4);
+        border-color: #f0d8e0;
+        color: #ffffff;
     }
 
     /* Diary Entry Styling */
     .entry-container {
         background: transparent;
-        border-left: 1px solid rgba(255, 255, 255, 0.5);
-        padding: 20px;
+        border-left: 2px solid #d68ca3;
+        padding: 0 20px;
         display: flex;
         flex-direction: column;
     }
 
     .entry-date-display {
         font-size: 1.2rem;
-        color: #ffffff;
+        color: #f0d8e0;
         margin-bottom: 15px;
         letter-spacing: 2px;
         text-transform: uppercase;
@@ -425,9 +424,10 @@
         width: 100%;
         flex-grow: 1;
         min-height: 300px;
-        background: rgba(20, 20, 20, 0.5);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        color: #ffffff;
+        background: rgba(26, 18, 21, 0.6);
+        border: 1px solid rgba(214, 140, 163, 0.3);
+        border-radius: 6px;
+        color: #f0d8e0;
         padding: 15px;
         font-family: inherit;
         font-size: 1.1rem;
@@ -439,26 +439,27 @@
     }
 
     textarea::placeholder {
-        color: #666666;
+        color: #967682;
         font-style: italic;
     }
 
     textarea:focus { 
-        border-color: #ffffff; 
+        border-color: #e3a8b9; 
     }
     
     textarea:disabled {
-        background: transparent;
-        color: #aaaaaa;
-        border-color: rgba(255, 255, 255, 0.1);
+        background: rgba(26, 18, 21, 0.3);
+        color: #c4a2ad;
+        border-color: rgba(214, 140, 163, 0.15);
         cursor: not-allowed;
     }
 
     button.commit-btn {
         background: transparent;
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        color: #ffffff;
+        border: 1px solid rgba(214, 140, 163, 0.5);
+        color: #e3a8b9;
         padding: 12px 20px;
+        border-radius: 4px;
         cursor: pointer;
         font-family: inherit;
         font-size: 1rem;
@@ -469,12 +470,12 @@
     }
 
     button.commit-btn:hover { 
-        background: #ffffff; 
-        color: #000000;
+        background: #e3a8b9; 
+        color: #1a1215;
     }
 
     .status-msg {
-        color: #aaaaaa;
+        color: #c4a2ad;
         font-style: italic;
         margin-bottom: 10px;
     }
@@ -483,7 +484,7 @@
     .modal-overlay {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0, 0, 0, 0.85);
+        background: rgba(15, 8, 12, 0.85);
         display: none;
         z-index: 9999;
     }
@@ -493,8 +494,9 @@
     }
 
     .month-selector {
-        background: #0a0a0a;
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        background: #1a1215;
+        border: 1px solid rgba(214, 140, 163, 0.3);
+        border-radius: 8px;
         padding: 20px;
         position: fixed;
         z-index: 10000;
@@ -510,7 +512,7 @@
     }
 
     .month-selector h3 {
-        color: #ffffff;
+        color: #f0d8e0;
         margin-bottom: 15px;
         text-align: center;
         font-size: 1.2rem;
@@ -526,9 +528,10 @@
     }
 
     .month-option {
-        background: transparent;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        color: #ffffff;
+        background: rgba(214, 140, 163, 0.05);
+        border: 1px solid rgba(214, 140, 163, 0.2);
+        border-radius: 4px;
+        color: #f0d8e0;
         padding: 10px 5px;
         cursor: pointer;
         text-align: center;
@@ -537,8 +540,8 @@
     }
 
     .month-option:hover {
-        background: rgba(255, 255, 255, 0.1);
-        border-color: #ffffff;
+        background: rgba(214, 140, 163, 0.15);
+        border-color: #e3a8b9;
     }
 
     .selector-buttons {
@@ -548,8 +551,9 @@
 
     .selector-buttons button {
         background: transparent;
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        color: #ffffff;
+        border: 1px solid rgba(214, 140, 163, 0.5);
+        border-radius: 4px;
+        color: #e3a8b9;
         padding: 8px 20px;
         cursor: pointer;
         transition: all 0.3s;
@@ -557,8 +561,8 @@
         letter-spacing: 2px;
     }
     .selector-buttons button:hover {
-        background: #ffffff;
-        color: #000000;
+        background: #e3a8b9;
+        color: #1a1215;
     }
 
     .year-nav {
@@ -570,7 +574,7 @@
     }
 
     .year-display {
-        color: #ffffff;
+        color: #f0d8e0;
         text-align: center;
         flex: 1;
         font-size: 1.2rem;
@@ -578,15 +582,16 @@
 
     .year-nav button {
         background: transparent;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        color: #ffffff;
+        border: 1px solid rgba(214, 140, 163, 0.3);
+        border-radius: 4px;
+        color: #f0d8e0;
         padding: 5px 15px;
         cursor: pointer;
         transition: all 0.3s;
     }
 
     .year-nav button:hover {
-        border-color: #ffffff;
+        border-color: #e3a8b9;
     }
 
     @media (max-width: 768px) {
@@ -603,51 +608,56 @@
 
     <div id="magic-circle-container">
         <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
-            <circle cx="50" cy="50" r="45" stroke-width="0.2" stroke-dasharray="1 3" />
-            <polygon points="50,5 82,18 95,50 82,82 50,95 18,82 5,50 18,18" stroke-width="0.2" />
-            <polygon points="50,5 95,50 50,95 5,50" stroke-width="0.3" />
-            <polygon points="82,18 82,82 18,82 18,18" stroke-width="0.3" />
-            <circle cx="50" cy="50" r="25" stroke-width="0.4" />
-            <polygon points="50,25 75,50 50,75 25,50" stroke-width="0.5" />
-            <circle cx="50" cy="50" r="4" stroke-width="0.5" />
-            <circle cx="50" cy="50" r="1.5" stroke-width="1.5" fill="#ffffff" />
+            <g stroke="#d68ca3" stroke-width="0.3" fill="none">
+                <circle cx="50" cy="50" r="4" />
+                <circle cx="50" cy="50" r="1.5" fill="#d68ca3" />
+                
+                <ellipse cx="50" cy="22" rx="8" ry="25" />
+                <ellipse cx="76.6" cy="41.3" rx="8" ry="25" transform="rotate(72 76.6 41.3)" />
+                <ellipse cx="66.4" cy="72.6" rx="8" ry="25" transform="rotate(144 66.4 72.6)" />
+                <ellipse cx="33.6" cy="72.6" rx="8" ry="25" transform="rotate(216 33.6 72.6)" />
+                <ellipse cx="23.4" cy="41.3" rx="8" ry="25" transform="rotate(288 23.4 41.3)" />
+                
+                <circle cx="50" cy="50" r="35" stroke-width="0.2" />
+                <circle cx="50" cy="50" r="45" stroke-width="0.4" stroke-dasharray="2 4" />
+            </g>
         </svg>
     </div>
 
     <canvas id="embers-canvas"></canvas>
 
     <div id="start-screen">
-        <div class="blink-text">[ BREATHE. REFLECT. ]</div>
+        <div class="blink-text">[ BREATHE. GROW. ]</div>
     </div>
 
     <div id="intro-layer">
         <div class="pre-text">The day is done...</div>
         <div class="pre-text">Leave the noise behind.</div>
-        <div class="pre-text">Confront your true self.</div>
-        <div class="title-text">"FOCUS"</div>
+        <div class="pre-text">Nurture your true self.</div>
+        <div class="title-text">"BLOOM"</div>
     </div>
 
     <div id="lock-screen">
         <div id="quote-display"></div>
         <div class="pin-container">
-            <div class="pin-title">AUTHORIZATION REQUIRED</div>
+            <div class="pin-title">ENTER THE GARDEN</div>
             <input type="password" id="pin-input" maxlength="4" placeholder="••••" autocomplete="off">
-            <div id="pin-error" class="pin-error">The mind rejects this.</div>
+            <div id="pin-error" class="pin-error">Take a breath, try again.</div>
         </div>
     </div>
 
     <div id="scroll-container">
         <div id="app-main">
             <header>
-                <h1>Chronicles of the Self</h1>
+                <h1>Chronicles of Growth</h1>
                 <div class="stats-board">
-                    <div>Sealed Memories: <span id="stat-entries" class="stat-highlight">0</span></div>
+                    <div>Blossoms Preserved: <span id="stat-entries" class="stat-highlight">0</span></div>
                 </div>
             </header>
 
             <div class="grid-layout">
                 <div>
-                    <h2>Echoes of Time</h2>
+                    <h2>Seasons Passed</h2>
                     <div class="calendar-container">
                         <div class="calendar-nav">
                             <button class="nav-btn" onclick="changeMonth(-1)">&#10094;</button>
@@ -665,12 +675,12 @@
                 </div>
 
                 <div>
-                    <h2>The Mirror</h2>
+                    <h2>The Reflection</h2>
                     <div class="entry-container">
                         <div id="entry-date-display" class="entry-date-display">Date</div>
                         <div id="entry-status" class="status-msg"></div>
-                        <textarea id="diary-entry" placeholder="What did you learn about yourself today?..."></textarea>
-                        <button id="save-btn" class="commit-btn" onclick="saveEntry()">Seal Memory</button>
+                        <textarea id="diary-entry" placeholder="What did you cultivate within yourself today?..."></textarea>
+                        <button id="save-btn" class="commit-btn" onclick="saveEntry()">Plant Seed</button>
                     </div>
                 </div>
             </div>
@@ -679,7 +689,7 @@
 
     <div class="modal-overlay" id="modal-overlay" onclick="closeMonthSelector()"></div>
     <div class="month-selector" id="month-selector">
-        <h3>Navigate Past Echoes</h3>
+        <h3>Navigate Past Seasons</h3>
         
         <div class="year-nav">
             <button onclick="changeYear(-1)">&#10094;</button>
@@ -711,13 +721,6 @@
     // --- BOOT SEQUENCE & PIN LOGIC ---
     document.getElementById('start-screen').addEventListener('click', function() {
         this.style.opacity = '0';
-        
-        // FOOLPROOF AUDIO INJECTION: 
-        const ytContainer = document.createElement('div');
-        // Using requested Alter Ego YouTube Track
-        ytContainer.innerHTML = '<iframe width="10" height="10" src="https://www.youtube.com/embed/gftNh2HbLKM?autoplay=1&loop=1&playlist=gftNh2HbLKM" frameborder="0" allow="autoplay" style="position: absolute; left: -9999px; opacity: 0.01; pointer-events: none;"></iframe>';
-        document.body.appendChild(ytContainer);
-
         setTimeout(() => { this.style.display = 'none'; }, 1500);
 
         // Start Intro
@@ -733,16 +736,16 @@
                 lockScreen.style.opacity = 1;
                 document.getElementById('pin-input').focus();
             }, 50);
-        }, 15000); // Intro length aligned with new animations
+        }, 15000); 
     });
 
-    // --- SPY QUOTES (Altered slightly for aesthetic) ---
+    // --- OPTIMISTIC QUOTES ---
     const quotes = [
-        '"What I hated more than anything was myself for being so weak..."',
-        '"To know thyself is the beginning of wisdom."',
-        '"The mind is its own place, and in itself can make a heaven of hell, a hell of heaven."',
-        '"Focus is the art of knowing exactly what to ignore."',
-        '"Do not let the noise of others drown out your inner voice."'
+        '"Keep your face always toward the sunshine—and shadows will fall behind you."',
+        '"The flower that blooms in adversity is the most rare and beautiful of all."',
+        '"Every flower must grow through dirt to reach the light."',
+        '"Focus on the beautiful things in life, and you will find them multiplying."',
+        '"Do not let the noise of others drown out your inner peace."'
     ];
     
     let quoteIndex = 0;
@@ -790,7 +793,7 @@
         }, 1500); 
     }
 
-    // --- MATRIX PARTICLES (Monochrome) ---
+    // --- INTERACTIVE DIGITAL DATA PARTICLES (Drifting Petals) ---
     const canvas = document.getElementById('embers-canvas');
     const ctx = canvas.getContext('2d');
     const magicCircle = document.getElementById('magic-circle-container');
@@ -805,56 +808,57 @@
     });
 
     const particles = [];
-    const emberColors = [
-        'rgba(255, 255, 255, ',   // Pure White
-        'rgba(200, 200, 200, ',   // Light Gray
-        'rgba(120, 120, 120, '    // Mid Gray
+    const petalColors = [
+        'rgba(235, 150, 168, ',   // Soft Muted Pink
+        'rgba(214, 140, 163, ',   // Deeper Rose
+        'rgba(240, 216, 224, '    // Pale Pink-White
     ];
 
     class Particle {
         constructor() {
             this.x = Math.random() * canvas.width;
-            this.y = canvas.height + Math.random() * 100;
-            this.size = Math.random() * 1.5 + 0.5;
-            this.baseSpeedY = Math.random() * -1.5 - 0.2; 
-            this.baseSpeedX = 0; 
+            this.y = Math.random() * canvas.height - canvas.height; 
+            this.size = Math.random() * 2.5 + 1; 
+            this.baseSpeedY = Math.random() * 1.2 + 0.3; 
+            this.baseSpeedX = (Math.random() - 0.5) * 0.5; 
             this.speedY = this.baseSpeedY;
             this.speedX = this.baseSpeedX;
-            this.colorBase = emberColors[Math.floor(Math.random() * emberColors.length)];
-            this.life = Math.random() * 0.6 + 0.1; 
+            this.colorBase = petalColors[Math.floor(Math.random() * petalColors.length)];
+            this.life = Math.random() * 0.5 + 0.3; 
         }
         update() {
             let dx = mouse.x - this.x;
             let dy = mouse.y - this.y;
             let distance = Math.sqrt(dx * dx + dy * dy);
             
-            if (distance < 150) {
-                this.speedX = -(dx / distance) * 2.5; 
+            if (distance < 120) {
+                this.speedX = -(dx / distance) * 1.5; 
             } else {
-                this.speedX = this.speedX * 0.9;
+                this.speedX = this.speedX * 0.95 + this.baseSpeedX * 0.05;
                 this.speedY = this.baseSpeedY;
             }
 
             this.y += this.speedY;
             this.x += this.speedX;
-            if(Math.random() > 0.97) this.x += (Math.random() - 0.5) * 3;
-            if (this.size > 0.05) this.size -= 0.0008; 
+            this.x += Math.sin(this.y * 0.02) * 0.5; 
             
-            if (this.y < -50 || this.size <= 0.05 || this.x < -50 || this.x > canvas.width + 50) {
+            if (this.y > canvas.height + 20 || this.x < -50 || this.x > canvas.width + 50) {
                 this.x = Math.random() * canvas.width;
-                this.y = canvas.height + 10;
-                this.size = Math.random() * 1.5 + 0.5;
+                this.y = -20;
+                this.size = Math.random() * 2.5 + 1;
                 this.speedX = this.baseSpeedX;
                 this.speedY = this.baseSpeedY;
             }
         }
         draw() {
             ctx.fillStyle = this.colorBase + this.life + ')';
-            ctx.fillRect(this.x, this.y, this.size, this.size * 2);
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
         }
     }
 
-    for(let i = 0; i < 90; i++) { particles.push(new Particle()); }
+    for(let i = 0; i < 70; i++) { particles.push(new Particle()); }
 
     function animateEmbers() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -869,7 +873,7 @@
     });
 
     // --- APPLICATION LOGIC (DIARY) ---
-    let diaryState = JSON.parse(localStorage.getItem('inquiniso_diary_v1')) || { entries: {} };
+    let diaryState = JSON.parse(localStorage.getItem('inquiniso_diary_bloom_v1')) || { entries: {} };
 
     const todayDate = new Date();
     const todayString = todayDate.getFullYear() + "-" + 
@@ -945,13 +949,13 @@
 
         const [sy, sm, sd] = selectedDateStr.split('-');
         const displayDate = new Date(sy, sm - 1, sd);
-        dateDisplay.innerText = "Timestamp: " + displayDate.toLocaleDateString();
+        dateDisplay.innerText = "Date: " + displayDate.toLocaleDateString();
 
         const entry = diaryState.entries[selectedDateStr];
 
         if (selectedDateStr === todayString) {
             if (entry) {
-                statusMsg.innerText = "Memory sealed. The past cannot be rewritten.";
+                statusMsg.innerText = "Memory preserved. Let it take root.";
                 textArea.value = entry;
                 textArea.disabled = true;
                 saveBtn.style.display = 'none';
@@ -972,7 +976,7 @@
                 if (selectedDateStr > todayString) {
                     statusMsg.innerText = "Tomorrow is yet to be shaped.";
                 } else {
-                    statusMsg.innerText = "A day lost to the void.";
+                    statusMsg.innerText = "A day quietly passed.";
                 }
                 textArea.value = "";
             }
@@ -986,7 +990,7 @@
         if(text === '') return;
 
         diaryState.entries[todayString] = text;
-        localStorage.setItem('inquiniso_diary_v1', JSON.stringify(diaryState));
+        localStorage.setItem('inquiniso_diary_bloom_v1', JSON.stringify(diaryState));
 
         setupEntryArea();
         renderCalendar();
@@ -1019,7 +1023,7 @@
             
             if(diaryState.entries[checkDateStr]) {
                 dayCell.classList.add('logged');
-                dayCell.title = "Record Encrypted";
+                dayCell.title = "Reflection Saved";
             }
 
             if(checkDateStr === todayString) {
