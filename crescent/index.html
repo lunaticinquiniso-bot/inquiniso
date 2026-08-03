@@ -662,13 +662,25 @@
       box-shadow: 0 0 50px rgba(0, 0, 0, 0.9);
     }
 
-    .modal-content input, .modal-content select, .modal-content textarea {
+    /* INPUT INTERACTION & INTERACTION OVERRIDES FIX */
+    .modal-content input, 
+    .modal-content select, 
+    .modal-content textarea,
+    .timer-content-floating input {
       padding: 10px 12px;
       border: 1px solid var(--border-dark);
       background: #06070a;
       color: var(--text-main);
       outline: none;
       font-size: 0.9rem;
+      pointer-events: auto !important;
+      user-select: text !important;
+      -webkit-user-select: text !important;
+      cursor: text !important;
+    }
+
+    input[type="datetime-local"] {
+      color-scheme: dark;
     }
 
     .fullscreen-overlay-modal {
@@ -796,20 +808,20 @@
 
   <div id="introTextOverlay">
     <div class="intro-text-container">
-      <div class="intro-line" id="line1">Do you understand the complexity of situation!!</div>
-      <div class="intro-line" id="line2">I hope you do...</div>
-      <div class="intro-line" id="line3">Time is running out</div>
-      <div class="intro-line" id="line4">Every decision made leaves an indelible mark on reality...</div>
-      <div class="intro-line" id="line5">Survival requires absolute discipline...</div>
-      <div class="intro-line" id="line6">Do not be deceived. Failure is not an option...</div>
-      <div class="intro-line" id="line7">Welcome back, Agent.<br><span style="color:#ffffff; font-weight:bold;">YOU MUST WIN</span></div>
+      <div class="intro-line" id="line1">Do you truly grasp the scale of this situation?</div>
+      <div class="intro-line" id="line2">I sincerely hope you do...</div>
+      <div class="intro-line" id="line3">Time is slipping away.</div>
+      <div class="intro-line" id="line4">Every choice leaves an indelible mark on reality.</div>
+      <div class="intro-line" id="line5">Survival demands absolute discipline.</div>
+      <div class="intro-line" id="line6">Do not break focus. Failure is not an option.</div>
+      <div class="intro-line" id="line7">Welcome back, Agent.<br><span style="color:#ffffff; font-weight:bold;">VICTORY IS MANDATORY.</span></div>
     </div>
-    <div class="skip-hint">[ CLICK ANYWHERE TO SKIP THIS UNIMPORTANT INTRO ]</div>
+    <div class="skip-hint">[ CLICK ANYWHERE TO SKIP INTRO ]</div>
   </div>
 
   <div class="app-container">
     <div class="app-header-cover">
-      <div class="terminal-hdr">PROJECT HESTIA</div>
+      <div class="terminal-hdr">PROJECT INQUINiSO</div>
     </div>
 
     <div class="top-hero-nav">
@@ -841,7 +853,7 @@
     </div>
 
     <div id="habitsSection">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <div style="display:flex; justify-space-between; align-items:center; margin-bottom:10px;">
         <div class="month-picker" style="margin:0;">
           <button class="btn-aero" id="prevMonth">&lt;</button>
           <h2 id="currentMonthLabel">Month Year</h2>
@@ -1279,6 +1291,7 @@
     bindEnterKey('stoicTitleInput', 'saveStoicBtn');
     bindEnterKey('newBookTitleInput', 'saveNewBookBtn');
     bindEnterKey('chapterTitleInput', 'saveNoteBtn');
+    bindEnterKey('deadlineTitleInput', 'saveDeadlineBtn');
 
     // COUNTDOWN TIMER LOGIC
     function updateCountdown() {
@@ -1286,7 +1299,7 @@
       const targetDate = new Date(deadlineConfig.target);
       document.getElementById('countdownTitle').textContent = deadlineConfig.title;
       
-      if (targetDate <= now) {
+      if (isNaN(targetDate.getTime()) || targetDate <= now) {
         document.getElementById('neetCountdown').textContent = "TARGET REACHED";
         return;
       }
@@ -1311,6 +1324,29 @@
     }
     setInterval(updateCountdown, 1000);
     updateCountdown();
+
+    // DEADLINE / TARGET MODAL HANDLERS
+    const deadlineModal = document.getElementById('deadlineModal');
+    document.getElementById('editDeadlineBtn').onclick = () => {
+      document.getElementById('deadlineTitleInput').value = deadlineConfig.title || 'Target Reckoning';
+      document.getElementById('deadlineDateInput').value = deadlineConfig.target || '';
+      deadlineModal.style.display = 'flex';
+    };
+
+    document.getElementById('closeDeadlineModal').onclick = () => {
+      deadlineModal.style.display = 'none';
+    };
+
+    document.getElementById('saveDeadlineBtn').onclick = () => {
+      const title = document.getElementById('deadlineTitleInput').value.trim();
+      const target = document.getElementById('deadlineDateInput').value;
+      if (!target) return alert('Please enter a valid target date and time.');
+
+      deadlineConfig = { title: title || 'Target Reckoning', target };
+      localStorage.setItem('dh_deadline_cfg', JSON.stringify(deadlineConfig));
+      deadlineModal.style.display = 'none';
+      updateCountdown();
+    };
 
     // HABIT MATRIX TABLE
     function renderHabitTable() {
@@ -1646,7 +1682,7 @@
           }] 
         },
         options: { 
-          responsive: true,
+          responsive: true, 
           maintainAspectRatio: false, 
           cutout: '58%', 
           plugins: { 
@@ -1983,6 +2019,7 @@
           if (data.stoicEntries) stoicEntries = data.stoicEntries;
           if (data.focusTimeData) focusTimeData = data.focusTimeData;
           if (data.totalAllTimeSecs) totalAllTimeSecs = data.totalAllTimeSecs;
+          if (data.deadlineConfig) deadlineConfig = data.deadlineConfig;
           saveData();
           location.reload();
         } catch (err) { alert('Invalid backup file.'); }
