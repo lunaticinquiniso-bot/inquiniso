@@ -15,15 +15,15 @@
       /* Strategic Background Image */
       --main-artwork: url('https://img2.wallspic.com/crops/3/2/9/0/80923/80923-monochrome-night-map-design-world-2560x1440.jpg');
       
-      --glass-surface: rgba(10, 11, 15, 0.88);
-      --card-surface: rgba(14, 16, 22, 0.90);
-      --card-inner: rgba(18, 20, 28, 0.92);
+      --glass-surface: rgba(10, 11, 15, 0.82);
+      --card-surface: rgba(14, 16, 22, 0.85);
+      --card-inner: rgba(18, 20, 28, 0.88);
       
       --accent-gray: #4b5563;
       --accent-steel: #9ca3af;
       --accent-tactical: #38bdf8;
-      --border-accent: rgba(255, 255, 255, 0.18);
-      --border-dark: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(255, 255, 255, 0.22);
+      --border-dark: rgba(255, 255, 255, 0.10);
       
       --text-main: #f3f4f6;
       --text-muted: #9ca3af;
@@ -62,7 +62,7 @@
     }
 
     body {
-      background-image: linear-gradient(rgba(4, 5, 8, 0.82), rgba(4, 5, 8, 0.88)), var(--main-artwork);
+      background-image: linear-gradient(rgba(4, 5, 8, 0.65), rgba(4, 5, 8, 0.72)), var(--main-artwork);
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -74,22 +74,11 @@
       overflow-x: hidden;
     }
 
-    #hiddenYtContainer {
-      position: fixed;
-      top: -9999px;
-      left: -9999px;
-      width: 1px;
-      height: 1px;
-      opacity: 0.01;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
     /* SECURITY AUTHENTICATION SCREEN */
     #securityAuthScreen {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: linear-gradient(rgba(3, 4, 6, 0.94), rgba(3, 4, 6, 0.97)), var(--main-artwork);
+      background: linear-gradient(rgba(3, 4, 6, 0.85), rgba(3, 4, 6, 0.90)), var(--main-artwork);
       background-size: cover;
       background-position: center;
       z-index: 10000;
@@ -170,7 +159,7 @@
     #introTextOverlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: linear-gradient(rgba(3, 4, 6, 0.94), rgba(3, 4, 6, 0.98)), var(--main-artwork);
+      background: linear-gradient(rgba(3, 4, 6, 0.88), rgba(3, 4, 6, 0.92)), var(--main-artwork);
       background-size: cover;
       background-position: center;
       z-index: 9999;
@@ -238,7 +227,7 @@
     .app-header-cover {
       width: 100%;
       height: 180px;
-      background: linear-gradient(rgba(3, 4, 6, 0.3), rgba(3, 4, 6, 0.85)), var(--main-artwork);
+      background: linear-gradient(rgba(3, 4, 6, 0.2), rgba(3, 4, 6, 0.75)), var(--main-artwork);
       background-size: cover;
       background-position: center 35%;
       margin-bottom: 22px;
@@ -305,19 +294,6 @@
       color: var(--text-main);
       border-color: var(--border-accent);
       background: rgba(255, 255, 255, 0.12);
-    }
-
-    .header-audio-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(15, 17, 24, 0.9);
-      border: 1px solid var(--border-accent);
-      padding: 6px 12px;
-      font-size: 0.78rem;
-      color: var(--text-main);
-      font-weight: bold;
-      font-family: 'Share Tech Mono', monospace;
     }
 
     .quote-banner {
@@ -397,11 +373,17 @@
     th, td { border: 1px solid rgba(255, 255, 255, 0.08); text-align: center; padding: 8px 4px; }
     th { background: rgba(15, 17, 24, 0.9); color: var(--text-muted); font-size: 0.75rem; }
 
+    /* TEXT WRAPPING FIX FOR HABIT MATRIX COLUMN */
     .habit-col {
       text-align: left;
       padding-left: 12px;
+      padding-right: 8px;
       font-weight: 600;
       min-width: 180px;
+      max-width: 220px;
+      white-space: normal !important;
+      word-break: break-word;
+      overflow-wrap: anywhere;
       background: rgba(12, 14, 20, 0.95);
       position: sticky;
       left: 0;
@@ -528,6 +510,11 @@
       font-size: 0.82rem;
     }
 
+    .todo-item span {
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
     .subject-badge {
       font-size: 0.68rem;
       padding: 2px 5px;
@@ -535,6 +522,7 @@
       color: var(--text-muted);
       border: 1px solid var(--border-dark);
       font-family: 'Share Tech Mono', monospace;
+      flex-shrink: 0;
     }
 
     .pie-chart-wrapper {
@@ -571,6 +559,8 @@
       margin-bottom: 8px;
       font-size: 0.85rem;
       transition: all 0.2s ease;
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
 
     .stoic-card:hover, .test-card:hover {
@@ -610,7 +600,13 @@
       transform: translateY(-2px);
     }
 
-    .book-card-title { font-size: 0.95rem; font-weight: bold; color: #fff; }
+    .book-card-title { 
+      font-size: 0.95rem; 
+      font-weight: bold; 
+      color: #fff; 
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
 
     .editor-toolbar {
       display: flex;
@@ -633,6 +629,8 @@
       color: var(--text-main);
       font-size: 0.95rem;
       line-height: 1.6;
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
 
     .editor-box-frameless:empty:before {
@@ -677,7 +675,7 @@
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: linear-gradient(rgba(3, 4, 6, 0.90), rgba(3, 4, 6, 0.96)), var(--main-artwork);
+      background: linear-gradient(rgba(3, 4, 6, 0.85), rgba(3, 4, 6, 0.92)), var(--main-artwork);
       background-size: cover;
       background-position: center;
       z-index: 200;
@@ -753,6 +751,7 @@
       max-height: 60vh;
       overflow-y: auto;
       word-break: break-word;
+      overflow-wrap: anywhere;
     }
 
     .chapter-card-item {
@@ -764,6 +763,8 @@
       align-items: center;
       margin-bottom: 10px;
       transition: all 0.2s ease;
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
 
     .chapter-card-item:hover {
@@ -782,10 +783,6 @@
   </style>
 </head>
 <body>
-
-  <div id="hiddenYtContainer">
-    <iframe id="ytAudioPlayer" width="200" height="200" src="about:blank" frameborder="0" allow="autoplay; encrypted-media"></iframe>
-  </div>
 
   <div id="securityAuthScreen">
     <div class="auth-card">
@@ -830,11 +827,6 @@
         <a href="#stoicSection" class="nav-link">THREAT LOGS</a>
         <a href="#journalSection" class="nav-link">INTEL DOSSIERS</a>
         <button class="btn-aero btn-highlight" id="openTimerBtn">Isolation Focus Session</button>
-
-        <div class="header-audio-pill">
-          <span>AMB-AUDIO</span>
-          <button class="btn-aero btn-sm" id="toggleAudioBtn">Pause</button>
-        </div>
       </div>
     </div>
 
@@ -1149,35 +1141,6 @@
       document.execCommand(command, false, value);
     }
 
-    // AUDIO CONTROL ENGINE (SPY TRACK / TRAVIS FITZSIMMONS - PAINTING THE SOLAR SYSTEM)
-    let isPlayingAudio = false;
-    const toggleAudioBtn = document.getElementById('toggleAudioBtn');
-    const ytPlayer = document.getElementById('ytAudioPlayer');
-
-    function playAudioTrack() {
-      ytPlayer.src = "https://www.youtube.com/embed/ZXB0n1FRb6Y?autoplay=1&loop=1&playlist=ZXB0n1FRb6Y&enablejsapi=1";
-      isPlayingAudio = true;
-      toggleAudioBtn.textContent = 'Pause';
-    }
-
-    function toggleAudio() {
-      if (!isPlayingAudio) {
-        if (!ytPlayer.src || ytPlayer.src.includes('about:blank')) {
-          playAudioTrack();
-        } else {
-          ytPlayer.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-          isPlayingAudio = true;
-          toggleAudioBtn.textContent = 'Pause';
-        }
-      } else {
-        ytPlayer.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-        isPlayingAudio = false;
-        toggleAudioBtn.textContent = 'Play';
-      }
-    }
-
-    toggleAudioBtn.onclick = toggleAudio;
-
     // PIN AUTHENTICATION & BRIEFING ENGINE
     let introTimeouts = [];
 
@@ -1197,7 +1160,6 @@
 
       if (pinVal === '2027') {
         errorMsg.style.display = 'none';
-        playAudioTrack();
 
         document.getElementById('securityAuthScreen').style.display = 'none';
         const textOverlay = document.getElementById('introTextOverlay');
@@ -1349,18 +1311,6 @@
     }
     setInterval(updateCountdown, 1000);
     updateCountdown();
-
-    document.getElementById('editDeadlineBtn').onclick = () => document.getElementById('deadlineModal').style.display = 'flex';
-    document.getElementById('closeDeadlineModal').onclick = () => document.getElementById('deadlineModal').style.display = 'none';
-    document.getElementById('saveDeadlineBtn').onclick = () => {
-      const title = document.getElementById('deadlineTitleInput').value.trim();
-      const dateVal = document.getElementById('deadlineDateInput').value;
-      if (title) deadlineConfig.title = title;
-      if (dateVal) deadlineConfig.target = dateVal;
-      localStorage.setItem('dh_deadline_cfg', JSON.stringify(deadlineConfig));
-      document.getElementById('deadlineModal').style.display = 'none';
-      updateCountdown();
-    };
 
     // HABIT MATRIX TABLE
     function renderHabitTable() {
