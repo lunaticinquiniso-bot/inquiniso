@@ -7,33 +7,33 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Cinzel:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
-      /* Strategic Background Image */
-      --main-artwork: url('https://wallpapercave.com/wp/wp5624812.jpg');
+      /* Deep Starry Twilight Artwork Background */
+      --main-artwork: url('https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?q=80&w=2000&auto=format&fit=crop');
       
-      /* Soft Dim / Dark Moss Frosted Glass Palette */
-      --glass-surface: rgba(16, 28, 22, 0.82);
-      --card-surface: rgba(22, 38, 30, 0.85);
-      --card-inner: rgba(28, 48, 38, 0.88);
+      /* Dark Violet / Lavender Frosted Glass Palette */
+      --glass-surface: rgba(10, 8, 20, 0.85);
+      --card-surface: rgba(16, 14, 32, 0.88);
+      --card-inner: rgba(24, 20, 48, 0.90);
       
-      --accent-primary: #52b788;
-      --accent-secondary: #40916c;
-      --accent-warm: #f59e0b;
-      --border-accent: rgba(82, 183, 136, 0.32);
-      --border-dark: rgba(255, 255, 255, 0.12);
+      --accent-primary: #c3b1e1;     /* Soft Lavender */
+      --accent-secondary: #6c5ce7;   /* Deep Lavender Purple */
+      --accent-warm: #dcd6f7;        /* Light Periwinkle */
+      --border-accent: rgba(195, 177, 225, 0.25);
+      --border-dark: rgba(255, 255, 255, 0.08);
       
-      --text-main: #e2ebe4;
-      --text-muted: #93a89a;
+      --text-main: #eae4f5;
+      --text-muted: #9f94b8;
 
-      --tag-crimson: rgba(185, 28, 28, 0.85);
-      --tag-slate: rgba(64, 88, 74, 0.85);
-      --tag-indigo: rgba(79, 70, 229, 0.85);
-      --tag-amber: rgba(180, 83, 9, 0.85);
-      --tag-emerald: rgba(45, 106, 79, 0.85);
+      --tag-crimson: rgba(136, 84, 208, 0.85);
+      --tag-slate: rgba(68, 56, 96, 0.85);
+      --tag-indigo: rgba(92, 84, 180, 0.85);
+      --tag-amber: rgba(154, 110, 204, 0.85);
+      --tag-emerald: rgba(108, 92, 231, 0.85);
     }
 
     * {
@@ -46,8 +46,8 @@
     }
 
     h1, h2, h3, h4, .section-title, .timer-display, th, .nav-link, .countdown-title, .book-card-title, .auth-title, .terminal-hdr {
-      font-family: 'Lora', Georgia, serif !important;
-      letter-spacing: 0.5px;
+      font-family: 'Cinzel', 'Lora', Georgia, serif !important;
+      letter-spacing: 1px;
     }
 
     /* HIDDEN SCROLLBARS WITH FULL FUNCTIONALITY */
@@ -62,11 +62,11 @@
     }
 
     body {
-      background-image: linear-gradient(rgba(8, 16, 12, 0.65), rgba(5, 12, 9, 0.75)), var(--main-artwork);
+      background-image: linear-gradient(rgba(5, 4, 12, 0.75), rgba(3, 2, 8, 0.85)), var(--main-artwork);
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
-      background-color: #0b140f;
+      background-color: #06050e;
       color: var(--text-main);
       padding: 24px 20px;
       min-height: 100vh;
@@ -78,7 +78,7 @@
     #securityAuthScreen {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: linear-gradient(rgba(8, 16, 12, 0.80), rgba(5, 12, 9, 0.88)), var(--main-artwork);
+      background: linear-gradient(rgba(5, 4, 12, 0.85), rgba(3, 2, 8, 0.92)), var(--main-artwork);
       background-size: cover;
       background-position: center;
       z-index: 10000;
@@ -92,7 +92,7 @@
     }
 
     .auth-card {
-      background: rgba(18, 32, 25, 0.92);
+      background: rgba(14, 12, 28, 0.92);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
       border: 1px solid var(--border-accent);
@@ -100,12 +100,12 @@
       width: 100%;
       max-width: 440px;
       text-align: center;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
     }
 
     .auth-title {
       font-size: 1.6rem;
-      color: var(--text-main);
+      color: var(--accent-primary);
       margin-bottom: 8px;
       font-weight: 700;
     }
@@ -121,10 +121,10 @@
       width: 100%;
       padding: 14px;
       font-size: 1.4rem;
-      font-family: 'Lora', Georgia, serif;
+      font-family: 'Cinzel', Georgia, serif;
       letter-spacing: 8px;
       text-align: center;
-      background: rgba(10, 18, 14, 0.85);
+      background: rgba(8, 6, 18, 0.85);
       border: 1px solid var(--border-accent);
       color: var(--text-main);
       margin-bottom: 16px;
@@ -150,6 +150,7 @@
     .auth-btn:hover {
       background: var(--accent-primary);
       border-color: var(--accent-primary);
+      color: #0d0a1a;
     }
 
     .auth-error {
@@ -164,7 +165,7 @@
     #introTextOverlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: linear-gradient(rgba(6, 14, 10, 0.82), rgba(4, 10, 7, 0.90)), var(--main-artwork);
+      background: linear-gradient(rgba(4, 3, 10, 0.85), rgba(2, 1, 6, 0.92)), var(--main-artwork);
       background-size: cover;
       background-position: center;
       z-index: 9999;
@@ -194,8 +195,8 @@
       font-family: 'Dancing Script', cursive !important;
       font-size: 2.7rem;
       font-weight: 700;
-      color: #f4fbf2;
-      text-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
+      color: #f0eafb;
+      text-shadow: 0 4px 16px rgba(0, 0, 0, 0.9);
       opacity: 0;
       filter: blur(8px);
       transform: scale(0.95);
@@ -217,7 +218,7 @@
       font-size: 0.85rem;
       letter-spacing: 2px;
       color: var(--text-muted);
-      font-family: 'Lora', serif;
+      font-family: 'Cinzel', serif;
     }
 
     /* MAIN CONTAINER - DIM FROSTED GLASS EFFECT */
@@ -230,13 +231,13 @@
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--border-accent);
       padding: 28px;
-      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
     }
 
     .app-header-cover {
       width: 100%;
       height: 180px;
-      background: linear-gradient(rgba(10, 20, 15, 0.30), rgba(8, 16, 12, 0.70)), var(--main-artwork);
+      background: linear-gradient(rgba(8, 6, 18, 0.40), rgba(5, 4, 12, 0.80)), var(--main-artwork);
       background-size: cover;
       background-position: center 35%;
       margin-bottom: 22px;
@@ -281,7 +282,7 @@
     }
 
     .countdown-title { font-size: 1rem; font-weight: 700; color: var(--text-main); }
-    .countdown-timer-text { font-size: 1.25rem; font-weight: 700; color: var(--accent-primary); font-family: 'Lora', Georgia, serif; }
+    .countdown-timer-text { font-size: 1.25rem; font-weight: 700; color: var(--accent-primary); font-family: 'Cinzel', Georgia, serif; }
 
     .quick-nav-links {
       display: flex;
@@ -297,7 +298,7 @@
       font-weight: 600;
       padding: 8px 14px;
       border: 1px solid var(--border-dark);
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(8px);
       transition: all 0.25s ease;
     }
@@ -309,7 +310,7 @@
     }
 
     .quote-banner {
-      background: rgba(22, 38, 30, 0.75);
+      background: rgba(16, 14, 32, 0.75);
       backdrop-filter: blur(8px);
       border-left: 4px solid var(--accent-primary);
       padding: 14px 18px;
@@ -321,7 +322,7 @@
     }
 
     .btn-aero {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(8px);
       border: 1px solid var(--border-dark);
       color: var(--text-main);
@@ -333,7 +334,7 @@
     }
 
     .btn-aero:hover {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(195, 177, 225, 0.2);
       border-color: var(--accent-primary);
       color: #ffffff;
     }
@@ -347,12 +348,12 @@
     .btn-aero.btn-highlight:hover {
       background: var(--accent-primary);
       border-color: var(--accent-primary);
-      color: #fff;
+      color: #0d0a1a;
     }
 
     .btn-sm { padding: 4px 8px; font-size: 0.75rem; }
-    .btn-edit { background: rgba(255, 255, 255, 0.12); border: 1px solid var(--border-dark); color: var(--text-main); cursor: pointer; font-size: 0.75rem; padding: 4px 8px; transition: background 0.2s; }
-    .btn-edit:hover { background: rgba(255, 255, 255, 0.25); }
+    .btn-edit { background: rgba(255, 255, 255, 0.1); border: 1px solid var(--border-dark); color: var(--text-main); cursor: pointer; font-size: 0.75rem; padding: 4px 8px; transition: background 0.2s; }
+    .btn-edit:hover { background: rgba(195, 177, 225, 0.25); }
     .btn-danger { background: transparent; border: none; color: #f87171; cursor: pointer; font-size: 0.85rem; margin-left: 6px; font-weight: bold; }
     .btn-danger:hover { transform: scale(1.2); }
 
@@ -361,8 +362,9 @@
       height: 105px;
       object-fit: cover;
       margin-bottom: 12px;
-      opacity: 0.75;
+      opacity: 0.65;
       border: 1px solid var(--border-accent);
+      filter: saturate(0.8) hue-rotate(220deg);
     }
 
     .month-picker {
@@ -384,14 +386,14 @@
     .habit-table-wrapper {
       overflow-x: auto;
       border: 1px solid var(--border-accent);
-      background: rgba(14, 25, 19, 0.75);
+      background: rgba(10, 8, 22, 0.75);
       backdrop-filter: blur(12px);
       margin-bottom: 24px;
     }
 
     table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
-    th, td { border: 1px solid rgba(255, 255, 255, 0.08); text-align: center; padding: 8px 4px; }
-    th { background: rgba(20, 35, 27, 0.9); color: var(--text-muted); font-size: 0.78rem; font-weight: 700; }
+    th, td { border: 1px solid rgba(255, 255, 255, 0.06); text-align: center; padding: 8px 4px; }
+    th { background: rgba(16, 14, 32, 0.9); color: var(--text-muted); font-size: 0.78rem; font-weight: 700; }
 
     /* TEXT WRAPPING FIX FOR HABIT MATRIX COLUMN */
     .habit-col {
@@ -404,16 +406,16 @@
       white-space: normal !important;
       word-break: break-word;
       overflow-wrap: anywhere;
-      background: rgba(18, 32, 25, 0.95);
+      background: rgba(14, 12, 28, 0.95);
       color: var(--text-main);
       position: sticky;
       left: 0;
       z-index: 2;
     }
 
-    th.today, td.today { background: rgba(82, 183, 136, 0.25) !important; color: #ffffff !important; font-weight: bold; }
+    th.today, td.today { background: rgba(195, 177, 225, 0.2) !important; color: #ffffff !important; font-weight: bold; }
     .checkbox-cell { cursor: pointer; user-select: none; width: 28px; height: 28px; transition: background 0.15s ease; }
-    .checkbox-cell:hover { background-color: rgba(82, 183, 136, 0.25); }
+    .checkbox-cell:hover { background-color: rgba(195, 177, 225, 0.25); }
 
     .checked-crimson { background-color: var(--tag-crimson) !important; color: #fff; }
     .checked-slate   { background-color: var(--tag-slate)   !important; color: #fff; }
@@ -441,7 +443,7 @@
     }
 
     .card-section:hover {
-      border-color: rgba(82, 183, 136, 0.55);
+      border-color: rgba(195, 177, 225, 0.55);
     }
 
     .fixed-row-height {
@@ -497,7 +499,7 @@
       font-weight: bold;
       color: var(--text-muted);
       padding: 4px 0;
-      background: rgba(14, 25, 19, 0.8);
+      background: rgba(10, 8, 22, 0.8);
       border: 1px solid var(--border-dark);
     }
 
@@ -509,7 +511,7 @@
       color: var(--text-main);
     }
 
-    .cal-day:hover { background: rgba(82, 183, 136, 0.3); color: #ffffff; }
+    .cal-day:hover { background: rgba(195, 177, 225, 0.25); color: #ffffff; }
     .cal-day.active-day { background: var(--accent-secondary); color: #fff; font-weight: bold; border-color: var(--accent-primary); }
     .cal-day.is-today-marker { border: 2px solid var(--accent-primary); }
 
@@ -525,7 +527,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      background: rgba(12, 22, 17, 0.75);
+      background: rgba(8, 6, 18, 0.75);
       border: 1px solid var(--border-dark);
       padding: 6px 8px;
       font-size: 0.85rem;
@@ -539,7 +541,7 @@
     .subject-badge {
       font-size: 0.7rem;
       padding: 2px 6px;
-      background: rgba(82, 183, 136, 0.15);
+      background: rgba(195, 177, 225, 0.15);
       color: var(--accent-primary);
       border: 1px solid var(--border-accent);
       font-weight: 600;
@@ -574,7 +576,7 @@
     }
 
     .stoic-card, .test-card {
-      background: rgba(12, 22, 17, 0.75);
+      background: rgba(8, 6, 18, 0.75);
       border: 1px solid var(--border-dark);
       padding: 10px 12px;
       margin-bottom: 8px;
@@ -604,7 +606,7 @@
     }
 
     .book-card-item {
-      background: rgba(18, 32, 25, 0.85);
+      background: rgba(14, 12, 28, 0.85);
       backdrop-filter: blur(10px);
       border: 1px solid var(--border-accent);
       padding: 16px;
@@ -617,7 +619,7 @@
     }
 
     .book-card-item:hover {
-      background: rgba(255, 255, 255, 0.12);
+      background: rgba(195, 177, 225, 0.15);
       border-color: var(--accent-primary);
       transform: translateY(-2px);
     }
@@ -634,7 +636,7 @@
       display: flex;
       gap: 4px;
       padding: 6px;
-      background: rgba(10, 18, 14, 0.9);
+      background: rgba(8, 6, 18, 0.9);
       border: 1px solid var(--border-dark);
       border-bottom: none;
       flex-wrap: wrap;
@@ -646,7 +648,7 @@
       overflow-y: auto;
       outline: none;
       padding: 14px;
-      background: rgba(10, 18, 14, 0.95);
+      background: rgba(8, 6, 18, 0.95);
       border: 1px solid var(--border-dark);
       color: var(--text-main);
       font-size: 0.95rem;
@@ -664,7 +666,7 @@
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(4, 10, 7, 0.7);
+      background: rgba(3, 2, 8, 0.75);
       backdrop-filter: blur(8px);
       align-items: center;
       justify-content: center;
@@ -672,7 +674,7 @@
     }
 
     .modal-content {
-      background: rgba(18, 32, 25, 0.95);
+      background: rgba(14, 12, 28, 0.95);
       backdrop-filter: blur(16px);
       border: 1px solid var(--border-accent);
       padding: 22px;
@@ -682,7 +684,7 @@
       flex-direction: column;
       gap: 12px;
       color: var(--text-main);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
     }
 
     /* INPUT INTERACTION & INTERACTION OVERRIDES FIX */
@@ -692,7 +694,7 @@
     .timer-content-floating input {
       padding: 10px 12px;
       border: 1px solid var(--border-dark);
-      background: rgba(10, 18, 14, 0.9);
+      background: rgba(8, 6, 18, 0.9);
       color: var(--text-main);
       outline: none;
       font-size: 0.9rem;
@@ -710,7 +712,7 @@
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: linear-gradient(rgba(8, 16, 12, 0.75), rgba(5, 12, 9, 0.85)), var(--main-artwork);
+      background: linear-gradient(rgba(5, 4, 12, 0.82), rgba(3, 2, 8, 0.90)), var(--main-artwork);
       background-size: cover;
       background-position: center;
       z-index: 200;
@@ -730,11 +732,11 @@
       width: 90%;
       text-align: center;
       position: relative;
-      background: rgba(18, 32, 25, 0.92);
+      background: rgba(14, 12, 28, 0.92);
       padding: 36px;
       border: 1px solid var(--border-accent);
       backdrop-filter: blur(20px);
-      box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
     }
 
     .timer-display {
@@ -743,7 +745,7 @@
       color: var(--accent-primary);
       margin: 10px 0;
       letter-spacing: 2px;
-      text-shadow: 0 0 20px rgba(82, 183, 136, 0.25);
+      text-shadow: 0 0 20px rgba(195, 177, 225, 0.3);
     }
 
     .timer-mode-badge {
@@ -753,9 +755,9 @@
       letter-spacing: 1px;
       text-transform: uppercase;
       padding: 6px 16px;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--border-accent);
-      font-family: 'Lora', Georgia, serif;
+      font-family: 'Cinzel', Georgia, serif;
     }
 
     .close-overlay-btn {
@@ -772,21 +774,21 @@
       width: 90vw;
       max-width: 1200px;
       height: 88vh;
-      background: rgba(16, 28, 22, 0.95);
+      background: rgba(12, 10, 24, 0.95);
       backdrop-filter: blur(20px);
       border: 1px solid var(--border-accent);
       padding: 40px;
       display: flex;
       flex-direction: column;
       position: relative;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
     }
 
     #fsStoicDetails {
       font-size: 1.05rem;
       line-height: 1.85;
       color: var(--text-main);
-      background: rgba(10, 18, 14, 0.9);
+      background: rgba(8, 6, 18, 0.9);
       padding: 24px;
       border: 1px solid var(--border-accent);
       white-space: pre-wrap;
@@ -797,7 +799,7 @@
     }
 
     .chapter-card-item {
-      background: rgba(10, 18, 14, 0.85);
+      background: rgba(8, 6, 18, 0.85);
       border: 1px solid var(--border-dark);
       padding: 16px 20px;
       display: flex;
@@ -964,7 +966,7 @@
       </div>
 
       <div class="card-section" id="stoicSection">
-        <img src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=1200&auto=format&fit=crop" class="section-banner-img" alt="Reflection Banner">
+        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1200&auto=format&fit=crop" class="section-banner-img" alt="Reflection Banner">
         <div class="section-title">
           <span>Mindfulness & Reflection Notes</span>
           <button class="btn-aero" id="openStoicModal">+ Log Reflection</button>
@@ -984,7 +986,7 @@
       </div>
 
       <div class="card-section" style="grid-column: span 2;" id="journalSection">
-        <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1600&auto=format&fit=crop" class="section-banner-img" style="height:110px;" alt="Wisdom Banner">
+        <img src="https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?q=80&w=1600&auto=format&fit=crop" class="section-banner-img" style="height:110px;" alt="Wisdom Banner">
         <div class="section-title">
           <span>Wisdom Journals & Dossiers</span>
           <button class="btn-aero" id="openNewBookModal">+ Add Journal</button>
@@ -1032,7 +1034,7 @@
   <div class="fullscreen-overlay-modal" id="fullscreenBookModal">
     <button class="close-overlay-btn" id="closeBookVaultBtn">X</button>
     <div class="fullscreen-reader-box">
-      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-dark); padding-bottom:14px; margin-bottom:20px;">
+      <div style="display:flex; justify-space-between; align-items:center; border-bottom:1px solid var(--border-dark); padding-bottom:14px; margin-bottom:20px;">
         <div>
           <span style="font-size:0.75rem; color:var(--text-muted); font-weight:bold; letter-spacing:2px; font-family:'Lora', serif;">WISDOM VAULT</span>
           <h1 id="fsBookVaultTitle" style="font-size:1.8rem; color:var(--text-main);">Journal Title</h1>
@@ -1106,9 +1108,9 @@
       <input type="text" id="habitNameInput" placeholder="Habit Title (e.g. 0600 Morning Reflection)">
       <input type="number" id="habitGoalInput" placeholder="Days Goal (e.g. 365)" value="365">
       <select id="habitColorInput">
-        <option value="emerald">Forest Emerald</option>
+        <option value="emerald">Forest Lavender</option>
         <option value="slate">Tactical Slate</option>
-        <option value="crimson">Crimson Red</option>
+        <option value="crimson">Crimson Violet</option>
         <option value="indigo">Midnight Indigo</option>
         <option value="amber">Burnt Amber</option>
       </select>
@@ -1619,7 +1621,7 @@
     };
     window.deleteStoic = function(idx) { stoicEntries.splice(idx, 1); saveData(); renderStoicEntries(); };
 
-    // WEIGHT & METRIC CHARTS
+    // WEIGHT & METRIC CHARTS (LAVENDER VIOLET PALETTE)
     let weightChartInstance = null;
     function updateWeightChart() {
       const labels = weights.map(w => w.date);
@@ -1628,14 +1630,14 @@
       const ctx = document.getElementById('weightChart').getContext('2d');
       weightChartInstance = new Chart(ctx, {
         type: 'line',
-        data: { labels, datasets: [{ label: 'Mass', data, borderColor: '#52b788', backgroundColor: 'rgba(82, 183, 136, 0.15)', fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: '#52b788' }] },
+        data: { labels, datasets: [{ label: 'Mass', data, borderColor: '#c3b1e1', backgroundColor: 'rgba(195, 177, 225, 0.15)', fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: '#c3b1e1' }] },
         options: { 
           responsive: true, 
           maintainAspectRatio: false, 
           plugins: { legend: { display: false } }, 
           scales: { 
-            x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#93a89a', font: { family: 'Inter' } } }, 
-            y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#93a89a', font: { family: 'Inter' } } } 
+            x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#9f94b8', font: { family: 'Inter' } } }, 
+            y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#9f94b8', font: { family: 'Inter' } } } 
           } 
         }
       });
@@ -1671,14 +1673,14 @@
       const ctx = document.getElementById('progressChart').getContext('2d');
       chartInstance = new Chart(ctx, {
         type: 'line',
-        data: { labels, datasets: [{ label: 'Completed', data: dataPoints, borderColor: '#52b788', backgroundColor: 'rgba(82, 183, 136, 0.25)', fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: '#52b788' }] },
+        data: { labels, datasets: [{ label: 'Completed', data: dataPoints, borderColor: '#c3b1e1', backgroundColor: 'rgba(195, 177, 225, 0.25)', fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: '#c3b1e1' }] },
         options: { 
           responsive: true, 
           maintainAspectRatio: false, 
           plugins: { legend: { display: false } }, 
           scales: { 
-            x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#93a89a', font: { family: 'Inter' } } }, 
-            y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { stepSize: 1, color: '#93a89a', font: { family: 'Inter' } } } 
+            x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#9f94b8', font: { family: 'Inter' } } }, 
+            y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { stepSize: 1, color: '#9f94b8', font: { family: 'Inter' } } } 
           } 
         }
       });
@@ -1706,9 +1708,9 @@
           labels, 
           datasets: [{ 
             data, 
-            backgroundColor: ['#2d6a4f', '#40916c', '#52b788', '#74c69d', '#d97706'], 
+            backgroundColor: ['#5c469c', '#7858a6', '#9a72ac', '#c3b1e1', '#e0aaff'], 
             borderWidth: 1, 
-            borderColor: '#122019' 
+            borderColor: '#100c1e' 
           }] 
         },
         options: { 
@@ -1720,7 +1722,7 @@
               display: true,
               position: 'right',
               labels: {
-                color: '#93a89a',
+                color: '#9f94b8',
                 font: { size: 10, family: 'Inter' },
                 boxWidth: 10,
                 padding: 6
