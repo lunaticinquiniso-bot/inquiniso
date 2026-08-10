@@ -3,37 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PROJECT INQUINISO</title>
+  <title>PROJECT INQUINISO // ALTER EGO</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Cinzel:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Cinzel:wght@600;700;800&family=Lora:ital,wght@0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
-      /* Deep Starry Twilight Artwork Background */
-      --main-artwork: url('https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?q=80&w=2000&auto=format&fit=crop');
+      /* Main Artwork Background */
+      --main-artwork: url('https://images.unsplash.com/photo-1616244013240-227ec9abfefb?q=80&w=2128&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
       
-      /* Dark Violet / Lavender Frosted Glass Palette */
-      --glass-surface: rgba(10, 8, 20, 0.85);
-      --card-surface: rgba(16, 14, 32, 0.88);
-      --card-inner: rgba(24, 20, 48, 0.90);
+      /* Balanced Atmospheric Glass Palette (Easy on the eyes) */
+      --glass-surface: rgba(18, 20, 26, 0.78);
+      --card-surface: rgba(25, 28, 38, 0.82);
+      --card-inner: rgba(32, 36, 50, 0.85);
       
-      --accent-primary: #c3b1e1;     /* Soft Lavender */
-      --accent-secondary: #6c5ce7;   /* Deep Lavender Purple */
-      --accent-warm: #dcd6f7;        /* Light Periwinkle */
-      --border-accent: rgba(195, 177, 225, 0.25);
-      --border-dark: rgba(255, 255, 255, 0.08);
+      /* Alter Ego Ember & Warm Bronze Accent Palette */
+      --accent-primary: #e0a96d;     /* Warm Amber/Gold */
+      --accent-secondary: #c77dff;   /* Soft Glowing Violet */
+      --accent-warm: #f4a261;        /* Warm Sunset Flame */
+      --border-accent: rgba(224, 169, 109, 0.30);
+      --border-dark: rgba(255, 255, 255, 0.12);
       
-      --text-main: #eae4f5;
-      --text-muted: #9f94b8;
+      --text-main: #f0f2f5;
+      --text-muted: #a0aab2;
 
-      --tag-crimson: rgba(136, 84, 208, 0.85);
-      --tag-slate: rgba(68, 56, 96, 0.85);
-      --tag-indigo: rgba(92, 84, 180, 0.85);
-      --tag-amber: rgba(154, 110, 204, 0.85);
-      --tag-emerald: rgba(108, 92, 231, 0.85);
+      --tag-crimson: rgba(197, 48, 48, 0.85);
+      --tag-slate: rgba(74, 85, 104, 0.85);
+      --tag-indigo: rgba(90, 103, 216, 0.85);
+      --tag-amber: rgba(214, 158, 46, 0.85);
+      --tag-emerald: rgba(56, 161, 105, 0.85);
     }
 
     * {
@@ -45,9 +46,11 @@
       border-radius: 0px !important;
     }
 
+    /* UNIFORM UPPERCASE SERIF HEADERS WITH ELEGANT SPACING */
     h1, h2, h3, h4, .section-title, .timer-display, th, .nav-link, .countdown-title, .book-card-title, .auth-title, .terminal-hdr {
       font-family: 'Cinzel', 'Lora', Georgia, serif !important;
-      letter-spacing: 1px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
 
     /* HIDDEN SCROLLBARS WITH FULL FUNCTIONALITY */
@@ -62,11 +65,11 @@
     }
 
     body {
-      background-image: linear-gradient(rgba(5, 4, 12, 0.75), rgba(3, 2, 8, 0.85)), var(--main-artwork);
+      background-image: linear-gradient(rgba(14, 16, 22, 0.65), rgba(10, 12, 16, 0.75)), var(--main-artwork);
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
-      background-color: #06050e;
+      background-color: #101216;
       color: var(--text-main);
       padding: 24px 20px;
       min-height: 100vh;
@@ -78,7 +81,7 @@
     #securityAuthScreen {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: linear-gradient(rgba(5, 4, 12, 0.85), rgba(3, 2, 8, 0.92)), var(--main-artwork);
+      background: linear-gradient(rgba(12, 14, 20, 0.80), rgba(8, 10, 14, 0.88)), var(--main-artwork);
       background-size: cover;
       background-position: center;
       z-index: 10000;
@@ -92,15 +95,15 @@
     }
 
     .auth-card {
-      background: rgba(14, 12, 28, 0.92);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      background: rgba(22, 25, 35, 0.90);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--border-accent);
       padding: 40px;
       width: 100%;
       max-width: 440px;
       text-align: center;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 20px rgba(224, 169, 109, 0.1);
     }
 
     .auth-title {
@@ -108,13 +111,14 @@
       color: var(--accent-primary);
       margin-bottom: 8px;
       font-weight: 700;
+      text-shadow: 0 0 12px rgba(224, 169, 109, 0.25);
     }
 
     .auth-subtitle {
       font-size: 0.82rem;
       color: var(--text-muted);
       margin-bottom: 24px;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
     }
 
     .pin-input {
@@ -124,15 +128,17 @@
       font-family: 'Cinzel', Georgia, serif;
       letter-spacing: 8px;
       text-align: center;
-      background: rgba(8, 6, 18, 0.85);
+      background: rgba(14, 16, 22, 0.85);
       border: 1px solid var(--border-accent);
       color: var(--text-main);
       margin-bottom: 16px;
       outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
     .pin-input:focus {
       border-color: var(--accent-primary);
+      box-shadow: 0 0 12px rgba(224, 169, 109, 0.3);
     }
 
     .auth-btn {
@@ -140,17 +146,19 @@
       padding: 14px;
       font-size: 0.95rem;
       font-weight: 700;
-      color: #ffffff;
-      background: var(--accent-secondary);
-      border: 1px solid var(--accent-secondary);
+      color: #101216;
+      background: var(--accent-primary);
+      border: 1px solid var(--accent-primary);
       cursor: pointer;
       transition: all 0.3s ease;
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
 
     .auth-btn:hover {
-      background: var(--accent-primary);
-      border-color: var(--accent-primary);
-      color: #0d0a1a;
+      background: #f4a261;
+      border-color: #f4a261;
+      box-shadow: 0 0 15px rgba(244, 162, 97, 0.4);
     }
 
     .auth-error {
@@ -161,11 +169,11 @@
       display: none;
     }
 
-    /* BRIEFING OVERLAY WITH ELEGANT CURSIVE POETRY */
+    /* BRIEFING OVERLAY WITH ELEGANT POETRY */
     #introTextOverlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: linear-gradient(rgba(4, 3, 10, 0.85), rgba(2, 1, 6, 0.92)), var(--main-artwork);
+      background: linear-gradient(rgba(10, 12, 16, 0.85), rgba(6, 8, 12, 0.92)), var(--main-artwork);
       background-size: cover;
       background-position: center;
       z-index: 9999;
@@ -176,8 +184,8 @@
       text-align: center;
       padding: 30px;
       cursor: pointer;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
     }
 
     .intro-text-container {
@@ -193,10 +201,10 @@
 
     .intro-line {
       font-family: 'Dancing Script', cursive !important;
-      font-size: 2.7rem;
+      font-size: 2.8rem;
       font-weight: 700;
-      color: #f0eafb;
-      text-shadow: 0 4px 16px rgba(0, 0, 0, 0.9);
+      color: #fff;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9), 0 0 15px rgba(224, 169, 109, 0.3);
       opacity: 0;
       filter: blur(8px);
       transform: scale(0.95);
@@ -216,9 +224,10 @@
       position: absolute;
       bottom: 30px;
       font-size: 0.85rem;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
       color: var(--text-muted);
       font-family: 'Cinzel', serif;
+      text-transform: uppercase;
     }
 
     /* MAIN CONTAINER - DIM FROSTED GLASS EFFECT */
@@ -231,26 +240,27 @@
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--border-accent);
       padding: 28px;
-      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(224, 169, 109, 0.05);
     }
 
     .app-header-cover {
       width: 100%;
       height: 180px;
-      background: linear-gradient(rgba(8, 6, 18, 0.40), rgba(5, 4, 12, 0.80)), var(--main-artwork);
+      background: linear-gradient(rgba(14, 16, 22, 0.35), rgba(10, 12, 16, 0.75)), var(--main-artwork);
       background-size: cover;
-      background-position: center 35%;
+      background-position: center 40%;
       margin-bottom: 22px;
       border: 1px solid var(--border-accent);
       display: flex;
       align-items: flex-end;
       padding: 20px;
+      box-shadow: inset 0 0 30px rgba(0,0,0,0.6);
     }
 
     .terminal-hdr {
-      font-size: 1.9rem;
-      color: #ffffff;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+      font-size: 2.1rem;
+      color: var(--accent-primary);
+      text-shadow: 0 2px 14px rgba(0,0,0,0.9), 0 0 10px rgba(224, 169, 109, 0.2);
       font-weight: 700;
     }
 
@@ -272,6 +282,7 @@
       border: 1px solid var(--border-accent);
       padding: 14px 20px;
       backdrop-filter: blur(10px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
 
     .countdown-header-flex {
@@ -281,8 +292,8 @@
       margin-bottom: 4px;
     }
 
-    .countdown-title { font-size: 1rem; font-weight: 700; color: var(--text-main); }
-    .countdown-timer-text { font-size: 1.25rem; font-weight: 700; color: var(--accent-primary); font-family: 'Cinzel', Georgia, serif; }
+    .countdown-title { font-size: 0.95rem; font-weight: 700; color: var(--text-main); }
+    .countdown-timer-text { font-size: 1.25rem; font-weight: 700; color: var(--accent-primary); font-family: 'Cinzel', Georgia, serif; text-shadow: 0 0 8px rgba(224, 169, 109, 0.2); }
 
     .quick-nav-links {
       display: flex;
@@ -294,7 +305,7 @@
     .nav-link {
       color: var(--text-main);
       text-decoration: none;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 600;
       padding: 8px 14px;
       border: 1px solid var(--border-dark);
@@ -304,13 +315,14 @@
     }
 
     .nav-link:hover {
-      color: #ffffff;
+      color: #101216;
       border-color: var(--accent-primary);
-      background: var(--accent-secondary);
+      background: var(--accent-primary);
+      box-shadow: 0 0 12px rgba(224, 169, 109, 0.3);
     }
 
     .quote-banner {
-      background: rgba(16, 14, 32, 0.75);
+      background: rgba(28, 32, 44, 0.75);
       backdrop-filter: blur(8px);
       border-left: 4px solid var(--accent-primary);
       padding: 14px 18px;
@@ -319,41 +331,48 @@
       color: var(--text-main);
       margin-bottom: 22px;
       font-family: 'Lora', Georgia, serif;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     }
 
     .btn-aero {
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.06);
       backdrop-filter: blur(8px);
       border: 1px solid var(--border-dark);
       color: var(--text-main);
       padding: 8px 14px;
       cursor: pointer;
       font-weight: 600;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       transition: all 0.2s ease;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-family: 'Cinzel', serif;
     }
 
     .btn-aero:hover {
-      background: rgba(195, 177, 225, 0.2);
+      background: rgba(224, 169, 109, 0.18);
       border-color: var(--accent-primary);
       color: #ffffff;
+      box-shadow: 0 0 10px rgba(224, 169, 109, 0.2);
     }
 
     .btn-aero.btn-highlight {
-      background: var(--accent-secondary);
-      border: 1px solid var(--accent-secondary);
-      color: #fff;
+      background: var(--accent-primary);
+      border: 1px solid var(--accent-primary);
+      color: #101216;
+      font-weight: 700;
     }
 
     .btn-aero.btn-highlight:hover {
-      background: var(--accent-primary);
-      border-color: var(--accent-primary);
-      color: #0d0a1a;
+      background: #f4a261;
+      border-color: #f4a261;
+      color: #101216;
+      box-shadow: 0 0 15px rgba(244, 162, 97, 0.4);
     }
 
     .btn-sm { padding: 4px 8px; font-size: 0.75rem; }
     .btn-edit { background: rgba(255, 255, 255, 0.1); border: 1px solid var(--border-dark); color: var(--text-main); cursor: pointer; font-size: 0.75rem; padding: 4px 8px; transition: background 0.2s; }
-    .btn-edit:hover { background: rgba(195, 177, 225, 0.25); }
+    .btn-edit:hover { background: rgba(224, 169, 109, 0.25); }
     .btn-danger { background: transparent; border: none; color: #f87171; cursor: pointer; font-size: 0.85rem; margin-left: 6px; font-weight: bold; }
     .btn-danger:hover { transform: scale(1.2); }
 
@@ -362,9 +381,9 @@
       height: 105px;
       object-fit: cover;
       margin-bottom: 12px;
-      opacity: 0.65;
+      opacity: 0.75;
       border: 1px solid var(--border-accent);
-      filter: saturate(0.8) hue-rotate(220deg);
+      filter: saturate(0.85) contrast(1.1);
     }
 
     .month-picker {
@@ -376,7 +395,7 @@
     }
 
     .month-picker h2 {
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       color: var(--text-main);
       min-width: 200px;
       text-align: center;
@@ -386,14 +405,15 @@
     .habit-table-wrapper {
       overflow-x: auto;
       border: 1px solid var(--border-accent);
-      background: rgba(10, 8, 22, 0.75);
+      background: rgba(18, 20, 28, 0.80);
       backdrop-filter: blur(12px);
       margin-bottom: 24px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
     }
 
     table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
-    th, td { border: 1px solid rgba(255, 255, 255, 0.06); text-align: center; padding: 8px 4px; }
-    th { background: rgba(16, 14, 32, 0.9); color: var(--text-muted); font-size: 0.78rem; font-weight: 700; }
+    th, td { border: 1px solid rgba(255, 255, 255, 0.08); text-align: center; padding: 8px 4px; }
+    th { background: rgba(26, 30, 42, 0.95); color: var(--text-muted); font-size: 0.78rem; font-weight: 700; }
 
     /* TEXT WRAPPING FIX FOR HABIT MATRIX COLUMN */
     .habit-col {
@@ -406,16 +426,16 @@
       white-space: normal !important;
       word-break: break-word;
       overflow-wrap: anywhere;
-      background: rgba(14, 12, 28, 0.95);
+      background: rgba(22, 25, 36, 0.95);
       color: var(--text-main);
       position: sticky;
       left: 0;
       z-index: 2;
     }
 
-    th.today, td.today { background: rgba(195, 177, 225, 0.2) !important; color: #ffffff !important; font-weight: bold; }
+    th.today, td.today { background: rgba(224, 169, 109, 0.22) !important; color: #ffffff !important; font-weight: bold; }
     .checkbox-cell { cursor: pointer; user-select: none; width: 28px; height: 28px; transition: background 0.15s ease; }
-    .checkbox-cell:hover { background-color: rgba(195, 177, 225, 0.25); }
+    .checkbox-cell:hover { background-color: rgba(224, 169, 109, 0.25); }
 
     .checked-crimson { background-color: var(--tag-crimson) !important; color: #fff; }
     .checked-slate   { background-color: var(--tag-slate)   !important; color: #fff; }
@@ -439,11 +459,13 @@
       -webkit-backdrop-filter: blur(12px);
       display: flex;
       flex-direction: column;
-      transition: border-color 0.3s ease;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
     }
 
     .card-section:hover {
-      border-color: rgba(195, 177, 225, 0.55);
+      border-color: rgba(224, 169, 109, 0.55);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45), 0 0 15px rgba(224, 169, 109, 0.08);
     }
 
     .fixed-row-height {
@@ -499,20 +521,20 @@
       font-weight: bold;
       color: var(--text-muted);
       padding: 4px 0;
-      background: rgba(10, 8, 22, 0.8);
+      background: rgba(18, 20, 28, 0.8);
       border: 1px solid var(--border-dark);
     }
 
     .cal-day {
       padding: 6px 2px;
-      background: rgba(0, 0, 0, 0.35);
+      background: rgba(0, 0, 0, 0.3);
       border: 1px solid var(--border-dark);
       cursor: pointer;
       color: var(--text-main);
     }
 
-    .cal-day:hover { background: rgba(195, 177, 225, 0.25); color: #ffffff; }
-    .cal-day.active-day { background: var(--accent-secondary); color: #fff; font-weight: bold; border-color: var(--accent-primary); }
+    .cal-day:hover { background: rgba(224, 169, 109, 0.25); color: #ffffff; }
+    .cal-day.active-day { background: var(--accent-primary); color: #101216; font-weight: bold; border-color: var(--accent-primary); }
     .cal-day.is-today-marker { border: 2px solid var(--accent-primary); }
 
     .todo-list-box {
@@ -527,7 +549,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      background: rgba(8, 6, 18, 0.75);
+      background: rgba(16, 18, 26, 0.75);
       border: 1px solid var(--border-dark);
       padding: 6px 8px;
       font-size: 0.85rem;
@@ -541,7 +563,7 @@
     .subject-badge {
       font-size: 0.7rem;
       padding: 2px 6px;
-      background: rgba(195, 177, 225, 0.15);
+      background: rgba(224, 169, 109, 0.15);
       color: var(--accent-primary);
       border: 1px solid var(--border-accent);
       font-weight: 600;
@@ -576,7 +598,7 @@
     }
 
     .stoic-card, .test-card {
-      background: rgba(8, 6, 18, 0.75);
+      background: rgba(16, 18, 26, 0.75);
       border: 1px solid var(--border-dark);
       padding: 10px 12px;
       margin-bottom: 8px;
@@ -606,7 +628,7 @@
     }
 
     .book-card-item {
-      background: rgba(14, 12, 28, 0.85);
+      background: rgba(22, 25, 36, 0.85);
       backdrop-filter: blur(10px);
       border: 1px solid var(--border-accent);
       padding: 16px;
@@ -619,9 +641,10 @@
     }
 
     .book-card-item:hover {
-      background: rgba(195, 177, 225, 0.15);
+      background: rgba(224, 169, 109, 0.12);
       border-color: var(--accent-primary);
       transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.4);
     }
 
     .book-card-title { 
@@ -636,7 +659,7 @@
       display: flex;
       gap: 4px;
       padding: 6px;
-      background: rgba(8, 6, 18, 0.9);
+      background: rgba(14, 16, 22, 0.9);
       border: 1px solid var(--border-dark);
       border-bottom: none;
       flex-wrap: wrap;
@@ -648,7 +671,7 @@
       overflow-y: auto;
       outline: none;
       padding: 14px;
-      background: rgba(8, 6, 18, 0.95);
+      background: rgba(14, 16, 22, 0.95);
       border: 1px solid var(--border-dark);
       color: var(--text-main);
       font-size: 0.95rem;
@@ -666,7 +689,7 @@
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(3, 2, 8, 0.75);
+      background: rgba(6, 8, 12, 0.75);
       backdrop-filter: blur(8px);
       align-items: center;
       justify-content: center;
@@ -674,7 +697,7 @@
     }
 
     .modal-content {
-      background: rgba(14, 12, 28, 0.95);
+      background: rgba(22, 25, 36, 0.95);
       backdrop-filter: blur(16px);
       border: 1px solid var(--border-accent);
       padding: 22px;
@@ -684,17 +707,17 @@
       flex-direction: column;
       gap: 12px;
       color: var(--text-main);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 20px rgba(224, 169, 109, 0.1);
     }
 
-    /* INPUT INTERACTION & INTERACTION OVERRIDES FIX */
+    /* INPUT INTERACTION FIXES */
     .modal-content input, 
     .modal-content select, 
     .modal-content textarea,
     .timer-content-floating input {
       padding: 10px 12px;
       border: 1px solid var(--border-dark);
-      background: rgba(8, 6, 18, 0.9);
+      background: rgba(14, 16, 22, 0.9);
       color: var(--text-main);
       outline: none;
       font-size: 0.9rem;
@@ -712,7 +735,7 @@
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: linear-gradient(rgba(5, 4, 12, 0.82), rgba(3, 2, 8, 0.90)), var(--main-artwork);
+      background: linear-gradient(rgba(12, 14, 20, 0.80), rgba(8, 10, 14, 0.88)), var(--main-artwork);
       background-size: cover;
       background-position: center;
       z-index: 200;
@@ -732,11 +755,11 @@
       width: 90%;
       text-align: center;
       position: relative;
-      background: rgba(14, 12, 28, 0.92);
+      background: rgba(22, 25, 36, 0.92);
       padding: 36px;
       border: 1px solid var(--border-accent);
       backdrop-filter: blur(20px);
-      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 30px rgba(224, 169, 109, 0.1);
     }
 
     .timer-display {
@@ -745,14 +768,14 @@
       color: var(--accent-primary);
       margin: 10px 0;
       letter-spacing: 2px;
-      text-shadow: 0 0 20px rgba(195, 177, 225, 0.3);
+      text-shadow: 0 0 25px rgba(224, 169, 109, 0.35);
     }
 
     .timer-mode-badge {
       font-weight: 700;
       color: var(--text-main);
-      font-size: 1rem;
-      letter-spacing: 1px;
+      font-size: 0.95rem;
+      letter-spacing: 2px;
       text-transform: uppercase;
       padding: 6px 16px;
       background: rgba(255, 255, 255, 0.08);
@@ -774,7 +797,7 @@
       width: 90vw;
       max-width: 1200px;
       height: 88vh;
-      background: rgba(12, 10, 24, 0.95);
+      background: rgba(20, 23, 32, 0.95);
       backdrop-filter: blur(20px);
       border: 1px solid var(--border-accent);
       padding: 40px;
@@ -788,7 +811,7 @@
       font-size: 1.05rem;
       line-height: 1.85;
       color: var(--text-main);
-      background: rgba(8, 6, 18, 0.9);
+      background: rgba(14, 16, 22, 0.9);
       padding: 24px;
       border: 1px solid var(--border-accent);
       white-space: pre-wrap;
@@ -799,7 +822,7 @@
     }
 
     .chapter-card-item {
-      background: rgba(8, 6, 18, 0.85);
+      background: rgba(14, 16, 22, 0.85);
       border: 1px solid var(--border-dark);
       padding: 16px 20px;
       display: flex;
@@ -831,36 +854,36 @@
   <div id="securityAuthScreen">
     <div class="auth-card">
       <div class="auth-title">Project Inquiniso</div>
-      <div class="auth-subtitle">You'll never find rainbows, if you're looking down.</div>
+      <div class="auth-subtitle">Wake up to your true potential. Do not look back.</div>
       <input type="password" id="agentPinInput" class="pin-input" maxlength="4" placeholder="••••" autofocus>
-      <button class="auth-btn" id="initialStartBtn">BEGIN YOUR DAY</button>
+      <button class="auth-btn" id="initialStartBtn">AWAKEN YOUR ALTER EGO</button>
       <div class="auth-error" id="authErrorMsg">Haha the pin is incorrect</div>
     </div>
   </div>
 
   <div id="introTextOverlay">
     <div class="intro-text-container">
-      <div class="intro-line" id="line1">Not grand explosions win the day,</div>
-      <div class="intro-line" id="line2">Nor mighty words or cries,</div>
-      <div class="intro-line" id="line3">But doing what must be done</div>
-      <div class="intro-line" id="line4">As each new morning skies.</div>
-      <div class="intro-line" id="line5">Embrace the present moment.</div>
-      <div class="intro-line" id="line6">Welcome back.</div>
-      <div class="intro-line" id="line7">Every Step Matters</div>
+      <div class="intro-line" id="line1">The clock ticks loud, the shadows grow,</div>
+      <div class="intro-line" id="line2">I let the precious moments go.</div>
+      <div class="intro-line" id="line3">A day is lost, a breath is spent,</div>
+      <div class="intro-line" id="line4">On things I never truly meant.</div>
+      <div class="intro-line" id="line5">No more wasted time.</div>
+      <div class="intro-line" id="line6">Step into your Alter Ego.</div>
+      <div class="intro-line" id="line7">Execute Without Regret.</div>
     </div>
     <div class="skip-hint">[ CLICK ANYWHERE TO BEGIN ]</div>
   </div>
 
   <div class="app-container">
     <div class="app-header-cover">
-      <div class="terminal-hdr">Project Inquiniso</div>
+      <div class="terminal-hdr">PROJECT INQUINISO // ALTER EGO</div>
     </div>
 
     <div class="top-hero-nav">
       <div class="hero-countdown-box">
         <div class="countdown-header-flex">
-          <span class="countdown-title" id="countdownTitle">Good Day</span>
-          <button class="btn-aero btn-sm" id="editDeadlineBtn">Set Good Day</button>
+          <span class="countdown-title" id="countdownTitle">Target Horizon</span>
+          <button class="btn-aero btn-sm" id="editDeadlineBtn">Configure Deadline</button>
         </div>
         <div class="countdown-timer-text" id="neetCountdown">Calculating time...</div>
       </div>
@@ -875,7 +898,7 @@
     </div>
 
     <div class="quote-banner">
-"Even the darkest night will end and the sun will rise." — Victor Hugo
+"We must all suffer one of two pains: the pain of discipline or the pain of regret. Choose your pain wisely." — Jim Rohn
     </div>
 
     <div style="display:flex; justify-content: flex-end; gap:8px; margin-bottom: 16px;">
@@ -912,7 +935,7 @@
           <span>Daily Intentions & Tasks</span>
           <button class="btn-aero" id="openTodoModal">+ Intention</button>
         </div>
-        <span class="section-subtitle-quote">“I am an optimist. It does not seem to be much use being anything else.”</span>
+        <span class="section-subtitle-quote">"Procrastination is the arrogant assumption that God owes you another chance."</span>
         
         <div class="todo-calendar-grid">
           <div>
@@ -934,7 +957,7 @@
         <div class="section-title">
           <span>Consistency Index</span>
         </div>
-        <span class="section-subtitle-quote">"Try to be a rainbow in someone's cloud."</span>
+        <span class="section-subtitle-quote">"Excellence is not an act, but a relentless daily habit."</span>
         <div class="chart-container-exact">
           <canvas id="progressChart"></canvas>
         </div>
@@ -946,7 +969,7 @@
             <span>Body & Energy Tracker</span>
             <button class="btn-aero" id="openWeightModal">+ Log Weight</button>
           </div>
-          <span class="section-subtitle-quote">"We must accept finite disappointment, but never lose infinite hope."</span>
+          <span class="section-subtitle-quote">"Your physical vessel dictates your mental operational capacity."</span>
           <div class="chart-container-exact">
             <canvas id="weightChart"></canvas>
           </div>
@@ -956,7 +979,7 @@
           <div class="section-title" style="width: 100%;">
             <span>Focus Area Distribution</span>
           </div>
-          <span class="section-subtitle-quote">Resource allocation analysis</span>
+          <span class="section-subtitle-quote">Audit where your vitality flows</span>
           <div class="pie-chart-wrapper">
             <div class="pie-chart-box">
               <canvas id="taskPieChart"></canvas>
@@ -966,12 +989,12 @@
       </div>
 
       <div class="card-section" id="stoicSection">
-        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1200&auto=format&fit=crop" class="section-banner-img" alt="Reflection Banner">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200&auto=format&fit=crop" class="section-banner-img" alt="Reflection Banner">
         <div class="section-title">
           <span>Mindfulness & Reflection Notes</span>
           <button class="btn-aero" id="openStoicModal">+ Log Reflection</button>
         </div>
-        <span class="section-subtitle-quote">"Visualize operational challenges before engagement to make calm decisions."</span>
+        <span class="section-subtitle-quote">"Analyze past missteps to build unshakeable focus."</span>
         <div class="scrollable-list" id="stoicContainer"></div>
       </div>
 
@@ -981,17 +1004,17 @@
           <span>Growth & Benchmark Records</span>
           <button class="btn-aero" id="openTestModal">+ Add Evaluation</button>
         </div>
-        <span class="section-subtitle-quote">"Performance parameters reflect steady self-mastery."</span>
+        <span class="section-subtitle-quote">"Track objective output. Numbers do not lie."</span>
         <div class="scrollable-list" id="testsContainer"></div>
       </div>
 
       <div class="card-section" style="grid-column: span 2;" id="journalSection">
-        <img src="https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?q=80&w=1600&auto=format&fit=crop" class="section-banner-img" style="height:110px;" alt="Wisdom Banner">
+        <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1600&auto=format&fit=crop" class="section-banner-img" style="height:110px;" alt="Wisdom Banner">
         <div class="section-title">
           <span>Wisdom Journals & Dossiers</span>
           <button class="btn-aero" id="openNewBookModal">+ Add Journal</button>
         </div>
-        <span class="section-subtitle-quote">"Optimism is the faith that leads to achievement."</span>
+        <span class="section-subtitle-quote">"Document your evolution into relentless self-mastery."</span>
 
         <div class="books-main-grid" id="booksMainGrid"></div>
       </div>
@@ -1034,7 +1057,7 @@
   <div class="fullscreen-overlay-modal" id="fullscreenBookModal">
     <button class="close-overlay-btn" id="closeBookVaultBtn">X</button>
     <div class="fullscreen-reader-box">
-      <div style="display:flex; justify-space-between; align-items:center; border-bottom:1px solid var(--border-dark); padding-bottom:14px; margin-bottom:20px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-dark); padding-bottom:14px; margin-bottom:20px;">
         <div>
           <span style="font-size:0.75rem; color:var(--text-muted); font-weight:bold; letter-spacing:2px; font-family:'Lora', serif;">WISDOM VAULT</span>
           <h1 id="fsBookVaultTitle" style="font-size:1.8rem; color:var(--text-main);">Journal Title</h1>
@@ -1070,7 +1093,7 @@
   <div class="modal" id="stoicModal">
     <div class="modal-content">
       <h3>Log Reflection & Scenario</h3>
-      <input type="text" id="stoicTitleInput" placeholder="Reflection Title (e.g. Maintaining Calm Under Stress)">
+      <input type="text" id="stoicTitleInput" placeholder="Reflection Title (e.g. Eliminating Procrastination Traps)">
       <textarea id="stoicDetailsInput" rows="8" placeholder="Detail the challenge and pre-planned positive responses..."></textarea>
       <div style="display: flex; gap: 8px; justify-content: flex-end;">
         <button class="btn-aero" id="closeStoicModal">Cancel</button>
@@ -1108,11 +1131,11 @@
       <input type="text" id="habitNameInput" placeholder="Habit Title (e.g. 0600 Morning Reflection)">
       <input type="number" id="habitGoalInput" placeholder="Days Goal (e.g. 365)" value="365">
       <select id="habitColorInput">
-        <option value="emerald">Forest Lavender</option>
+        <option value="amber">Warm Amber</option>
+        <option value="emerald">Forest Emerald</option>
         <option value="slate">Tactical Slate</option>
-        <option value="crimson">Crimson Violet</option>
+        <option value="crimson">Crimson Red</option>
         <option value="indigo">Midnight Indigo</option>
-        <option value="amber">Burnt Amber</option>
       </select>
       <div style="display: flex; gap: 8px; justify-content: flex-end;">
         <button class="btn-aero" id="closeHabitModal">Cancel</button>
@@ -1256,9 +1279,9 @@
     };
 
     let habits = JSON.parse(localStorage.getItem('dh_habits')) || [
-      { id: '1', name: '0600 Morning Routine', goal: 365, color: 'emerald', records: {} },
-      { id: '2', name: 'Deep Focus Session', goal: 365, color: 'emerald', records: {} },
-      { id: '3', name: 'Physical Activity', goal: 365, color: 'emerald', records: {} }
+      { id: '1', name: '0600 Morning Routine', goal: 365, color: 'amber', records: {} },
+      { id: '2', name: 'Deep Focus Session', goal: 365, color: 'amber', records: {} },
+      { id: '3', name: 'Physical Activity', goal: 365, color: 'amber', records: {} }
     ];
 
     let stoicEntries = JSON.parse(localStorage.getItem('dh_stoic')) || [];
@@ -1422,7 +1445,7 @@
           const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
           const isToday = (day === today.getDate() && month === today.getMonth() && year === today.getFullYear());
           const isChecked = habit.records[dateStr];
-          const colorClass = isChecked ? `checked-${habit.color || 'emerald'}` : '';
+          const colorClass = isChecked ? `checked-${habit.color || 'amber'}` : '';
           const todayClass = isToday ? 'today' : '';
 
           cellsHTML += `<td class="checkbox-cell ${colorClass} ${todayClass}" data-habit="${habit.id}" data-date="${dateStr}">
@@ -1430,7 +1453,7 @@
           </td>`;
         }
 
-        cellsHTML += `<td>${habit.goal || 365}</td><td style="font-weight:bold; color:var(--text-main); font-family:'Lora', serif;">${totalAchieved}</td>`;
+        cellsHTML += `<td>${habit.goal || 365}</td><td style="font-weight:bold; color:var(--accent-primary); font-family:'Lora', serif;">${totalAchieved}</td>`;
         row.innerHTML = cellsHTML;
         habitsBody.appendChild(row);
       });
@@ -1621,7 +1644,7 @@
     };
     window.deleteStoic = function(idx) { stoicEntries.splice(idx, 1); saveData(); renderStoicEntries(); };
 
-    // WEIGHT & METRIC CHARTS (LAVENDER VIOLET PALETTE)
+    // WEIGHT & METRIC CHARTS (EMBER AMBER PALETTE)
     let weightChartInstance = null;
     function updateWeightChart() {
       const labels = weights.map(w => w.date);
@@ -1630,14 +1653,14 @@
       const ctx = document.getElementById('weightChart').getContext('2d');
       weightChartInstance = new Chart(ctx, {
         type: 'line',
-        data: { labels, datasets: [{ label: 'Mass', data, borderColor: '#c3b1e1', backgroundColor: 'rgba(195, 177, 225, 0.15)', fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: '#c3b1e1' }] },
+        data: { labels, datasets: [{ label: 'Mass', data, borderColor: '#e0a96d', backgroundColor: 'rgba(224, 169, 109, 0.18)', fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: '#e0a96d' }] },
         options: { 
           responsive: true, 
           maintainAspectRatio: false, 
           plugins: { legend: { display: false } }, 
           scales: { 
-            x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#9f94b8', font: { family: 'Inter' } } }, 
-            y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#9f94b8', font: { family: 'Inter' } } } 
+            x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#a0aab2', font: { family: 'Inter' } } }, 
+            y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#a0aab2', font: { family: 'Inter' } } } 
           } 
         }
       });
@@ -1673,14 +1696,14 @@
       const ctx = document.getElementById('progressChart').getContext('2d');
       chartInstance = new Chart(ctx, {
         type: 'line',
-        data: { labels, datasets: [{ label: 'Completed', data: dataPoints, borderColor: '#c3b1e1', backgroundColor: 'rgba(195, 177, 225, 0.25)', fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: '#c3b1e1' }] },
+        data: { labels, datasets: [{ label: 'Completed', data: dataPoints, borderColor: '#e0a96d', backgroundColor: 'rgba(224, 169, 109, 0.22)', fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: '#e0a96d' }] },
         options: { 
           responsive: true, 
           maintainAspectRatio: false, 
           plugins: { legend: { display: false } }, 
           scales: { 
-            x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#9f94b8', font: { family: 'Inter' } } }, 
-            y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { stepSize: 1, color: '#9f94b8', font: { family: 'Inter' } } } 
+            x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#a0aab2', font: { family: 'Inter' } } }, 
+            y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { stepSize: 1, color: '#a0aab2', font: { family: 'Inter' } } } 
           } 
         }
       });
@@ -1708,9 +1731,9 @@
           labels, 
           datasets: [{ 
             data, 
-            backgroundColor: ['#5c469c', '#7858a6', '#9a72ac', '#c3b1e1', '#e0aaff'], 
+            backgroundColor: ['#e0a96d', '#f4a261', '#e76f51', '#c77dff', '#9d4edd'], 
             borderWidth: 1, 
-            borderColor: '#100c1e' 
+            borderColor: '#181c26' 
           }] 
         },
         options: { 
@@ -1722,7 +1745,7 @@
               display: true,
               position: 'right',
               labels: {
-                color: '#9f94b8',
+                color: '#a0aab2',
                 font: { size: 10, family: 'Inter' },
                 boxWidth: 10,
                 padding: 6
