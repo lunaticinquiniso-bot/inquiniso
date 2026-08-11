@@ -56,7 +56,7 @@
       border-radius: 0px !important;
     }
 
-    /* SCROLLBAR MANAGEMENT (HIDDEN SCROLLBARS WITH FULL FUNCTIONALITY) */
+    /* SCROLLBAR MANAGEMENT */
     html, body, div, textarea, section, table, .habit-table-wrapper, .scrollable-list, .todo-list-box, .editor-box-frameless, #fsStoicDetails, .rating-scroll-container, .rating-display-lock {
       scrollbar-width: none !important;
       -ms-overflow-style: none !important;
@@ -426,12 +426,18 @@
     .checked-amber   { background-color: var(--tag-amber)   !important; color: #fff; }
     .checked-emerald { background-color: var(--tag-emerald) !important; color: #fff; }
 
-    /* DAILY ASSESSMENT & RATING SECTION - PROPER BOUNDED SCROLLABLE CONTAINER */
+    /* FIXED UNIFORM HEIGHT DAILY ASSESSMENT SECTION */
+    #dailyRatingSection {
+      margin-bottom: 24px;
+      height: 290px;
+    }
+
     .rating-section-grid {
       display: grid;
       grid-template-columns: 1fr 300px;
       gap: 20px;
-      align-items: start;
+      align-items: stretch;
+      height: calc(100% - 35px);
     }
 
     .rating-scroll-container {
@@ -439,7 +445,7 @@
       flex-direction: column;
       gap: 12px;
       width: 100%;
-      max-height: 220px;
+      height: 100%;
       overflow-y: auto !important;
       padding-right: 4px;
     }
@@ -476,14 +482,14 @@
     .rating-display-lock {
       background: rgba(4, 10, 7, 0.85);
       border: 1px solid var(--border-accent);
-      padding: 16px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
       box-shadow: var(--subtle-glow);
       word-break: break-word;
       overflow-wrap: anywhere;
-      max-height: 200px;
+      height: 100%;
       overflow-y: auto !important;
     }
 
@@ -724,7 +730,7 @@
       color: var(--text-muted);
     }
 
-    /* POPUP MODALS - HIGHEST Z-INDEX LAYER (30000) */
+    /* POPUP MODALS */
     .modal {
       display: none;
       position: fixed;
@@ -778,7 +784,7 @@
       color-scheme: dark;
     }
 
-    /* FULLSCREEN OVERLAYS (Z-INDEX 10000) */
+    /* FULLSCREEN OVERLAYS */
     .fullscreen-overlay-modal {
       display: none;
       position: fixed;
@@ -795,7 +801,6 @@
       -webkit-backdrop-filter: blur(20px);
     }
 
-    /* TRUE FULLSCREEN IMMERSIVE FOCUS TIMER - NO INNER BOX ENCLOSURE */
     .timer-fullscreen-content {
       display: flex;
       flex-direction: column;
@@ -951,7 +956,7 @@
       </div>
     </div>
 
-    <div id="dailyRatingSection" class="card-section" style="margin-bottom: 24px;">
+    <div id="dailyRatingSection" class="card-section">
       <div class="section-title">
         <span>Daily Assessment & Log</span>
         <span id="ratingDateLabel" style="font-size: 0.85rem; color: var(--text-muted);">Date</span>
@@ -1665,6 +1670,15 @@
         };
         calContainer.appendChild(dayEl);
       }
+
+      // Fill remaining slots up to 42 cells total (6 full rows) so calendar dimensions never jump between months
+      const totalRendered = firstDayIndex + totalDays;
+      const remaining = 42 - totalRendered;
+      for (let i = 0; i < remaining; i++) {
+        const emptyEl = document.createElement('div');
+        emptyEl.style.visibility = 'hidden';
+        calContainer.appendChild(emptyEl);
+      }
     }
 
     document.getElementById('prevRatingMonth').onclick = () => { ratingCalCurrentDate.setMonth(ratingCalCurrentDate.getMonth() - 1); renderRatingMiniCalendar(); };
@@ -1715,6 +1729,16 @@
         };
         calContainer.appendChild(dayEl);
       }
+
+      // Fill remaining slots up to 42 cells total (6 full rows)
+      const totalRendered = firstDayIndex + totalDays;
+      const remaining = 42 - totalRendered;
+      for (let i = 0; i < remaining; i++) {
+        const emptyEl = document.createElement('div');
+        emptyEl.style.visibility = 'hidden';
+        calContainer.appendChild(emptyEl);
+      }
+
       renderTodos();
     }
 
