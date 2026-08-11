@@ -56,8 +56,8 @@
       border-radius: 0px !important;
     }
 
-    /* SCROLLBAR MANAGEMENT */
-    html, body, div, textarea, section, table, .habit-table-wrapper, .scrollable-list, .todo-list-box, .editor-box-frameless, #fsStoicDetails {
+    /* SCROLLBAR MANAGEMENT - ALL CONTAINERS INTERNAL SCROLL WITHOUT LAYOUT SHIFT */
+    html, body, div, textarea, section, table, .habit-table-wrapper, .scrollable-list, .todo-list-box, .editor-box-frameless, #fsStoicDetails, .rating-display-lock, .rating-scroll-container {
       scrollbar-width: none !important;
       -ms-overflow-style: none !important;
     }
@@ -420,29 +420,39 @@
     .checked-amber   { background-color: var(--tag-amber)   !important; color: #fff; }
     .checked-emerald { background-color: var(--tag-emerald) !important; color: #fff; }
 
-    /* NEW DAILY RATING & LOG SECTION */
+    /* FIXED NON-EXPANDING DAILY RATING & LOG SECTION */
     .rating-section-grid {
       display: grid;
-      grid-template-columns: 1.3fr 0.7fr;
+      grid-template-columns: 1.35fr 0.65fr;
       gap: 20px;
-      margin-bottom: 24px;
+      height: 225px; /* STRICT FIXED HEIGHT TO PREVENT PUSHING SURROUNDING LAYOUT */
+      align-items: stretch;
+    }
+
+    .rating-scroll-container {
+      height: 100%;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 4px;
     }
 
     .rating-btn-group {
       display: flex;
       gap: 6px;
-      margin: 10px 0;
+      margin: 4px 0;
       flex-wrap: wrap;
     }
 
     .rating-pill-btn {
       flex: 1;
-      min-width: 32px;
-      height: 36px;
+      min-width: 28px;
+      height: 32px;
       background: rgba(16, 185, 129, 0.06);
       border: 1px solid var(--border-accent);
       color: var(--text-main);
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       cursor: pointer;
       transition: all 0.2s ease;
       display: flex;
@@ -460,13 +470,15 @@
     .rating-display-lock {
       background: rgba(4, 10, 7, 0.85);
       border: 1px solid var(--border-accent);
-      padding: 16px;
-      min-height: 120px;
+      padding: 14px;
+      height: 100%;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       gap: 8px;
       box-shadow: var(--subtle-glow);
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
 
     /* LAYOUT GRIDS */
@@ -935,45 +947,47 @@
       </div>
     </div>
 
-    <div id="dailyRatingSection" class="card-section" style="margin-bottom: 24px;">
+    <div id="dailyRatingSection" class="card-section" style="margin-bottom: 24px; height: 280px; overflow: hidden;">
       <div class="section-title">
         <span>Daily Assessment & Log</span>
         <span id="ratingDateLabel" style="font-size: 0.85rem; color: var(--text-muted);">Date</span>
       </div>
 
       <div class="rating-section-grid">
-        <div style="display: flex; flex-direction: column; gap: 10px;" id="ratingInputContainer">
-          <label style="font-size:0.85rem; color: var(--text-muted);">Score Performance (1 - 10)</label>
-          <div class="rating-btn-group" id="ratingPillGroup">
-            <button class="rating-pill-btn" onclick="selectRatingScore(1)">1</button>
-            <button class="rating-pill-btn" onclick="selectRatingScore(2)">2</button>
-            <button class="rating-pill-btn" onclick="selectRatingScore(3)">3</button>
-            <button class="rating-pill-btn" onclick="selectRatingScore(4)">4</button>
-            <button class="rating-pill-btn" onclick="selectRatingScore(5)">5</button>
-            <button class="rating-pill-btn" onclick="selectRatingScore(6)">6</button>
-            <button class="rating-pill-btn" onclick="selectRatingScore(7)">7</button>
-            <button class="rating-pill-btn" onclick="selectRatingScore(8)">8</button>
-            <button class="rating-pill-btn" onclick="selectRatingScore(9)">9</button>
-            <button class="rating-pill-btn" onclick="selectRatingScore(10)">10</button>
+        <div class="rating-scroll-container">
+          <div id="ratingInputContainer" style="display: flex; flex-direction: column; gap: 8px;">
+            <label style="font-size:0.8rem; color: var(--text-muted);">Score Performance (1 - 10)</label>
+            <div class="rating-btn-group" id="ratingPillGroup">
+              <button class="rating-pill-btn" onclick="selectRatingScore(1)">1</button>
+              <button class="rating-pill-btn" onclick="selectRatingScore(2)">2</button>
+              <button class="rating-pill-btn" onclick="selectRatingScore(3)">3</button>
+              <button class="rating-pill-btn" onclick="selectRatingScore(4)">4</button>
+              <button class="rating-pill-btn" onclick="selectRatingScore(5)">5</button>
+              <button class="rating-pill-btn" onclick="selectRatingScore(6)">6</button>
+              <button class="rating-pill-btn" onclick="selectRatingScore(7)">7</button>
+              <button class="rating-pill-btn" onclick="selectRatingScore(8)">8</button>
+              <button class="rating-pill-btn" onclick="selectRatingScore(9)">9</button>
+              <button class="rating-pill-btn" onclick="selectRatingScore(10)">10</button>
+            </div>
+            
+            <textarea id="ratingStatementInput" rows="3" style="background: rgba(4, 10, 7, 0.85); color: var(--text-main); border: 1px solid var(--border-dark); padding: 8px; font-size: 0.88rem; outline: none; width:100%;" placeholder="State your daily summary or key thoughts..."></textarea>
+            
+            <div style="display:flex; justify-content:flex-end;">
+              <button class="btn-aero btn-highlight btn-sm" id="saveRatingBtn" onclick="saveCurrentRating()">Log & Lock Entry</button>
+            </div>
           </div>
-          
-          <textarea id="ratingStatementInput" rows="3" style="background: rgba(4, 10, 7, 0.85); color: var(--text-main); border: 1px solid var(--border-dark); padding: 10px; font-size: 0.9rem; outline: none; width:100%;" placeholder="State your daily summary or key thoughts..."></textarea>
-          
-          <div style="display:flex; justify-content:flex-end;">
-            <button class="btn-aero btn-highlight" id="saveRatingBtn" onclick="saveCurrentRating()">Log & Lock Entry</button>
+
+          <div id="ratingLockedDisplay" class="rating-display-lock" style="display:none;">
+            <div style="font-size:0.75rem; color:var(--text-muted); letter-spacing:1px;">RECORD LOCKED FOR THIS DATE:</div>
+            <div style="font-size:1.4rem; color:var(--accent-primary);" id="lockedScoreText">Score: -/10</div>
+            <div style="font-size:0.9rem; color:var(--text-main); line-height:1.5;" id="lockedStatementText">No statement.</div>
           </div>
         </div>
 
-        <div id="ratingLockedDisplay" class="rating-display-lock" style="display:none;">
-          <div style="font-size:0.8rem; color:var(--text-muted); letter-spacing:1px;">RECORD LOCKED FOR THIS DATE:</div>
-          <div style="font-size:1.6rem; color:var(--accent-primary);" id="lockedScoreText">Score: -/10</div>
-          <div style="font-size:0.95rem; color:var(--text-main); line-height:1.5;" id="lockedStatementText">No statement.</div>
-        </div>
-
-        <div style="display: flex; flex-direction: column; border-left: 1px solid var(--border-dark); padding-left: 16px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <div style="display: flex; flex-direction: column; border-left: 1px solid var(--border-dark); padding-left: 14px; height: 100%;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
             <button class="btn-aero btn-sm" id="prevRatingMonth">&lt;</button>
-            <span style="font-size: 0.82rem; color:var(--text-muted);" id="ratingCalMonthName">Calendar</span>
+            <span style="font-size: 0.8rem; color:var(--text-muted);" id="ratingCalMonthName">Calendar</span>
             <button class="btn-aero btn-sm" id="nextRatingMonth">&gt;</button>
           </div>
           <div class="mini-calendar" id="ratingMiniCalendar"></div>
