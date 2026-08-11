@@ -56,7 +56,7 @@
       border-radius: 0px !important;
     }
 
-    /* SCROLLBAR MANAGEMENT */
+    /* SCROLLBAR MANAGEMENT (HIDDEN VISUALLY WITH FULL SCROLL FUNCTIONALITY) */
     html, body, div, textarea, section, table, .habit-table-wrapper, .scrollable-list, .todo-list-box, .editor-box-frameless, #fsStoicDetails, .rating-scroll-container, .rating-display-lock {
       scrollbar-width: none !important;
       -ms-overflow-style: none !important;
@@ -426,41 +426,49 @@
     .checked-amber   { background-color: var(--tag-amber)   !important; color: #fff; }
     .checked-emerald { background-color: var(--tag-emerald) !important; color: #fff; }
 
-    /* FIXED UNIFORM HEIGHT DAILY ASSESSMENT SECTION */
+    /* STRICT FIXED-HEIGHT DAILY ASSESSMENT BOX */
     #dailyRatingSection {
       margin-bottom: 24px;
-      height: 290px;
+      height: 280px;
+      min-height: 280px;
+      max-height: 280px;
+      overflow: hidden;
     }
 
     .rating-section-grid {
       display: grid;
-      grid-template-columns: 1fr 300px;
-      gap: 20px;
+      grid-template-columns: 1fr 240px;
+      gap: 16px;
       align-items: stretch;
-      height: calc(100% - 35px);
+      height: calc(100% - 32px);
+      overflow: hidden;
     }
 
     .rating-scroll-container {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      width: 100%;
       height: 100%;
-      overflow-y: auto !important;
-      padding-right: 4px;
+      overflow: hidden;
+    }
+
+    #ratingInputContainer {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      gap: 8px;
     }
 
     .rating-btn-group {
       display: flex;
-      gap: 6px;
-      margin: 4px 0;
+      gap: 4px;
+      margin: 2px 0;
       flex-wrap: wrap;
     }
 
     .rating-pill-btn {
       flex: 1;
-      min-width: 30px;
-      height: 34px;
+      min-width: 26px;
+      height: 30px;
       background: rgba(16, 185, 129, 0.06);
       border: 1px solid var(--border-accent);
       color: var(--text-main);
@@ -479,18 +487,53 @@
       box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
     }
 
+    #ratingStatementInput {
+      flex: 1;
+      width: 100%;
+      background: rgba(4, 10, 7, 0.85);
+      color: var(--text-main);
+      border: 1px solid var(--border-dark);
+      padding: 10px;
+      font-size: 0.88rem;
+      outline: none;
+      resize: none;
+      overflow-y: auto !important;
+    }
+
     .rating-display-lock {
       background: rgba(4, 10, 7, 0.85);
       border: 1px solid var(--border-accent);
-      padding: 18px;
+      padding: 14px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
       box-shadow: var(--subtle-glow);
       word-break: break-word;
       overflow-wrap: anywhere;
       height: 100%;
       overflow-y: auto !important;
+    }
+
+    /* COMPACT UNIFORM CALENDAR CELLS (PREVENTS MONTH SWITCH JUMP) */
+    #ratingMiniCalendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+      text-align: center;
+    }
+
+    #ratingMiniCalendar .cal-day {
+      padding: 2px 1px;
+      font-size: 0.72rem;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #ratingMiniCalendar .cal-day-header {
+      padding: 2px 0;
+      font-size: 0.68rem;
     }
 
     /* LAYOUT GRIDS */
@@ -964,7 +1007,7 @@
 
       <div class="rating-section-grid">
         <div class="rating-scroll-container">
-          <div id="ratingInputContainer" style="display: flex; flex-direction: column; gap: 10px;">
+          <div id="ratingInputContainer">
             <label style="font-size:0.8rem; color: var(--text-muted);">Score Performance (1 - 10)</label>
             <div class="rating-btn-group" id="ratingPillGroup">
               <button class="rating-pill-btn" onclick="selectRatingScore(1)">1</button>
@@ -979,9 +1022,9 @@
               <button class="rating-pill-btn" onclick="selectRatingScore(10)">10</button>
             </div>
             
-            <textarea id="ratingStatementInput" rows="3" style="background: rgba(4, 10, 7, 0.85); color: var(--text-main); border: 1px solid var(--border-dark); padding: 10px; font-size: 0.9rem; outline: none; width:100%; resize: vertical;" placeholder="State your daily summary or key thoughts..."></textarea>
+            <textarea id="ratingStatementInput" placeholder="State your daily summary or key thoughts..."></textarea>
             
-            <div style="display:flex; justify-content:flex-end;">
+            <div style="display:flex; justify-content:flex-end; margin-top: auto;">
               <button class="btn-aero btn-highlight btn-sm" id="saveRatingBtn" onclick="saveCurrentRating()">Log & Lock Entry</button>
             </div>
           </div>
@@ -993,13 +1036,13 @@
           </div>
         </div>
 
-        <div style="display: flex; flex-direction: column; border-left: 1px solid var(--border-dark); padding-left: 16px;">
+        <div style="display: flex; flex-direction: column; border-left: 1px solid var(--border-dark); padding-left: 16px; height: 100%;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
             <button class="btn-aero btn-sm" id="prevRatingMonth">&lt;</button>
             <span style="font-size: 0.8rem; color:var(--text-muted);" id="ratingCalMonthName">Calendar</span>
             <button class="btn-aero btn-sm" id="nextRatingMonth">&gt;</button>
           </div>
-          <div class="mini-calendar" id="ratingMiniCalendar"></div>
+          <div id="ratingMiniCalendar"></div>
         </div>
       </div>
     </div>
