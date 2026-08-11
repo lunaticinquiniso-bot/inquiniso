@@ -21,7 +21,7 @@
       --banner-test: url('https://images.unsplash.com/photo-1569470451072-68314f596aec?q=80&w=1631&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
       --banner-journal: url('https://images.unsplash.com/photo-1545091741-2231068f3478?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
       
-      /* Enhanced Translucent Dark Glass Surface */
+      /* Translucent Dark Glass Surface */
       --glass-surface: rgba(4, 10, 7, 0.45);
       --card-surface: rgba(8, 16, 12, 0.52);
       --card-inner: rgba(12, 24, 18, 0.60);
@@ -54,31 +54,32 @@
       font-family: 'AR PL Ukai', 'AR PL UKai CN', 'Kaiti', serif, sans-serif !important;
       scroll-behavior: smooth;
       border-radius: 0px !important;
-    }
-
-    /* SCROLLBAR MANAGEMENT - ALL CONTAINERS INTERNAL SCROLL WITHOUT LAYOUT SHIFT */
-    html, body, div, textarea, section, table, .habit-table-wrapper, .scrollable-list, .todo-list-box, .editor-box-frameless, #fsStoicDetails, .rating-display-lock, .rating-scroll-container {
       scrollbar-width: none !important;
       -ms-overflow-style: none !important;
     }
+
     *::-webkit-scrollbar {
       display: none !important;
       width: 0 !important;
       height: 0 !important;
     }
 
-    body {
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto !important;
       background-image: linear-gradient(rgba(2, 6, 4, 0.50), rgba(1, 4, 3, 0.62)), var(--main-artwork);
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
       background-color: #020604;
       color: var(--text-main);
-      padding: 32px 24px;
-      min-height: 100vh;
-      width: 100%;
-      overflow-x: hidden;
       line-height: 1.6;
+    }
+
+    body {
+      padding: 32px 24px;
     }
 
     /* PASSCODE SCREEN */
@@ -88,7 +89,7 @@
       background: linear-gradient(rgba(2, 6, 4, 0.70), rgba(1, 4, 3, 0.82)), var(--main-artwork);
       background-size: cover;
       background-position: center;
-      z-index: 10000;
+      z-index: 50000;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -152,7 +153,7 @@
       background: linear-gradient(rgba(2, 6, 4, 0.85), rgba(1, 4, 3, 0.92)), var(--main-artwork);
       background-size: cover;
       background-position: center;
-      z-index: 9999;
+      z-index: 40000;
       display: none;
       flex-direction: column;
       align-items: center;
@@ -383,7 +384,7 @@
 
     /* MATRIX TABLE */
     .habit-table-wrapper {
-      overflow-x: auto;
+      overflow-x: auto !important;
       border: 1px solid var(--border-accent);
       background: rgba(4, 10, 7, 0.55);
       margin-bottom: 24px;
@@ -420,18 +421,18 @@
     .checked-amber   { background-color: var(--tag-amber)   !important; color: #fff; }
     .checked-emerald { background-color: var(--tag-emerald) !important; color: #fff; }
 
-    /* FIXED NON-EXPANDING DAILY RATING & LOG SECTION */
+    /* DAILY RATING & DEBRIEF SECTION */
     .rating-section-grid {
       display: grid;
       grid-template-columns: 1.35fr 0.65fr;
       gap: 20px;
-      height: 225px; /* STRICT FIXED HEIGHT TO PREVENT PUSHING SURROUNDING LAYOUT */
+      height: 250px;
       align-items: stretch;
     }
 
     .rating-scroll-container {
       height: 100%;
-      overflow-y: auto;
+      overflow-y: auto !important;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -472,7 +473,7 @@
       border: 1px solid var(--border-accent);
       padding: 14px;
       height: 100%;
-      overflow-y: auto;
+      overflow-y: auto !important;
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -571,7 +572,7 @@
       flex-direction: column;
       gap: 6px;
       height: 280px;
-      overflow-y: auto;
+      overflow-y: auto !important;
     }
 
     .todo-item {
@@ -625,7 +626,7 @@
 
     .scrollable-list {
       height: 230px;
-      overflow-y: auto;
+      overflow-y: auto !important;
     }
 
     .stoic-card, .test-card {
@@ -701,7 +702,7 @@
     .editor-box-frameless {
       min-height: 320px;
       max-height: 550px;
-      overflow-y: auto;
+      overflow-y: auto !important;
       outline: none;
       padding: 16px;
       background: rgba(4, 10, 7, 0.98);
@@ -718,19 +719,20 @@
       color: var(--text-muted);
     }
 
+    /* POPUP MODALS - Z-INDEX 20000 SO THEY OPEN ON TOP OF FULLSCREEN OVERLAYS (Z-INDEX 10000) */
     .modal {
       display: none;
       position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(1, 4, 3, 0.85);
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(1, 4, 3, 0.88);
       backdrop-filter: blur(12px);
       align-items: center;
       justify-content: center;
-      z-index: 100;
+      z-index: 20000;
     }
 
     .modal-content {
-      background: rgba(8, 18, 13, 0.95);
+      background: rgba(8, 18, 13, 0.98);
       backdrop-filter: blur(18px);
       border: 1px solid var(--border-accent);
       padding: 24px;
@@ -740,7 +742,7 @@
       flex-direction: column;
       gap: 12px;
       color: var(--text-main);
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), var(--active-glow);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9), var(--active-glow);
     }
 
     .modal-content input, 
@@ -771,7 +773,7 @@
       color-scheme: dark;
     }
 
-    /* FULLSCREEN SEPARATE OVERLAYS (HIGH Z-INDEX OVERLAY) */
+    /* FULLSCREEN SEPARATE OVERLAYS (COVER ENTIRE SCREEN SEPARATELY) */
     .fullscreen-overlay-modal {
       display: none;
       position: fixed;
@@ -779,7 +781,7 @@
       background: linear-gradient(rgba(2, 6, 4, 0.88), rgba(1, 4, 3, 0.94)), var(--main-artwork);
       background-size: cover;
       background-position: center;
-      z-index: 9000;
+      z-index: 10000;
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -853,7 +855,7 @@
       border: 1px solid var(--border-accent);
       white-space: pre-wrap;
       max-height: 60vh;
-      overflow-y: auto;
+      overflow-y: auto !important;
       word-break: break-word;
       overflow-wrap: anywhere;
     }
@@ -947,7 +949,7 @@
       </div>
     </div>
 
-    <div id="dailyRatingSection" class="card-section" style="margin-bottom: 24px; height: 280px; overflow: hidden;">
+    <div id="dailyRatingSection" class="card-section" style="margin-bottom: 24px; height: 280px;">
       <div class="section-title">
         <span>Daily Assessment & Log</span>
         <span id="ratingDateLabel" style="font-size: 0.85rem; color: var(--text-muted);">Date</span>
@@ -970,7 +972,7 @@
               <button class="rating-pill-btn" onclick="selectRatingScore(10)">10</button>
             </div>
             
-            <textarea id="ratingStatementInput" rows="3" style="background: rgba(4, 10, 7, 0.85); color: var(--text-main); border: 1px solid var(--border-dark); padding: 8px; font-size: 0.88rem; outline: none; width:100%;" placeholder="State your daily summary or key thoughts..."></textarea>
+            <textarea id="ratingStatementInput" rows="3" style="background: rgba(4, 10, 7, 0.85); color: var(--text-main); border: 1px solid var(--border-dark); padding: 8px; font-size: 0.88rem; outline: none; width:100%; resize: none;" placeholder="State your daily summary or key thoughts..."></textarea>
             
             <div style="display:flex; justify-content:flex-end;">
               <button class="btn-aero btn-highlight btn-sm" id="saveRatingBtn" onclick="saveCurrentRating()">Log & Lock Entry</button>
@@ -1129,7 +1131,7 @@
     </div>
   </div>
 
-  <div class="fullscreen-overlay-modal" id="fullscreenChapterReaderModal" style="z-index: 9500;">
+  <div class="fullscreen-overlay-modal" id="fullscreenChapterReaderModal">
     <button class="close-overlay-btn" id="closeChapterReaderBtn">X</button>
     <div class="fullscreen-reader-box">
       <div style="font-size:0.85rem; color:var(--accent-primary); letter-spacing:1px; margin-bottom:4px;" id="fsReaderBookTitle">JOURNAL TITLE</div>
@@ -1240,7 +1242,7 @@
     </div>
   </div>
 
-  <div class="modal" id="noteModal" style="z-index: 300;">
+  <div class="modal" id="noteModal">
     <div class="modal-content" style="width: 800px; max-width: 90vw;">
       <h3 id="noteModalHeader">New Entry Log</h3>
       <input type="text" id="chapterTitleInput" placeholder="Entry Title (e.g. Chapter 1: Core Principles)">
@@ -2119,7 +2121,7 @@
     };
     window.deleteTest = function(id) { tests = tests.filter(t => t.id !== id); saveData(); renderTests(); };
 
-    // FOCUS TIMER ENGINE (SEPARATE FULLSCREEN OVERLAY)
+    // FOCUS TIMER ENGINE (FULLSCREEN SEPARATE OVERLAY)
     let timerTimeLeft = 25 * 60;
     let isTimerRunning = false;
     let isFocusMode = true;
