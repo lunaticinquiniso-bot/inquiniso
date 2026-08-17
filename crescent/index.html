@@ -1,2341 +1,2344 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PROJECT INQUINISO</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    :root {
-      /* Main Background Artwork */
-      --main-artwork: url('https://blog.elementary.io/images/os-8-available-now/Desktop/mountains.jpg');
-      
-      /* Section Specific Banner Artwork */
-      --banner-stoic: url('https://images.unsplash.com/photo-1468657988500-aca2be09f4c6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-      --banner-test: url('https://images.unsplash.com/photo-1569470451072-68314f596aec?q=80&w=1631&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-      --banner-journal: url('https://images.unsplash.com/photo-1545091741-2231068f3478?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-      
-      /* Translucent Dark Glass Surface */
-      --glass-surface: rgba(4, 10, 7, 0.55);
-      --card-surface: rgba(8, 16, 12, 0.60);
-      --card-inner: rgba(12, 24, 18, 0.65);
-      
-      /* Emerald Green Tactical Palette */
-      --accent-primary: #10b981;
-      --accent-secondary: #022c22;
-      --accent-warm: #34d399;
-      --border-accent: rgba(16, 185, 129, 0.35);
-      --border-dark: rgba(255, 255, 255, 0.12);
-      
-      --text-main: #ecfdf5;
-      --text-muted: #94a3b8;
-
-      /* Glowing Shadow FX */
-      --subtle-glow: 0 0 15px rgba(16, 185, 129, 0.08), inset 0 0 10px rgba(16, 185, 129, 0.03);
-      --active-glow: 0 0 22px rgba(16, 185, 129, 0.28);
-
-      --tag-crimson: rgba(16, 185, 129, 0.85);
-      --tag-slate: rgba(40, 60, 50, 0.85);
-      --tag-indigo: rgba(15, 75, 55, 0.85);
-      --tag-amber: rgba(180, 110, 25, 0.85);
-      --tag-emerald: rgba(5, 150, 105, 0.85);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Raleway', sans-serif !important;
-      scroll-behavior: smooth;
-      border-radius: 0px !important;
-    }
-
-    /* SCROLLBAR MANAGEMENT (HIDDEN VISUALLY WITH FULL SCROLL FUNCTIONALITY) */
-    html, body, div, textarea, section, table, .habit-table-wrapper, .scrollable-list, .todo-list-box, .editor-box-frameless, #fsStoicDetails, .rating-scroll-container, .rating-display-lock {
-      scrollbar-width: none !important;
-      -ms-overflow-style: none !important;
-    }
-    *::-webkit-scrollbar {
-      display: none !important;
-      width: 0 !important;
-      height: 0 !important;
-    }
-
-    html {
-      width: 100%;
-      min-height: 100vh;
-      overflow-x: hidden;
-      overflow-y: auto !important;
-    }
-
-    body {
-      width: 100%;
-      min-height: 100vh;
-      background-image: linear-gradient(rgba(2, 6, 4, 0.50), rgba(1, 4, 3, 0.62)), var(--main-artwork);
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      background-color: #020604;
-      color: var(--text-main);
-      line-height: 1.6;
-      padding: 32px 24px;
-    }
-
-    /* PASSCODE SCREEN */
-    #securityAuthScreen {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: linear-gradient(rgba(2, 6, 4, 0.70), rgba(1, 4, 3, 0.82)), var(--main-artwork);
-      background-size: cover;
-      background-position: center;
-      z-index: 50000;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-
-    .auth-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      max-width: 400px;
-      width: 100%;
-    }
-
-    .auth-title {
-      font-size: 2.2rem;
-      letter-spacing: 8px;
-      color: var(--text-main);
-      margin-bottom: 48px;
-      font-weight: 500;
-      text-shadow: 0 0 18px rgba(16, 185, 129, 0.35);
-    }
-
-    .pin-input {
-      width: 180px;
-      padding: 10px 0;
-      font-size: 2.2rem;
-      letter-spacing: 16px;
-      text-align: center;
-      background: transparent;
-      border: none;
-      border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-      color: var(--text-main);
-      outline: none;
-      transition: all 0.3s ease;
-    }
-
-    .pin-input:focus {
-      border-bottom-color: var(--accent-primary);
-      box-shadow: 0 8px 16px -6px rgba(16, 185, 129, 0.4);
-    }
-
-    .auth-error {
-      color: #ef4444;
-      font-size: 0.9rem;
-      margin-top: 24px;
-      letter-spacing: 3px;
-      display: none;
-      text-transform: lowercase;
-    }
-
-    /* INTRO ANIMATION OVERLAY */
-    #introTextOverlay {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: linear-gradient(rgba(2, 6, 4, 0.85), rgba(1, 4, 3, 0.92)), var(--main-artwork);
-      background-size: cover;
-      background-position: center;
-      z-index: 40000;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 32px;
-      cursor: pointer;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-    }
-
-    .intro-text-container {
-      height: 300px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      width: 100%;
-      max-width: 900px;
-    }
-
-    .intro-line {
-      font-size: 1.85rem;
-      letter-spacing: 6px;
-      color: #ffffff;
-      opacity: 0;
-      filter: blur(20px);
-      transform: scale(0.92);
-      transition: opacity 1.6s ease, filter 1.6s ease, transform 1.6s ease;
-      position: absolute;
-      padding: 0 20px;
-    }
-
-    .intro-line.active {
-      opacity: 1;
-      filter: blur(0px);
-      transform: scale(1);
-    }
-
-    .intro-line.title-line {
-      font-size: 2.8rem;
-      letter-spacing: 12px;
-      color: var(--accent-primary);
-      text-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
-      transform: scale(0.85);
-    }
-
-    .intro-line.title-line.active {
-      opacity: 1;
-      filter: blur(0px);
-      transform: scale(1.05);
-    }
-
-    /* MAIN APP CONTAINER */
-    .app-container {
-      width: 100%;
-      max-width: 1380px;
-      margin: 0 auto;
-      background: var(--glass-surface);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid var(--border-accent);
-      padding: 32px;
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), var(--subtle-glow);
-    }
-
-    .app-header-cover {
-      width: 100%;
-      height: 160px;
-      background: linear-gradient(rgba(2, 6, 4, 0.35), rgba(1, 4, 3, 0.70)), var(--main-artwork);
-      background-size: cover;
-      background-position: center;
-      margin-bottom: 24px;
-      border: 1px solid var(--border-accent);
-      display: flex;
-      align-items: flex-end;
-      padding: 24px;
-      box-shadow: var(--subtle-glow);
-    }
-
-    .terminal-hdr {
-      font-size: 2.2rem;
-      color: #ffffff;
-      letter-spacing: 8px;
-      font-weight: 600;
-      text-shadow: 0 0 18px rgba(16, 185, 129, 0.4);
-    }
-
-    .top-hero-nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 18px;
-      margin-bottom: 22px;
-      padding-bottom: 18px;
-      border-bottom: 1px solid var(--border-dark);
-      flex-wrap: wrap;
-    }
-
-    .hero-countdown-box {
-      flex: 1;
-      min-width: 320px;
-      background: var(--card-inner);
-      border: 1px solid var(--border-accent);
-      padding: 16px 22px;
-      box-shadow: var(--subtle-glow);
-    }
-
-    .countdown-header-flex {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 4px;
-    }
-
-    .countdown-title { font-size: 0.95rem; color: var(--text-main); letter-spacing: 2px; }
-    .countdown-timer-text { font-size: 1.25rem; color: var(--accent-primary); letter-spacing: 2px; text-shadow: 0 0 12px rgba(16, 185, 129, 0.3); }
-
-    /* TEXT HEADER LINKS */
-    .quick-nav-links {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .nav-link {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.92rem;
-      letter-spacing: 3px;
-      padding: 6px 8px;
-      border: none;
-      background: transparent;
-      position: relative;
-      transition: all 0.3s ease;
-    }
-
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 50%;
-      width: 0;
-      height: 1px;
-      background: var(--accent-primary);
-      transition: all 0.3s ease;
-      transform: translateX(-50%);
-      box-shadow: 0 0 8px var(--accent-primary);
-    }
-
-    .nav-link:hover {
-      color: var(--text-main);
-      text-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
-    }
-
-    .nav-link:hover::after {
-      width: 90%;
-    }
-
-    .btn-aero {
-      background: rgba(16, 185, 129, 0.08);
-      border: 1px solid var(--border-accent);
-      color: var(--text-main);
-      padding: 9px 18px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      letter-spacing: 2px;
-      transition: all 0.25s ease;
-      box-shadow: var(--subtle-glow);
-    }
-
-    .btn-aero:hover {
-      background: rgba(16, 185, 129, 0.25);
-      border-color: var(--accent-primary);
-      color: #ffffff;
-      box-shadow: var(--active-glow);
-    }
-
-    .btn-aero.btn-highlight {
-      background: var(--accent-primary);
-      border: 1px solid var(--accent-primary);
-      color: #022c22;
-      font-weight: bold;
-      box-shadow: 0 0 18px rgba(16, 185, 129, 0.4);
-    }
-
-    .btn-aero.btn-highlight:hover {
-      background: var(--accent-warm);
-      border-color: var(--accent-warm);
-      color: #022c22;
-      box-shadow: 0 0 25px rgba(52, 211, 153, 0.6);
-    }
-
-    .btn-sm { padding: 4px 10px; font-size: 0.75rem; }
-    .btn-edit { background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border-dark); color: var(--text-main); cursor: pointer; font-size: 0.75rem; padding: 4px 8px; transition: all 0.2s; }
-    .btn-edit:hover { background: rgba(16, 185, 129, 0.25); border-color: var(--accent-primary); }
-    .btn-danger { background: transparent; border: none; color: #ef4444; cursor: pointer; font-size: 0.88rem; margin-left: 6px; transition: transform 0.2s; }
-    .btn-danger:hover { transform: scale(1.15); color: #f87171; }
-
-    .section-banner-img {
-      width: 100%;
-      height: 100px;
-      object-fit: cover;
-      margin-bottom: 12px;
-      opacity: 0.80;
-      border: 1px solid var(--border-accent);
-      filter: saturate(0.85) contrast(1.1);
-      box-shadow: var(--subtle-glow);
-    }
-
-    .month-picker {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 12px;
-    }
-
-    .month-picker h2 {
-      font-size: 1.15rem;
-      color: var(--text-main);
-      min-width: 200px;
-      text-align: center;
-      letter-spacing: 2px;
-    }
-
-    /* MATRIX TABLE */
-    .habit-table-wrapper {
-      overflow-x: auto !important;
-      border: 1px solid var(--border-accent);
-      background: rgba(4, 10, 7, 0.55);
-      margin-bottom: 24px;
-      box-shadow: var(--subtle-glow);
-    }
-
-    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-    th, td { border: 1px solid rgba(255, 255, 255, 0.08); text-align: center; padding: 9px 4px; }
-    th { background: rgba(8, 16, 12, 0.85); color: var(--text-muted); font-size: 0.8rem; letter-spacing: 1px; }
-
-    .habit-col {
-      text-align: left;
-      padding-left: 12px;
-      padding-right: 8px;
-      min-width: 180px;
-      max-width: 220px;
-      white-space: normal !important;
-      word-break: break-word;
-      overflow-wrap: anywhere;
-      background: rgba(6, 14, 10, 0.92);
-      color: var(--text-main);
-      position: sticky;
-      left: 0;
-      z-index: 2;
-    }
-
-    th.today, td.today { background: rgba(16, 185, 129, 0.25) !important; color: #ffffff !important; }
-    .checkbox-cell { cursor: pointer; user-select: none; width: 28px; height: 28px; transition: background 0.15s ease; }
-    .checkbox-cell:hover { background-color: rgba(16, 185, 129, 0.3); }
-
-    .checked-crimson { background-color: var(--tag-crimson) !important; color: #022c22; font-weight: bold; }
-    .checked-slate   { background-color: var(--tag-slate)   !important; color: #fff; }
-    .checked-indigo  { background-color: var(--tag-indigo)  !important; color: #fff; }
-    .checked-amber   { background-color: var(--tag-amber)   !important; color: #fff; }
-    .checked-emerald { background-color: var(--tag-emerald) !important; color: #fff; }
-
-    /* STRICT FIXED-HEIGHT DAILY ASSESSMENT BOX */
-    #dailyRatingSection {
-      margin-bottom: 24px;
-      height: 320px;
-      min-height: 320px;
-      max-height: 320px;
-      overflow: hidden;
-    }
-
-    .rating-section-grid {
-      display: grid;
-      grid-template-columns: 1fr 240px;
-      gap: 16px;
-      align-items: stretch;
-      height: calc(100% - 32px);
-      overflow: hidden;
-    }
-
-    .rating-scroll-container {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    #ratingInputContainer {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      gap: 8px;
-    }
-
-    .rating-btn-group {
-      display: flex;
-      gap: 4px;
-      margin: 2px 0;
-      flex-wrap: wrap;
-    }
-
-    .rating-pill-btn {
-      flex: 1;
-      min-width: 26px;
-      height: 30px;
-      background: rgba(16, 185, 129, 0.06);
-      border: 1px solid var(--border-accent);
-      color: var(--text-main);
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .rating-pill-btn:hover, .rating-pill-btn.selected {
-      background: var(--accent-primary);
-      color: #022c22;
-      font-weight: bold;
-      box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
-    }
-
-    #ratingStatementInput {
-      flex: 1;
-      width: 100%;
-      background: rgba(4, 10, 7, 0.85);
-      color: var(--text-main);
-      border: 1px solid var(--border-dark);
-      padding: 10px;
-      font-size: 0.88rem;
-      outline: none;
-      resize: none;
-      overflow-y: auto !important;
-    }
-
-    .rating-display-lock {
-      background: rgba(4, 10, 7, 0.85);
-      border: 1px solid var(--border-accent);
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      box-shadow: var(--subtle-glow);
-      word-break: break-word;
-      overflow-wrap: anywhere;
-      height: 100%;
-      overflow-y: auto !important;
-    }
-
-    /* COMPACT UNIFORM CALENDAR CELLS (PREVENTS MONTH SWITCH JUMP) */
-    #ratingMiniCalendar {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 2px;
-      text-align: center;
-    }
-
-    #ratingMiniCalendar .cal-day {
-      padding: 2px 1px;
-      font-size: 0.72rem;
-      height: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #ratingMiniCalendar .cal-day-header {
-      padding: 2px 0;
-      font-size: 0.68rem;
-    }
-
-    /* LAYOUT GRIDS */
-    .sections-wrapper {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-top: 20px;
-    }
-
-    .card-section {
-      border: 1px solid var(--border-accent);
-      padding: 22px;
-      background: var(--card-surface);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      display: flex;
-      flex-direction: column;
-      transition: all 0.3s ease;
-      box-shadow: var(--subtle-glow);
-    }
-
-    .card-section:hover {
-      border-color: rgba(16, 185, 129, 0.55);
-      box-shadow: var(--active-glow);
-    }
-
-    .fixed-row-height {
-      height: 440px;
-    }
-
-    .bottom-split-row {
-      display: grid;
-      grid-template-columns: 1.45fr 0.55fr;
-      gap: 24px;
-      grid-column: span 2;
-    }
-
-    .section-title {
-      font-size: 1.05rem;
-      letter-spacing: 2px;
-      margin-bottom: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: var(--text-main);
-      border-bottom: 1px solid var(--border-dark);
-      padding-bottom: 8px;
-    }
-
-    .todo-calendar-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 10px;
-      flex: 1;
-    }
-
-    .mini-calendar {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 3px;
-      text-align: center;
-      font-size: 0.78rem;
-    }
-
-    .cal-day-header {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      padding: 4px 0;
-      background: rgba(4, 10, 7, 0.85);
-      border: 1px solid var(--border-dark);
-    }
-
-    .cal-day {
-      padding: 6px 2px;
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid var(--border-dark);
-      cursor: pointer;
-      color: var(--text-main);
-      transition: all 0.2s ease;
-    }
-
-    .cal-day:hover { background: rgba(16, 185, 129, 0.25); color: #ffffff; }
-    .cal-day.active-day { background: var(--accent-primary); color: #022c22; font-weight: bold; border-color: var(--accent-primary); box-shadow: 0 0 12px rgba(16, 185, 129, 0.4); }
-    .cal-day.is-today-marker { border: 1px solid var(--accent-warm); }
-
-    .todo-list-box {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      height: 280px;
-      overflow-y: auto !important;
-    }
-
-    .todo-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(4, 10, 7, 0.65);
-      border: 1px solid var(--border-dark);
-      padding: 6px 8px;
-      font-size: 0.85rem;
-    }
-
-    .todo-item span {
-      word-break: break-word;
-      overflow-wrap: anywhere;
-    }
-
-    .subject-badge {
-      font-size: 0.7rem;
-      padding: 2px 6px;
-      background: rgba(16, 185, 129, 0.15);
-      color: var(--accent-primary);
-      border: 1px solid var(--border-accent);
-      flex-shrink: 0;
-    }
-
-    /* CHART CONTAINERS */
-    .pie-chart-wrapper {
-      width: 100%;
-      height: 180px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      margin-top: 4px;
-      overflow: hidden;
-    }
-
-    .pie-chart-box {
-      position: relative;
-      width: 100% !important;
-      height: 100% !important;
-      max-width: 270px;
-      max-height: 175px;
-    }
-
-    .pie-chart-box canvas {
-      width: 100% !important;
-      height: 100% !important;
-    }
-
-    .scrollable-list {
-      height: 230px;
-      overflow-y: auto !important;
-    }
-
-    .stoic-card, .test-card {
-      background: rgba(4, 10, 7, 0.65);
-      border: 1px solid var(--border-dark);
-      padding: 10px 12px;
-      margin-bottom: 8px;
-      font-size: 0.88rem;
-      transition: all 0.2s ease;
-      word-break: break-word;
-      overflow-wrap: anywhere;
-    }
-
-    .stoic-card:hover, .test-card:hover {
-      border-color: var(--border-accent);
-      background: rgba(16, 185, 129, 0.08);
-      box-shadow: var(--subtle-glow);
-    }
-
-    .chart-container-exact {
-      flex: 1;
-      position: relative;
-      width: 100%;
-      min-height: 0;
-    }
-
-    .books-main-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 14px;
-      padding: 4px;
-    }
-
-    .book-card-item {
-      background: rgba(8, 16, 12, 0.75);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--border-accent);
-      padding: 16px;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 120px;
-      box-shadow: var(--subtle-glow);
-    }
-
-    .book-card-item:hover {
-      background: rgba(16, 185, 129, 0.15);
-      border-color: var(--accent-primary);
-      transform: translateY(-2px);
-      box-shadow: var(--active-glow);
-    }
-
-    .book-card-title { 
-      font-size: 1rem; 
-      color: var(--text-main); 
-      word-break: break-word;
-      overflow-wrap: anywhere;
-      letter-spacing: 1px;
-    }
-
-    .editor-toolbar {
-      display: flex;
-      gap: 4px;
-      padding: 6px;
-      background: rgba(4, 10, 7, 0.95);
-      border: 1px solid var(--border-dark);
-      border-bottom: none;
-      flex-wrap: wrap;
-    }
-
-    .editor-box-frameless {
-      min-height: 320px;
-      max-height: 550px;
-      overflow-y: auto !important;
-      outline: none;
-      padding: 16px;
-      background: rgba(4, 10, 7, 0.98);
-      border: 1px solid var(--border-dark);
-      color: var(--text-main);
-      font-size: 0.95rem;
-      line-height: 1.6;
-      word-break: break-word;
-      overflow-wrap: anywhere;
-    }
-
-    .editor-box-frameless:empty:before {
-      content: attr(placeholder);
-      color: var(--text-muted);
-    }
-
-    /* POPUP MODALS */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(1, 4, 3, 0.88);
-      backdrop-filter: blur(12px);
-      align-items: center;
-      justify-content: center;
-      z-index: 30000;
-    }
-
-    .modal-content {
-      background: rgba(8, 18, 13, 0.98);
-      backdrop-filter: blur(18px);
-      border: 1px solid var(--border-accent);
-      padding: 24px;
-      width: 600px;
-      max-width: 92vw;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      color: var(--text-main);
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9), var(--active-glow);
-    }
-
-    .modal-content input, 
-    .modal-content select, 
-    .modal-content textarea,
-    .timer-fullscreen-content input {
-      padding: 10px 12px;
-      border: 1px solid var(--border-dark);
-      background: rgba(4, 10, 7, 0.92);
-      color: var(--text-main);
-      outline: none;
-      font-size: 0.9rem;
-      pointer-events: auto !important;
-      user-select: text !important;
-      -webkit-user-select: text !important;
-      cursor: text !important;
-      transition: border-color 0.2s;
-    }
-
-    .modal-content input:focus,
-    .modal-content select:focus,
-    .modal-content textarea:focus,
-    .timer-fullscreen-content input:focus {
-      border-color: var(--accent-primary);
-    }
-
-    input[type="datetime-local"] {
-      color-scheme: dark;
-    }
-
-    /* FULLSCREEN OVERLAYS */
-    .fullscreen-overlay-modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: linear-gradient(rgba(2, 6, 4, 0.90), rgba(1, 4, 3, 0.96)), var(--main-artwork);
-      background-size: cover;
-      background-position: center;
-      z-index: 10000;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 32px;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-    }
-
-    .timer-fullscreen-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      max-width: 800px;
-      text-align: center;
-      position: relative;
-    }
-
-    .timer-display {
-      font-size: 9rem;
-      color: var(--accent-primary);
-      margin: 16px 0;
-      letter-spacing: 4px;
-      text-shadow: 0 0 40px rgba(16, 185, 129, 0.5);
-    }
-
-    .timer-mode-badge {
-      color: var(--text-main);
-      font-size: 1.1rem;
-      letter-spacing: 6px;
-      padding: 8px 24px;
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid var(--border-accent);
-      box-shadow: var(--active-glow);
-    }
-
-    .close-overlay-btn {
-      position: absolute;
-      top: 25px; right: 35px;
-      background: transparent; border: none;
-      color: var(--text-muted); font-size: 2.5rem; cursor: pointer;
-      transition: color 0.2s, transform 0.2s;
-    }
-    .close-overlay-btn:hover { color: var(--accent-warm); transform: scale(1.1); }
-
-    .fullscreen-reader-box {
-      width: 90vw;
-      max-width: 1200px;
-      height: 88vh;
-      background: rgba(8, 18, 13, 0.95);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--border-accent);
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.8), var(--subtle-glow);
-    }
-
-    #fsStoicDetails {
-      font-size: 1.05rem;
-      line-height: 1.85;
-      color: var(--text-main);
-      background: rgba(4, 10, 7, 0.95);
-      padding: 24px;
-      border: 1px solid var(--border-accent);
-      white-space: pre-wrap;
-      max-height: 60vh;
-      overflow-y: auto !important;
-      word-break: break-word;
-      overflow-wrap: anywhere;
-    }
-
-    .chapter-card-item {
-      background: rgba(4, 10, 7, 0.85);
-      border: 1px solid var(--border-dark);
-      padding: 16px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      transition: all 0.2s ease;
-      word-break: break-word;
-      overflow-wrap: anywhere;
-    }
-
-    .chapter-card-item:hover {
-      border-color: var(--border-accent);
-      background: rgba(16, 185, 129, 0.08);
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PROJECT INQUINISO</title>
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    @font-face {
+      font-family: 'AR PL Ukai';
+      src: local('AR PL Ukai'), local('AR PL Ukai CN'), local('AR PL UKai CN'), local('Kaiti');
+    }
+
+    :root {
+      /* Main Background Artwork */
+      --main-artwork: url('https://images.unsplash.com/photo-1530787167509-8eca32f47c60?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+      
+      /* Section Specific Banner Artwork */
+      --banner-stoic: url('https://images.unsplash.com/photo-1468657988500-aca2be09f4c6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+      --banner-test: url('https://images.unsplash.com/photo-1569470451072-68314f596aec?q=80&w=1631&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+      --banner-journal: url('https://images.unsplash.com/photo-1545091741-2231068f3478?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+      
+      /* Translucent Dark Glass Surface */
+      --glass-surface: rgba(4, 10, 7, 0.45);
+      --card-surface: rgba(8, 16, 12, 0.52);
+      --card-inner: rgba(12, 24, 18, 0.60);
+      
+      /* Emerald Green Tactical Palette */
+      --accent-primary: #10b981;
+      --accent-secondary: #022c22;
+      --accent-warm: #34d399;
+      --border-accent: rgba(16, 185, 129, 0.35);
+      --border-dark: rgba(255, 255, 255, 0.12);
+      
+      --text-main: #ecfdf5;
+      --text-muted: #94a3b8;
+
+      /* Glowing Shadow FX */
+      --subtle-glow: 0 0 15px rgba(16, 185, 129, 0.08), inset 0 0 10px rgba(16, 185, 129, 0.03);
+      --active-glow: 0 0 22px rgba(16, 185, 129, 0.28);
+
+      --tag-crimson: rgba(16, 185, 129, 0.85);
+      --tag-slate: rgba(40, 60, 50, 0.85);
+      --tag-indigo: rgba(15, 75, 55, 0.85);
+      --tag-amber: rgba(180, 110, 25, 0.85);
+      --tag-emerald: rgba(5, 150, 105, 0.85);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'AR PL Ukai', 'AR PL UKai CN', 'Kaiti', serif, sans-serif !important;
+      scroll-behavior: smooth;
+      border-radius: 0px !important;
+    }
+
+    /* SCROLLBAR MANAGEMENT (HIDDEN VISUALLY WITH FULL SCROLL FUNCTIONALITY) */
+    html, body, div, textarea, section, table, .habit-table-wrapper, .scrollable-list, .todo-list-box, .editor-box-frameless, #fsStoicDetails, .rating-scroll-container, .rating-display-lock {
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+    *::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+
+    html {
+      width: 100%;
+      min-height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto !important;
+    }
+
+    body {
+      width: 100%;
+      min-height: 100vh;
+      background-image: linear-gradient(rgba(2, 6, 4, 0.50), rgba(1, 4, 3, 0.62)), var(--main-artwork);
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-color: #020604;
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 32px 24px;
+    }
+
+    /* PASSCODE SCREEN */
+    #securityAuthScreen {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: linear-gradient(rgba(2, 6, 4, 0.70), rgba(1, 4, 3, 0.82)), var(--main-artwork);
+      background-size: cover;
+      background-position: center;
+      z-index: 50000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .auth-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .auth-title {
+      font-size: 2.2rem;
+      letter-spacing: 8px;
+      color: var(--text-main);
+      margin-bottom: 48px;
+      font-weight: normal;
+      text-shadow: 0 0 18px rgba(16, 185, 129, 0.35);
+    }
+
+    .pin-input {
+      width: 180px;
+      padding: 10px 0;
+      font-size: 2.2rem;
+      letter-spacing: 16px;
+      text-align: center;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+      color: var(--text-main);
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .pin-input:focus {
+      border-bottom-color: var(--accent-primary);
+      box-shadow: 0 8px 16px -6px rgba(16, 185, 129, 0.4);
+    }
+
+    .auth-error {
+      color: #ef4444;
+      font-size: 0.9rem;
+      margin-top: 24px;
+      letter-spacing: 3px;
+      display: none;
+      text-transform: lowercase;
+    }
+
+    /* INTRO ANIMATION OVERLAY */
+    #introTextOverlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: linear-gradient(rgba(2, 6, 4, 0.85), rgba(1, 4, 3, 0.92)), var(--main-artwork);
+      background-size: cover;
+      background-position: center;
+      z-index: 40000;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 32px;
+      cursor: pointer;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .intro-text-container {
+      height: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .intro-line {
+      font-size: 1.85rem;
+      letter-spacing: 6px;
+      color: #ffffff;
+      opacity: 0;
+      filter: blur(20px);
+      transform: scale(0.92);
+      transition: opacity 1.6s ease, filter 1.6s ease, transform 1.6s ease;
+      position: absolute;
+      padding: 0 20px;
+    }
+
+    .intro-line.active {
+      opacity: 1;
+      filter: blur(0px);
+      transform: scale(1);
+    }
+
+    .intro-line.title-line {
+      font-size: 2.8rem;
+      letter-spacing: 12px;
+      color: var(--accent-primary);
+      text-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+      transform: scale(0.85);
+    }
+
+    .intro-line.title-line.active {
+      opacity: 1;
+      filter: blur(0px);
+      transform: scale(1.05);
+    }
+
+    /* MAIN APP CONTAINER */
+    .app-container {
+      width: 100%;
+      max-width: 1380px;
+      margin: 0 auto;
+      background: var(--glass-surface);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border-accent);
+      padding: 32px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), var(--subtle-glow);
+    }
+
+    .app-header-cover {
+      width: 100%;
+      height: 160px;
+      background: linear-gradient(rgba(2, 6, 4, 0.35), rgba(1, 4, 3, 0.70)), var(--main-artwork);
+      background-size: cover;
+      background-position: center;
+      margin-bottom: 24px;
+      border: 1px solid var(--border-accent);
+      display: flex;
+      align-items: flex-end;
+      padding: 24px;
+      box-shadow: var(--subtle-glow);
+    }
+
+    .terminal-hdr {
+      font-size: 2.2rem;
+      color: #ffffff;
+      letter-spacing: 8px;
+      font-weight: normal;
+      text-shadow: 0 0 18px rgba(16, 185, 129, 0.4);
+    }
+
+    .top-hero-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 22px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border-dark);
+      flex-wrap: wrap;
+    }
+
+    .hero-countdown-box {
+      flex: 1;
+      min-width: 320px;
+      background: var(--card-inner);
+      border: 1px solid var(--border-accent);
+      padding: 16px 22px;
+      box-shadow: var(--subtle-glow);
+    }
+
+    .countdown-header-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .countdown-title { font-size: 0.95rem; color: var(--text-main); letter-spacing: 2px; }
+    .countdown-timer-text { font-size: 1.25rem; color: var(--accent-primary); letter-spacing: 2px; text-shadow: 0 0 12px rgba(16, 185, 129, 0.3); }
+
+    /* TEXT HEADER LINKS */
+    .quick-nav-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.92rem;
+      letter-spacing: 3px;
+      padding: 6px 8px;
+      border: none;
+      background: transparent;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      width: 0;
+      height: 1px;
+      background: var(--accent-primary);
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+      box-shadow: 0 0 8px var(--accent-primary);
+    }
+
+    .nav-link:hover {
+      color: var(--text-main);
+      text-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+    }
+
+    .nav-link:hover::after {
+      width: 90%;
+    }
+
+    .btn-aero {
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid var(--border-accent);
+      color: var(--text-main);
+      padding: 9px 18px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      transition: all 0.25s ease;
+      box-shadow: var(--subtle-glow);
+    }
+
+    .btn-aero:hover {
+      background: rgba(16, 185, 129, 0.25);
+      border-color: var(--accent-primary);
+      color: #ffffff;
+      box-shadow: var(--active-glow);
+    }
+
+    .btn-aero.btn-highlight {
+      background: var(--accent-primary);
+      border: 1px solid var(--accent-primary);
+      color: #022c22;
+      font-weight: bold;
+      box-shadow: 0 0 18px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-aero.btn-highlight:hover {
+      background: var(--accent-warm);
+      border-color: var(--accent-warm);
+      color: #022c22;
+      box-shadow: 0 0 25px rgba(52, 211, 153, 0.6);
+    }
+
+    .btn-sm { padding: 4px 10px; font-size: 0.75rem; }
+    .btn-edit { background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border-dark); color: var(--text-main); cursor: pointer; font-size: 0.75rem; padding: 4px 8px; transition: all 0.2s; }
+    .btn-edit:hover { background: rgba(16, 185, 129, 0.25); border-color: var(--accent-primary); }
+    .btn-danger { background: transparent; border: none; color: #ef4444; cursor: pointer; font-size: 0.88rem; margin-left: 6px; transition: transform 0.2s; }
+    .btn-danger:hover { transform: scale(1.15); color: #f87171; }
+
+    .section-banner-img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      margin-bottom: 12px;
+      opacity: 0.80;
+      border: 1px solid var(--border-accent);
+      filter: saturate(0.85) contrast(1.1);
+      box-shadow: var(--subtle-glow);
+    }
+
+    .month-picker {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .month-picker h2 {
+      font-size: 1.15rem;
+      color: var(--text-main);
+      min-width: 200px;
+      text-align: center;
+      letter-spacing: 2px;
+    }
+
+    /* MATRIX TABLE */
+    .habit-table-wrapper {
+      overflow-x: auto !important;
+      border: 1px solid var(--border-accent);
+      background: rgba(4, 10, 7, 0.55);
+      margin-bottom: 24px;
+      box-shadow: var(--subtle-glow);
+    }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    th, td { border: 1px solid rgba(255, 255, 255, 0.08); text-align: center; padding: 9px 4px; }
+    th { background: rgba(8, 16, 12, 0.85); color: var(--text-muted); font-size: 0.8rem; letter-spacing: 1px; }
+
+    .habit-col {
+      text-align: left;
+      padding-left: 12px;
+      padding-right: 8px;
+      min-width: 180px;
+      max-width: 220px;
+      white-space: normal !important;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      background: rgba(6, 14, 10, 0.92);
+      color: var(--text-main);
+      position: sticky;
+      left: 0;
+      z-index: 2;
+    }
+
+    th.today, td.today { background: rgba(16, 185, 129, 0.25) !important; color: #ffffff !important; }
+    .checkbox-cell { cursor: pointer; user-select: none; width: 28px; height: 28px; transition: background 0.15s ease; }
+    .checkbox-cell:hover { background-color: rgba(16, 185, 129, 0.3); }
+
+    .checked-crimson { background-color: var(--tag-crimson) !important; color: #022c22; font-weight: bold; }
+    .checked-slate   { background-color: var(--tag-slate)   !important; color: #fff; }
+    .checked-indigo  { background-color: var(--tag-indigo)  !important; color: #fff; }
+    .checked-amber   { background-color: var(--tag-amber)   !important; color: #fff; }
+    .checked-emerald { background-color: var(--tag-emerald) !important; color: #fff; }
+
+    /* STRICT FIXED-HEIGHT DAILY ASSESSMENT BOX */
+    #dailyRatingSection {
+      margin-bottom: 24px;
+      height: 320px;
+      min-height: 320px;
+      max-height: 320px;
+      overflow: hidden;
+    }
+
+    .rating-section-grid {
+      display: grid;
+      grid-template-columns: 1fr 240px;
+      gap: 16px;
+      align-items: stretch;
+      height: calc(100% - 32px);
+      overflow: hidden;
+    }
+
+    .rating-scroll-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    #ratingInputContainer {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      gap: 8px;
+    }
+
+    .rating-btn-group {
+      display: flex;
+      gap: 4px;
+      margin: 2px 0;
+      flex-wrap: wrap;
+    }
+
+    .rating-pill-btn {
+      flex: 1;
+      min-width: 26px;
+      height: 30px;
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid var(--border-accent);
+      color: var(--text-main);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .rating-pill-btn:hover, .rating-pill-btn.selected {
+      background: var(--accent-primary);
+      color: #022c22;
+      font-weight: bold;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+    }
+
+    #ratingStatementInput {
+      flex: 1;
+      width: 100%;
+      background: rgba(4, 10, 7, 0.85);
+      color: var(--text-main);
+      border: 1px solid var(--border-dark);
+      padding: 10px;
+      font-size: 0.88rem;
+      outline: none;
+      resize: none;
+      overflow-y: auto !important;
+    }
+
+    .rating-display-lock {
+      background: rgba(4, 10, 7, 0.85);
+      border: 1px solid var(--border-accent);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: var(--subtle-glow);
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      height: 100%;
+      overflow-y: auto !important;
+    }
+
+    /* COMPACT UNIFORM CALENDAR CELLS (PREVENTS MONTH SWITCH JUMP) */
+    #ratingMiniCalendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+      text-align: center;
+    }
+
+    #ratingMiniCalendar .cal-day {
+      padding: 2px 1px;
+      font-size: 0.72rem;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #ratingMiniCalendar .cal-day-header {
+      padding: 2px 0;
+      font-size: 0.68rem;
+    }
+
+    /* LAYOUT GRIDS */
+    .sections-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 20px;
+    }
+
+    .card-section {
+      border: 1px solid var(--border-accent);
+      padding: 22px;
+      background: var(--card-surface);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+      box-shadow: var(--subtle-glow);
+    }
+
+    .card-section:hover {
+      border-color: rgba(16, 185, 129, 0.55);
+      box-shadow: var(--active-glow);
+    }
+
+    .fixed-row-height {
+      height: 440px;
+    }
+
+    .bottom-split-row {
+      display: grid;
+      grid-template-columns: 1.45fr 0.55fr;
+      gap: 24px;
+      grid-column: span 2;
+    }
+
+    .section-title {
+      font-size: 1.05rem;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-main);
+      border-bottom: 1px solid var(--border-dark);
+      padding-bottom: 8px;
+    }
+
+    .todo-calendar-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 10px;
+      flex: 1;
+    }
+
+    .mini-calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+      text-align: center;
+      font-size: 0.78rem;
+    }
+
+    .cal-day-header {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      padding: 4px 0;
+      background: rgba(4, 10, 7, 0.85);
+      border: 1px solid var(--border-dark);
+    }
+
+    .cal-day {
+      padding: 6px 2px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border-dark);
+      cursor: pointer;
+      color: var(--text-main);
+      transition: all 0.2s ease;
+    }
+
+    .cal-day:hover { background: rgba(16, 185, 129, 0.25); color: #ffffff; }
+    .cal-day.active-day { background: var(--accent-primary); color: #022c22; font-weight: bold; border-color: var(--accent-primary); box-shadow: 0 0 12px rgba(16, 185, 129, 0.4); }
+    .cal-day.is-today-marker { border: 1px solid var(--accent-warm); }
+
+    .todo-list-box {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      height: 280px;
+      overflow-y: auto !important;
+    }
+
+    .todo-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(4, 10, 7, 0.65);
+      border: 1px solid var(--border-dark);
+      padding: 6px 8px;
+      font-size: 0.85rem;
+    }
+
+    .todo-item span {
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .subject-badge {
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-primary);
+      border: 1px solid var(--border-accent);
+      flex-shrink: 0;
+    }
+
+    /* CHART CONTAINERS */
+    .pie-chart-wrapper {
+      width: 100%;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin-top: 4px;
+      overflow: hidden;
+    }
+
+    .pie-chart-box {
+      position: relative;
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 270px;
+      max-height: 175px;
+    }
+
+    .pie-chart-box canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .scrollable-list {
+      height: 230px;
+      overflow-y: auto !important;
+    }
+
+    .stoic-card, .test-card {
+      background: rgba(4, 10, 7, 0.65);
+      border: 1px solid var(--border-dark);
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      font-size: 0.88rem;
+      transition: all 0.2s ease;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .stoic-card:hover, .test-card:hover {
+      border-color: var(--border-accent);
+      background: rgba(16, 185, 129, 0.08);
+      box-shadow: var(--subtle-glow);
+    }
+
+    .chart-container-exact {
+      flex: 1;
+      position: relative;
+      width: 100%;
+      min-height: 0;
+    }
+
+    .books-main-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+      padding: 4px;
+    }
+
+    .book-card-item {
+      background: rgba(8, 16, 12, 0.75);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-accent);
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 120px;
+      box-shadow: var(--subtle-glow);
+    }
+
+    .book-card-item:hover {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: var(--accent-primary);
+      transform: translateY(-2px);
+      box-shadow: var(--active-glow);
+    }
+
+    .book-card-title { 
+      font-size: 1rem; 
+      color: var(--text-main); 
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      letter-spacing: 1px;
+    }
+
+    .editor-toolbar {
+      display: flex;
+      gap: 4px;
+      padding: 6px;
+      background: rgba(4, 10, 7, 0.95);
+      border: 1px solid var(--border-dark);
+      border-bottom: none;
+      flex-wrap: wrap;
+    }
+
+    .editor-box-frameless {
+      min-height: 320px;
+      max-height: 550px;
+      overflow-y: auto !important;
+      outline: none;
+      padding: 16px;
+      background: rgba(4, 10, 7, 0.98);
+      border: 1px solid var(--border-dark);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .editor-box-frameless:empty:before {
+      content: attr(placeholder);
+      color: var(--text-muted);
+    }
+
+    /* POPUP MODALS */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(1, 4, 3, 0.88);
+      backdrop-filter: blur(12px);
+      align-items: center;
+      justify-content: center;
+      z-index: 30000;
+    }
+
+    .modal-content {
+      background: rgba(8, 18, 13, 0.98);
+      backdrop-filter: blur(18px);
+      border: 1px solid var(--border-accent);
+      padding: 24px;
+      width: 600px;
+      max-width: 92vw;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      color: var(--text-main);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9), var(--active-glow);
+    }
+
+    .modal-content input, 
+    .modal-content select, 
+    .modal-content textarea,
+    .timer-fullscreen-content input {
+      padding: 10px 12px;
+      border: 1px solid var(--border-dark);
+      background: rgba(4, 10, 7, 0.92);
+      color: var(--text-main);
+      outline: none;
+      font-size: 0.9rem;
+      pointer-events: auto !important;
+      user-select: text !important;
+      -webkit-user-select: text !important;
+      cursor: text !important;
+      transition: border-color 0.2s;
+    }
+
+    .modal-content input:focus,
+    .modal-content select:focus,
+    .modal-content textarea:focus,
+    .timer-fullscreen-content input:focus {
+      border-color: var(--accent-primary);
+    }
+
+    input[type="datetime-local"] {
+      color-scheme: dark;
+    }
+
+    /* FULLSCREEN OVERLAYS */
+    .fullscreen-overlay-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: linear-gradient(rgba(2, 6, 4, 0.90), rgba(1, 4, 3, 0.96)), var(--main-artwork);
+      background-size: cover;
+      background-position: center;
+      z-index: 10000;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .timer-fullscreen-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 800px;
+      text-align: center;
+      position: relative;
+    }
+
+    .timer-display {
+      font-size: 9rem;
+      color: var(--accent-primary);
+      margin: 16px 0;
+      letter-spacing: 4px;
+      text-shadow: 0 0 40px rgba(16, 185, 129, 0.5);
+    }
+
+    .timer-mode-badge {
+      color: var(--text-main);
+      font-size: 1.1rem;
+      letter-spacing: 6px;
+      padding: 8px 24px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid var(--border-accent);
+      box-shadow: var(--active-glow);
+    }
+
+    .close-overlay-btn {
+      position: absolute;
+      top: 25px; right: 35px;
+      background: transparent; border: none;
+      color: var(--text-muted); font-size: 2.5rem; cursor: pointer;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .close-overlay-btn:hover { color: var(--accent-warm); transform: scale(1.1); }
+
+    .fullscreen-reader-box {
+      width: 90vw;
+      max-width: 1200px;
+      height: 88vh;
+      background: rgba(8, 18, 13, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-accent);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.8), var(--subtle-glow);
+    }
+
+    #fsStoicDetails {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: var(--text-main);
+      background: rgba(4, 10, 7, 0.95);
+      padding: 24px;
+      border: 1px solid var(--border-accent);
+      white-space: pre-wrap;
+      max-height: 60vh;
+      overflow-y: auto !important;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .chapter-card-item {
+      background: rgba(4, 10, 7, 0.85);
+      border: 1px solid var(--border-dark);
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      transition: all 0.2s ease;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .chapter-card-item:hover {
+      border-color: var(--border-accent);
+      background: rgba(16, 185, 129, 0.08);
+    }
+  </style>
 </head>
 <body>
 
-  <div id="securityAuthScreen">
-    <div class="auth-container">
-      <div class="auth-title">PROJECT INQUINISO</div>
-      <input type="password" id="agentPinInput" class="pin-input" maxlength="4" autofocus placeholder="">
-      <button id="initialStartBtn" style="display:none;"></button>
-      <div class="auth-error" id="authErrorMsg">invalid</div>
-    </div>
-  </div>
-
-  <div id="introTextOverlay">
-    <div class="intro-text-container">
-      <div class="intro-line" id="line1">Recursion of self negation</div>
-      <div class="intro-line" id="line2">Rhythm of ordinary</div>
-      <div class="intro-line title-line" id="line3">Project Inquiniso</div>
-    </div>
-  </div>
-
-  <div class="app-container">
-    <div class="app-header-cover">
-      <div class="terminal-hdr">PROJECT INQUINISO</div>
-    </div>
-
-    <div class="top-hero-nav">
-      <div class="hero-countdown-box">
-        <div class="countdown-header-flex">
-          <span class="countdown-title" id="countdownTitle">Good Day</span>
-          <button class="btn-aero btn-sm" id="editDeadlineBtn">Set Good Day</button>
-        </div>
-        <div class="countdown-timer-text" id="neetCountdown">Calculating time...</div>
-      </div>
-
-      <div class="quick-nav-links">
-        <a href="#habitsSection" class="nav-link">HABITS</a>
-        <a href="#dailyRatingSection" class="nav-link">EVALUATION</a>
-        <a href="#todoSection" class="nav-link">TASKS</a>
-        <a href="#stoicSection" class="nav-link">REFLECTION</a>
-        <a href="#journalSection" class="nav-link">JOURNALS</a>
-        <button class="btn-aero btn-highlight" id="openTimerBtn">Focus Session</button>
-      </div>
-    </div>
-
-    <div style="display:flex; justify-content: flex-end; gap:8px; margin-bottom: 16px;">
-      <button class="btn-aero" id="exportBtn">Export Backup</button>
-      <button class="btn-aero" id="importBtn">Import Backup</button>
-      <input type="file" id="importFileInput" style="display: none;" accept=".json">
-    </div>
-
-    <div id="habitsSection">
-      <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom:10px;">
-        <div class="month-picker" style="margin:0;">
-          <button class="btn-aero" id="prevMonth">&lt;</button>
-          <h2 id="currentMonthLabel">Month Year</h2>
-          <button class="btn-aero" id="nextMonth">&gt;</button>
-        </div>
-        <button class="btn-aero btn-highlight" id="openHabitModal">+ Add Daily Habit</button>
-      </div>
-
-      <div class="habit-table-wrapper">
-        <table id="habitsTable">
-          <thead>
-            <tr id="dayOfWeekRow"></tr>
-            <tr id="dayOfMonthRow"></tr>
-          </thead>
-          <tbody id="habitsBody"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div id="dailyRatingSection" class="card-section">
-      <div class="section-title">
-        <span>Daily Assessment & Log</span>
-        <span id="ratingDateLabel" style="font-size: 0.85rem; color: var(--text-muted);">Date</span>
-      </div>
-
-      <div class="rating-section-grid">
-        <div class="rating-scroll-container">
-          <div id="ratingInputContainer">
-            <label style="font-size:0.8rem; color: var(--text-muted);">Score Performance (1 - 10)</label>
-            <div class="rating-btn-group" id="ratingPillGroup">
-              <button class="rating-pill-btn" onclick="selectRatingScore(1)">1</button>
-              <button class="rating-pill-btn" onclick="selectRatingScore(2)">2</button>
-              <button class="rating-pill-btn" onclick="selectRatingScore(3)">3</button>
-              <button class="rating-pill-btn" onclick="selectRatingScore(4)">4</button>
-              <button class="rating-pill-btn" onclick="selectRatingScore(5)">5</button>
-              <button class="rating-pill-btn" onclick="selectRatingScore(6)">6</button>
-              <button class="rating-pill-btn" onclick="selectRatingScore(7)">7</button>
-              <button class="rating-pill-btn" onclick="selectRatingScore(8)">8</button>
-              <button class="rating-pill-btn" onclick="selectRatingScore(9)">9</button>
-              <button class="rating-pill-btn" onclick="selectRatingScore(10)">10</button>
-            </div>
-            
-            <textarea id="ratingStatementInput" placeholder="State your daily summary or key thoughts..."></textarea>
-            
-            <div style="display:flex; justify-content:flex-end; margin-top: auto;">
-              <button class="btn-aero btn-highlight btn-sm" id="saveRatingBtn" onclick="saveCurrentRating()">Log & Lock Entry</button>
-            </div>
-          </div>
-
-          <div id="ratingLockedDisplay" class="rating-display-lock" style="display:none;">
-            <div style="font-size:0.75rem; color:var(--text-muted); letter-spacing:1px;">RECORD LOCKED FOR THIS DATE:</div>
-            <div style="font-size:1.5rem; color:var(--accent-primary);" id="lockedScoreText">Score: -/10</div>
-            <div style="font-size:0.95rem; color:var(--text-main); line-height:1.6;" id="lockedStatementText">No statement.</div>
-          </div>
-        </div>
-
-        <div style="display: flex; flex-direction: column; border-left: 1px solid var(--border-dark); padding-left: 16px; height: 100%;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-            <button class="btn-aero btn-sm" id="prevRatingMonth">&lt;</button>
-            <span style="font-size: 0.8rem; color:var(--text-muted);" id="ratingCalMonthName">Calendar</span>
-            <button class="btn-aero btn-sm" id="nextRatingMonth">&gt;</button>
-          </div>
-          <div id="ratingMiniCalendar"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="sections-wrapper">
-      
-      <div class="card-section fixed-row-height" id="todoSection">
-        <div class="section-title">
-          <span>Daily Intentions & Tasks</span>
-          <button class="btn-aero" id="openTodoModal">+ Intention</button>
-        </div>
-        
-        <div class="todo-calendar-grid">
-          <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <button class="btn-aero btn-sm" id="prevCalMonth">&lt;</button>
-              <span style="font-size: 0.85rem; color:var(--text-muted);" id="calMonthName">Calendar</span>
-              <button class="btn-aero btn-sm" id="nextCalMonth">&gt;</button>
-            </div>
-            <div class="mini-calendar" id="miniCalendar"></div>
-          </div>
-          <div>
-            <div style="font-size: 0.85rem; margin-bottom: 6px; color:var(--text-muted);" id="selectedDateTitle">Select a date</div>
-            <div class="todo-list-box" id="todoListContainer"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card-section fixed-row-height">
-        <div class="section-title">
-          <span>Consistency Index</span>
-        </div>
-        <div class="chart-container-exact">
-          <canvas id="progressChart"></canvas>
-        </div>
-      </div>
-
-      <div class="bottom-split-row">
-        <div class="card-section" style="height: 280px;">
-          <div class="section-title">
-            <span>Body & Energy Tracker</span>
-            <button class="btn-aero" id="openWeightModal">+ Log Weight</button>
-          </div>
-          <div class="chart-container-exact">
-            <canvas id="weightChart"></canvas>
-          </div>
-        </div>
-
-        <div class="card-section" style="height: 280px; text-align: center;">
-          <div class="section-title" style="width: 100%;">
-            <span>Focus Area Distribution</span>
-          </div>
-          <div class="pie-chart-wrapper">
-            <div class="pie-chart-box">
-              <canvas id="taskPieChart"></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card-section" id="stoicSection">
-        <img src="https://images.unsplash.com/photo-1468657988500-aca2be09f4c6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="section-banner-img" alt="Threat Log Banner">
-        <div class="section-title">
-          <span>Threat Log & Reflection Notes</span>
-          <button class="btn-aero" id="openStoicModal">+ Log Reflection</button>
-        </div>
-        <div class="scrollable-list" id="stoicContainer"></div>
-      </div>
-
-      <div class="card-section" id="testSection">
-        <img src="https://images.unsplash.com/photo-1569470451072-68314f596aec?q=80&w=1631&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="section-banner-img" alt="Benchmark Banner">
-        <div class="section-title">
-          <span>Growth & Benchmark Records</span>
-          <button class="btn-aero" id="openTestModal">+ Add Evaluation</button>
-        </div>
-        <div class="scrollable-list" id="testsContainer"></div>
-      </div>
-
-      <div class="card-section" style="grid-column: span 2;" id="journalSection">
-        <img src="https://images.unsplash.com/photo-1545091741-2231068f3478?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="section-banner-img" style="height:105px;" alt="Journals Banner">
-        <div class="section-title">
-          <span>Wisdom Journals & Dossiers</span>
-          <button class="btn-aero" id="openNewBookModal">+ Add Journal</button>
-        </div>
-
-        <div class="books-main-grid" id="booksMainGrid"></div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="fullscreen-overlay-modal" id="timerModal">
-    <button class="close-overlay-btn" id="closeTimerBtn">X</button>
-    <div class="timer-fullscreen-content">
-      <div class="timer-mode-badge" id="timerModeBadge">DEEP FOCUS SESSION</div>
-      <div class="timer-display" id="timerDisplay">90:00</div>
-      
-      <div style="display: flex; gap: 16px; margin-top: 16px;">
-        <button class="btn-aero btn-highlight" id="startTimerBtn" style="padding: 12px 28px; font-size: 1rem;">Initiate</button>
-        <button class="btn-aero" id="pauseTimerBtn" style="display:none; padding: 12px 28px; font-size: 1rem;">Hold</button>
-        <button class="btn-aero" id="resetTimerBtn" style="padding: 12px 28px; font-size: 1rem;">Reset</button>
-        <button class="btn-aero" id="add5MinBtn" style="padding: 12px 28px; font-size: 1rem;">+5m</button>
-      </div>
-
-      <div style="display: flex; gap: 24px; margin-top: 36px; width: 100%; max-width: 500px;">
-        <div style="flex:1; display:flex; flex-direction:column; gap:6px; text-align:left;">
-          <label style="font-size:0.85rem; color:var(--text-muted);">Focus Minutes</label>
-          <input type="number" id="focusMinutesInput" value="25" min="1" max="180">
-        </div>
-        <div style="flex:1; display:flex; flex-direction:column; gap:6px; text-align:left;">
-          <label style="font-size:0.85rem; color:var(--text-muted);">Recovery Minutes</label>
-          <input type="number" id="breakMinutesInput" value="5" min="1" max="60">
-        </div>
-      </div>
-
-      <div style="margin-top: 32px; font-size:1rem; color:var(--text-muted); display:flex; gap:20px;">
-        <div>Today: <b id="todayFocusTotal" style="color: var(--accent-primary);">0 mins</b></div>
-        <div>|</div>
-        <div>All-Time Operational: <b id="allTimeFocusTotal" style="color: var(--accent-primary);">0 hrs 0 mins</b></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="fullscreen-overlay-modal" id="fullscreenBookModal">
-    <button class="close-overlay-btn" id="closeBookVaultBtn">X</button>
-    <div class="fullscreen-reader-box">
-      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-dark); padding-bottom:14px; margin-bottom:20px;">
-        <div>
-          <span style="font-size:0.75rem; color:var(--text-muted); letter-spacing:2px;">WISDOM VAULT</span>
-          <h1 id="fsBookVaultTitle" style="font-size:1.8rem; color:var(--text-main);">Journal Title</h1>
-        </div>
-        <button class="btn-aero btn-highlight" id="fsAddChapterBtn">+ Add Entry</button>
-      </div>
-      
-      <div id="fsBookChaptersList" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:10px;"></div>
-    </div>
-  </div>
-
-  <div class="fullscreen-overlay-modal" id="fullscreenChapterReaderModal">
-    <button class="close-overlay-btn" id="closeChapterReaderBtn">X</button>
-    <div class="fullscreen-reader-box">
-      <div style="font-size:0.85rem; color:var(--accent-primary); letter-spacing:1px; margin-bottom:4px;" id="fsReaderBookTitle">JOURNAL TITLE</div>
-      <h1 id="fsReaderChapterTitle" style="font-size:2rem; color:var(--text-main); margin-bottom:6px;">Entry Title</h1>
-      <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:20px; border-bottom:1px solid var(--border-dark); padding-bottom:10px;" id="fsReaderChapterDate">Logged Date</div>
-      
-      <div id="fsReaderChapterBody" style="font-size:1.05rem; line-height:1.85; color:var(--text-main); overflow-y:auto; flex:1; padding-right:10px;"></div>
-    </div>
-  </div>
-
-  <div class="fullscreen-overlay-modal" id="fullscreenStoicModal">
-    <button class="close-overlay-btn" id="closeStoicReaderBtn">X</button>
-    <div class="fullscreen-reader-box" style="max-width: 1000px; height: auto; min-height: 520px;">
-      <div style="font-size:0.85rem; color:var(--text-muted); letter-spacing:1px; margin-bottom:8px;">REFLECTION DOSSIER</div>
-      <h2 id="fsStoicTitle" style="font-size:1.8rem; color:var(--text-main); margin-bottom:16px;">Topic Scenario</h2>
-      <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px; letter-spacing: 1px;">MITIGATION DECODER:</div>
-      <div id="fsStoicDetails"></div>
-    </div>
-  </div>
-
-  <div class="modal" id="stoicModal">
-    <div class="modal-content">
-      <h3>Log Reflection & Scenario</h3>
-      <input type="text" id="stoicTitleInput" placeholder="Reflection Title (e.g. Maintaining Calm Under Stress)">
-      <textarea id="stoicDetailsInput" rows="12" style="background: rgba(4, 10, 7, 0.95); color: var(--text-main); border: 1px solid var(--border-dark); padding: 12px; font-size: 0.95rem; width: 100%; outline: none;" placeholder="Detail the challenge and pre-planned positive responses..."></textarea>
-      <div style="display: flex; gap: 8px; justify-content: flex-end;">
-        <button class="btn-aero" id="closeStoicModal">Cancel</button>
-        <button class="btn-aero" id="saveStoicBtn">Save Reflection</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="newBookModal">
-    <div class="modal-content">
-      <h3>Create New Journal</h3>
-      <input type="text" id="newBookTitleInput" placeholder="Journal Title (e.g. Growth & Biology Notes)">
-      <div style="display: flex; gap: 8px; justify-content: flex-end;">
-        <button class="btn-aero" id="closeNewBookModal">Cancel</button>
-        <button class="btn-aero" id="saveNewBookBtn">Create Journal</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="deadlineModal">
-    <div class="modal-content">
-      <h3>Configure Target Horizon</h3>
-      <input type="text" id="deadlineTitleInput" placeholder="Target Identifier (e.g. Major Milestone)">
-      <input type="datetime-local" id="deadlineDateInput">
-      <div style="display: flex; gap: 8px; justify-content: flex-end;">
-        <button class="btn-aero" id="closeDeadlineModal">Cancel</button>
-        <button class="btn-aero" id="saveDeadlineBtn">Save</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="habitModal">
-    <div class="modal-content">
-      <h3>New Daily Habit</h3>
-      <input type="text" id="habitNameInput" placeholder="Habit Title (e.g. 0600 Morning Reflection)">
-      <input type="number" id="habitGoalInput" placeholder="Days Goal (e.g. 365)" value="365">
-      <select id="habitColorInput">
-        <option value="crimson">Emerald Green</option>
-        <option value="amber">Warm Amber</option>
-        <option value="emerald">Forest Emerald</option>
-        <option value="slate">Tactical Slate</option>
-        <option value="indigo">Midnight Indigo</option>
-      </select>
-      <div style="display: flex; gap: 8px; justify-content: flex-end;">
-        <button class="btn-aero" id="closeHabitModal">Cancel</button>
-        <button class="btn-aero" id="saveHabitBtn">Save</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="todoModal">
-    <div class="modal-content">
-      <h3>Add Daily Task</h3>
-      <input type="text" id="todoTextInput" placeholder="Task details...">
-      <input type="text" id="todoSubjectInput" placeholder="Tag (e.g. Health, Learning, Physics)">
-      <div style="display: flex; gap: 8px; justify-content: flex-end;">
-        <button class="btn-aero" id="closeTodoModal">Cancel</button>
-        <button class="btn-aero" id="saveTodoBtn">Deploy Task</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="weightModal">
-    <div class="modal-content">
-      <h3>Log Body Weight</h3>
-      <input type="number" step="0.1" id="weightValueInput" placeholder="Mass (kg / lbs)">
-      <div style="display: flex; gap: 8px; justify-content: flex-end;">
-        <button class="btn-aero" id="closeWeightModal">Cancel</button>
-        <button class="btn-aero" id="saveWeightBtn">Save</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="testModal">
-    <div class="modal-content">
-      <h3>Record Evaluation Performance</h3>
-      <input type="text" id="testSubjectInput" placeholder="Evaluation Name">
-      <input type="number" id="testScoredInput" placeholder="Score Achieved">
-      <input type="number" id="testTotalInput" placeholder="Total Score Possible">
-      <div style="display: flex; gap: 8px; justify-content: flex-end;">
-        <button class="btn-aero" id="closeTestModal">Cancel</button>
-        <button class="btn-aero" id="saveTestBtn">Save Record</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="noteModal">
-    <div class="modal-content" style="width: 800px; max-width: 90vw;">
-      <h3 id="noteModalHeader">New Entry Log</h3>
-      <input type="text" id="chapterTitleInput" placeholder="Entry Title (e.g. Chapter 1: Core Principles)">
-      
-      <div class="editor-toolbar">
-        <button class="btn-aero btn-sm" onclick="execCmd('bold')"><b>B</b></button>
-        <button class="btn-aero btn-sm" onclick="execCmd('italic')"><i>I</i></button>
-        <button class="btn-aero btn-sm" onclick="execCmd('underline')"><u>U</u></button>
-        <button class="btn-aero btn-sm" onclick="execCmd('formatBlock', '<h1>')">H1</button>
-        <button class="btn-aero btn-sm" onclick="execCmd('formatBlock', '<h2>')">H2</button>
-        <button class="btn-aero btn-sm" onclick="execCmd('insertUnorderedList')">• List</button>
-      </div>
-      
-      <div class="editor-box-frameless" id="noteTextInput" contenteditable="true" placeholder="Enter journal thoughts or notes here..."></div>
-      
-      <div style="display: flex; gap: 8px; justify-content: flex-end;">
-        <button class="btn-aero" id="closeNoteModal">Cancel</button>
-        <button class="btn-aero" id="saveNoteBtn">Save Entry</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    function execCmd(command, value = null) {
-      document.execCommand(command, false, value);
-    }
-
-    // PIN AUTHENTICATION & INTRO TRANSITION ENGINE
-    let introTimeouts = [];
-
-    function skipIntro() {
-      introTimeouts.forEach(clearTimeout);
-      const textOverlay = document.getElementById('introTextOverlay');
-      textOverlay.style.transition = 'opacity 0.8s ease';
-      textOverlay.style.opacity = '0';
-      setTimeout(() => textOverlay.style.display = 'none', 800);
-    }
-
-    document.getElementById('introTextOverlay').onclick = skipIntro;
-
-    function authenticateAgent() {
-      const pinVal = document.getElementById('agentPinInput').value.trim();
-      const errorMsg = document.getElementById('authErrorMsg');
-
-      if (pinVal === '2027') {
-        errorMsg.style.display = 'none';
-
-        document.getElementById('securityAuthScreen').style.display = 'none';
-        const textOverlay = document.getElementById('introTextOverlay');
-        textOverlay.style.display = 'flex';
-
-        const lines = [
-          document.getElementById('line1'),
-          document.getElementById('line2'),
-          document.getElementById('line3')
-        ];
-
-        let delay = 300;
-        lines.forEach((line, index) => {
-          let t1 = setTimeout(() => {
-            if (index > 0) lines[index - 1].classList.remove('active');
-            line.classList.add('active');
-          }, delay);
-          introTimeouts.push(t1);
-          delay += 2200;
-        });
-
-        let tFinish = setTimeout(() => {
-          textOverlay.style.transition = 'opacity 1.5s ease';
-          textOverlay.style.opacity = '0';
-          setTimeout(() => textOverlay.style.display = 'none', 1500);
-        }, delay + 1000);
-        introTimeouts.push(tFinish);
-      } else {
-        errorMsg.style.display = 'block';
-        document.getElementById('agentPinInput').value = '';
-      }
-    }
-
-    document.getElementById('agentPinInput').addEventListener('input', (e) => {
-      const val = e.target.value.trim();
-      if (val.length === 4) {
-        if (val === '2027') {
-          authenticateAgent();
-        } else {
-          document.getElementById('authErrorMsg').style.display = 'block';
-          e.target.value = '';
-        }
-      }
-    });
-
-    document.getElementById('initialStartBtn').onclick = authenticateAgent;
-
-    // STORAGE MANAGEMENT & RETENTION
-    let deadlineConfig = JSON.parse(localStorage.getItem('dh_deadline_cfg')) || {
-      title: 'Target Horizon',
-      target: '2027-05-01T00:00:00'
-    };
-
-    let habits = JSON.parse(localStorage.getItem('dh_habits')) || [
-      { id: '1', name: '0600 Morning Routine', goal: 365, color: 'crimson', records: {} },
-      { id: '2', name: 'Deep Focus Session', goal: 365, color: 'crimson', records: {} },
-      { id: '3', name: 'Physical Activity', goal: 365, color: 'crimson', records: {} }
-    ];
-
-    let stoicEntries = JSON.parse(localStorage.getItem('dh_stoic')) || [];
-    let books = JSON.parse(localStorage.getItem('dh_books_list')) || ['Journal Alpha: Core Learning', 'Journal Beta: Daily Thoughts'];
-    let notes = JSON.parse(localStorage.getItem('dh_notes')) || [];
-    let todos = JSON.parse(localStorage.getItem('dh_todos')) || {};
-    let weights = JSON.parse(localStorage.getItem('dh_weights')) || [];
-    let tests = JSON.parse(localStorage.getItem('dh_tests')) || [];
-    let focusTimeData = JSON.parse(localStorage.getItem('dh_focus_time')) || {};
-    let dailyRatings = JSON.parse(localStorage.getItem('dh_daily_ratings')) || {};
-    let totalAllTimeSecs = parseInt(localStorage.getItem('dh_alltime_secs')) || 0;
-
-    let activeBookName = null;
-    let editingNoteId = null;
-    let selectedRatingScore = null;
-
-    let currentDate = new Date();
-    let calCurrentDate = new Date();
-    let ratingCalCurrentDate = new Date();
-
-    function formatDateStr(dateObj) {
-      const y = dateObj.getFullYear();
-      const m = String(dateObj.getMonth() + 1).padStart(2, '0');
-      const d = String(dateObj.getDate()).padStart(2, '0');
-      return `${y}-${m}-${d}`;
-    }
-
-    let selectedDateStr = formatDateStr(currentDate);
-
-    function saveData() {
-      localStorage.setItem('dh_habits', JSON.stringify(habits));
-      localStorage.setItem('dh_books_list', JSON.stringify(books));
-      localStorage.setItem('dh_notes', JSON.stringify(notes));
-      localStorage.setItem('dh_todos', JSON.stringify(todos));
-      localStorage.setItem('dh_weights', JSON.stringify(weights));
-      localStorage.setItem('dh_tests', JSON.stringify(tests));
-      localStorage.setItem('dh_stoic', JSON.stringify(stoicEntries));
-      localStorage.setItem('dh_focus_time', JSON.stringify(focusTimeData));
-      localStorage.setItem('dh_daily_ratings', JSON.stringify(dailyRatings));
-      localStorage.setItem('dh_alltime_secs', totalAllTimeSecs.toString());
-      updateHabitChart();
-      updateWeightChart();
-      updateTaskPieChart();
-    }
-
-    function bindEnterKey(inputId, submitBtnId) {
-      const inputEl = document.getElementById(inputId);
-      if (inputEl) {
-        inputEl.addEventListener('keypress', (e) => {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            document.getElementById(submitBtnId).click();
-          }
-        });
-      }
-    }
-
-    bindEnterKey('habitNameInput', 'saveHabitBtn');
-    bindEnterKey('habitGoalInput', 'saveHabitBtn');
-    bindEnterKey('todoTextInput', 'saveTodoBtn');
-    bindEnterKey('todoSubjectInput', 'saveTodoBtn');
-    bindEnterKey('weightValueInput', 'saveWeightBtn');
-    bindEnterKey('testSubjectInput', 'saveTestBtn');
-    bindEnterKey('testScoredInput', 'saveTestBtn');
-    bindEnterKey('testTotalInput', 'saveTestBtn');
-    bindEnterKey('stoicTitleInput', 'saveStoicBtn');
-    bindEnterKey('newBookTitleInput', 'saveNewBookBtn');
-    bindEnterKey('chapterTitleInput', 'saveNoteBtn');
-    bindEnterKey('deadlineTitleInput', 'saveDeadlineBtn');
-
-    // COUNTDOWN TIMER LOGIC
-    function updateCountdown() {
-      const now = new Date();
-      const targetDate = new Date(deadlineConfig.target);
-      document.getElementById('countdownTitle').textContent = deadlineConfig.title;
-      
-      if (isNaN(targetDate.getTime()) || targetDate <= now) {
-        document.getElementById('neetCountdown').textContent = "TARGET REACHED";
-        return;
-      }
-
-      let years = targetDate.getFullYear() - now.getFullYear();
-      let months = targetDate.getMonth() - now.getMonth() + (years * 12);
-      
-      let tempDate = new Date(now);
-      tempDate.setMonth(tempDate.getMonth() + months);
-      if (tempDate > targetDate) {
-        months--;
-        tempDate = new Date(now);
-        tempDate.setMonth(tempDate.getMonth() + months);
-      }
-
-      const diffMs = targetDate - tempDate;
-      const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-
-      document.getElementById('neetCountdown').textContent = `${months}m ${days}d ${hours}h ${minutes}m remaining`;
-    }
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
-
-    // DEADLINE / TARGET MODAL HANDLERS
-    const deadlineModal = document.getElementById('deadlineModal');
-    document.getElementById('editDeadlineBtn').onclick = () => {
-      document.getElementById('deadlineTitleInput').value = deadlineConfig.title || 'Target Horizon';
-      document.getElementById('deadlineDateInput').value = deadlineConfig.target || '';
-      deadlineModal.style.display = 'flex';
-    };
-
-    document.getElementById('closeDeadlineModal').onclick = () => {
-      deadlineModal.style.display = 'none';
-    };
-
-    document.getElementById('saveDeadlineBtn').onclick = () => {
-      const title = document.getElementById('deadlineTitleInput').value.trim();
-      const target = document.getElementById('deadlineDateInput').value;
-      if (!target) return alert('Please enter a valid target date and time.');
-
-      deadlineConfig = { title: title || 'Target Horizon', target };
-      localStorage.setItem('dh_deadline_cfg', JSON.stringify(deadlineConfig));
-      deadlineModal.style.display = 'none';
-      updateCountdown();
-    };
-
-    // HABIT MATRIX TABLE
-    function renderHabitTable() {
-      const year = currentDate.getFullYear();
-      const month = currentDate.getMonth();
-      const totalDays = new Date(year, month + 1, 0).getDate();
-      const today = new Date();
-
-      document.getElementById('currentMonthLabel').textContent = `${currentDate.toLocaleString('default', { month: 'long' })} ${year}`;
-
-      const dayOfWeekRow = document.getElementById('dayOfWeekRow');
-      const dayOfMonthRow = document.getElementById('dayOfMonthRow');
-      const habitsBody = document.getElementById('habitsBody');
-
-      dayOfWeekRow.innerHTML = '<th class="habit-col">Habit / Discipline</th>';
-      dayOfMonthRow.innerHTML = '<th class="habit-col"></th>';
-      habitsBody.innerHTML = '';
-
-      const dayLetters = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-
-      for (let day = 1; day <= totalDays; day++) {
-        const dateObj = new Date(year, month, day);
-        const dayLetter = dayLetters[dateObj.getDay()];
-        const isToday = (day === today.getDate() && month === today.getMonth() && year === today.getFullYear());
-        const todayClass = isToday ? 'today' : '';
-
-        dayOfWeekRow.innerHTML += `<th class="${todayClass}">${dayLetter}</th>`;
-        dayOfMonthRow.innerHTML += `<th class="${todayClass}">${day}</th>`;
-      }
-
-      dayOfWeekRow.innerHTML += '<th>Goal</th><th>Done</th>';
-      dayOfMonthRow.innerHTML += '<th></th><th></th>';
-
-      habits.forEach(habit => {
-        const row = document.createElement('tr');
-        let totalAchieved = Object.keys(habit.records).filter(k => habit.records[k]).length;
-
-        let cellsHTML = `<td class="habit-col">${habit.name} <button class="btn-danger" onclick="deleteHabit('${habit.id}')">X</button></td>`;
-
-        for (let day = 1; day <= totalDays; day++) {
-          const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-          const isToday = (day === today.getDate() && month === today.getMonth() && year === today.getFullYear());
-          const isChecked = habit.records[dateStr];
-          const colorClass = isChecked ? `checked-${habit.color || 'crimson'}` : '';
-          const todayClass = isToday ? 'today' : '';
-
-          cellsHTML += `<td class="checkbox-cell ${colorClass} ${todayClass}" data-habit="${habit.id}" data-date="${dateStr}">
-            ${isChecked ? '✓' : ''}
-          </td>`;
-        }
-
-        cellsHTML += `<td>${habit.goal || 365}</td><td style="font-weight:bold; color:var(--accent-primary);">${totalAchieved}</td>`;
-        row.innerHTML = cellsHTML;
-        habitsBody.appendChild(row);
-      });
-    }
-
-    document.getElementById('prevMonth').onclick = () => { currentDate.setMonth(currentDate.getMonth() - 1); renderHabitTable(); };
-    document.getElementById('nextMonth').onclick = () => { currentDate.setMonth(currentDate.getMonth() + 1); renderHabitTable(); };
-
-    document.getElementById('habitsTable').addEventListener('click', (e) => {
-      const cell = e.target.closest('.checkbox-cell');
-      if (!cell) return;
-      const habit = habits.find(h => h.id === cell.dataset.habit);
-      if (habit) {
-        habit.records[cell.dataset.date] = !habit.records[cell.dataset.date];
-        saveData();
-        renderHabitTable();
-      }
-    });
-
-    window.deleteHabit = function(id) {
-      habits = habits.filter(h => h.id !== id);
-      saveData();
-      renderHabitTable();
-    };
-
-    document.getElementById('openHabitModal').onclick = () => document.getElementById('habitModal').style.display = 'flex';
-    document.getElementById('closeHabitModal').onclick = () => document.getElementById('habitModal').style.display = 'none';
-    
-    document.getElementById('saveHabitBtn').onclick = () => {
-      const name = document.getElementById('habitNameInput').value.trim();
-      const goalVal = parseInt(document.getElementById('habitGoalInput').value) || 365;
-      if (!name) return;
-      habits.push({ 
-        id: Date.now().toString(), 
-        name, 
-        goal: goalVal, 
-        color: document.getElementById('habitColorInput').value, 
-        records: {} 
-      });
-      document.getElementById('habitNameInput').value = '';
-      document.getElementById('habitGoalInput').value = '365';
-      document.getElementById('habitModal').style.display = 'none';
-      saveData();
-      renderHabitTable();
-    };
-
-    // DAILY RATING & DEBRIEF LOGIC
-    function selectRatingScore(val) {
-      selectedRatingScore = val;
-      const pills = document.querySelectorAll('.rating-pill-btn');
-      pills.forEach((p, idx) => {
-        if (idx + 1 === val) {
-          p.classList.add('selected');
-        } else {
-          p.classList.remove('selected');
-        }
-      });
-    }
-
-    function renderDailyRatingSection() {
-      document.getElementById('ratingDateLabel').textContent = selectedDateStr;
-      const existing = dailyRatings[selectedDateStr];
-
-      const inputContainer = document.getElementById('ratingInputContainer');
-      const lockedDisplay = document.getElementById('ratingLockedDisplay');
-
-      if (existing) {
-        inputContainer.style.display = 'none';
-        lockedDisplay.style.display = 'flex';
-        document.getElementById('lockedScoreText').textContent = `Score: ${existing.score} / 10`;
-        document.getElementById('lockedStatementText').textContent = existing.statement || 'No statement provided.';
-      } else {
-        inputContainer.style.display = 'flex';
-        lockedDisplay.style.display = 'none';
-        selectedRatingScore = null;
-        document.querySelectorAll('.rating-pill-btn').forEach(p => p.classList.remove('selected'));
-        document.getElementById('ratingStatementInput').value = '';
-      }
-
-      renderRatingMiniCalendar();
-    }
-
-    function saveCurrentRating() {
-      if (!selectedRatingScore) {
-        alert('Please select a score rating from 1 to 10.');
-        return;
-      }
-      const statement = document.getElementById('ratingStatementInput').value.trim();
-      dailyRatings[selectedDateStr] = {
-        score: selectedRatingScore,
-        statement: statement,
-        timestamp: new Date().toISOString()
-      };
-      saveData();
-      renderDailyRatingSection();
-    }
-
-    function renderRatingMiniCalendar() {
-      const year = ratingCalCurrentDate.getFullYear();
-      const month = ratingCalCurrentDate.getMonth();
-      const firstDayIndex = new Date(year, month, 1).getDay();
-      const totalDays = new Date(year, month + 1, 0).getDate();
-      const calContainer = document.getElementById('ratingMiniCalendar');
-      const todayStr = formatDateStr(new Date());
-
-      document.getElementById('ratingCalMonthName').textContent = ratingCalCurrentDate.toLocaleString('default', { month: 'short', year: 'numeric' });
-      calContainer.innerHTML = '';
-
-      const dayHeaders = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-      dayHeaders.forEach(dh => {
-        const headerEl = document.createElement('div');
-        headerEl.className = 'cal-day-header';
-        headerEl.textContent = dh;
-        calContainer.appendChild(headerEl);
-      });
-
-      for (let x = 0; x < firstDayIndex; x++) {
-        const emptyEl = document.createElement('div');
-        emptyEl.style.visibility = 'hidden';
-        calContainer.appendChild(emptyEl);
-      }
-
-      for (let day = 1; day <= totalDays; day++) {
-        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        const dayEl = document.createElement('div');
-        
-        let classes = 'cal-day';
-        if (dateStr === selectedDateStr) classes += ' active-day';
-        if (dateStr === todayStr) classes += ' is-today-marker';
-        if (dailyRatings[dateStr]) classes += ' checked-crimson';
-        
-        dayEl.className = classes;
-        dayEl.textContent = day;
-        dayEl.onclick = () => { 
-          selectedDateStr = dateStr; 
-          renderRatingMiniCalendar(); 
-          renderMiniCalendar(); 
-          renderDailyRatingSection(); 
-        };
-        calContainer.appendChild(dayEl);
-      }
-
-      // Fill remaining slots up to 42 cells total (6 full rows) so calendar dimensions never jump between months
-      const totalRendered = firstDayIndex + totalDays;
-      const remaining = 42 - totalRendered;
-      for (let i = 0; i < remaining; i++) {
-        const emptyEl = document.createElement('div');
-        emptyEl.style.visibility = 'hidden';
-        calContainer.appendChild(emptyEl);
-      }
-    }
-
-    document.getElementById('prevRatingMonth').onclick = () => { ratingCalCurrentDate.setMonth(ratingCalCurrentDate.getMonth() - 1); renderRatingMiniCalendar(); };
-    document.getElementById('nextRatingMonth').onclick = () => { ratingCalCurrentDate.setMonth(ratingCalCurrentDate.getMonth() + 1); renderRatingMiniCalendar(); };
-
-    // CALENDAR & DIRECTIVES
-    function renderMiniCalendar() {
-      const year = calCurrentDate.getFullYear();
-      const month = calCurrentDate.getMonth();
-      const firstDayIndex = new Date(year, month, 1).getDay();
-      const totalDays = new Date(year, month + 1, 0).getDate();
-      const calContainer = document.getElementById('miniCalendar');
-      const todayStr = formatDateStr(new Date());
-
-      document.getElementById('calMonthName').textContent = calCurrentDate.toLocaleString('default', { month: 'short', year: 'numeric' });
-      calContainer.innerHTML = '';
-
-      const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-      dayHeaders.forEach(dh => {
-        const headerEl = document.createElement('div');
-        headerEl.className = 'cal-day-header';
-        headerEl.textContent = dh;
-        calContainer.appendChild(headerEl);
-      });
-
-      for (let x = 0; x < firstDayIndex; x++) {
-        const emptyEl = document.createElement('div');
-        emptyEl.style.visibility = 'hidden';
-        calContainer.appendChild(emptyEl);
-      }
-
-      for (let day = 1; day <= totalDays; day++) {
-        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        const dayEl = document.createElement('div');
-        
-        let classes = 'cal-day';
-        if (dateStr === selectedDateStr) classes += ' active-day';
-        if (dateStr === todayStr) classes += ' is-today-marker';
-        
-        dayEl.className = classes;
-        dayEl.textContent = day;
-        dayEl.onclick = () => { 
-          selectedDateStr = dateStr; 
-          renderMiniCalendar(); 
-          renderRatingMiniCalendar(); 
-          renderDailyRatingSection(); 
-          renderTodos(); 
-        };
-        calContainer.appendChild(dayEl);
-      }
-
-      // Fill remaining slots up to 42 cells total (6 full rows)
-      const totalRendered = firstDayIndex + totalDays;
-      const remaining = 42 - totalRendered;
-      for (let i = 0; i < remaining; i++) {
-        const emptyEl = document.createElement('div');
-        emptyEl.style.visibility = 'hidden';
-        calContainer.appendChild(emptyEl);
-      }
-
-      renderTodos();
-    }
-
-    document.getElementById('prevCalMonth').onclick = () => { calCurrentDate.setMonth(calCurrentDate.getMonth() - 1); renderMiniCalendar(); };
-    document.getElementById('nextCalMonth').onclick = () => { calCurrentDate.setMonth(calCurrentDate.getMonth() + 1); renderMiniCalendar(); };
-
-    function renderTodos() {
-      const parts = selectedDateStr.split('-');
-      let dayNameStr = '';
-      if (parts.length === 3) {
-        const dObj = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-        dayNameStr = dObj.toLocaleString('default', { weekday: 'long' });
-      }
-
-      document.getElementById('selectedDateTitle').textContent = `Tasks for ${dayNameStr}, ${selectedDateStr}`;
-      const container = document.getElementById('todoListContainer');
-      container.innerHTML = '';
-
-      const dayTodos = todos[selectedDateStr] || [];
-      if (dayTodos.length === 0) {
-        container.innerHTML = `<span style="font-size:0.85rem; color: var(--text-muted);">No tasks logged for this date.</span>`;
-        return;
-      }
-
-      dayTodos.forEach((todo, idx) => {
-        const item = document.createElement('div');
-        item.className = 'todo-item';
-        item.innerHTML = `
-          <input type="checkbox" ${todo.done ? 'checked' : ''} onchange="toggleTodo(${idx})">
-          <span style="${todo.done ? 'text-decoration: line-through; opacity: 0.5;' : ''}">${todo.text}</span>
-          ${todo.subject ? `<span class="subject-badge">${todo.subject}</span>` : ''}
-          <button class="btn-danger" style="margin-left:auto;" onclick="deleteTodo(${idx})">X</button>
-        `;
-        container.appendChild(item);
-      });
-    }
-
-    const todoModal = document.getElementById('todoModal');
-    document.getElementById('openTodoModal').onclick = () => todoModal.style.display = 'flex';
-    document.getElementById('closeTodoModal').onclick = () => todoModal.style.display = 'none';
-    document.getElementById('saveTodoBtn').onclick = () => {
-      const text = document.getElementById('todoTextInput').value.trim();
-      const subject = document.getElementById('todoSubjectInput').value.trim() || 'General';
-      if (!text) return;
-
-      if (!todos[selectedDateStr]) todos[selectedDateStr] = [];
-      todos[selectedDateStr].push({ text, subject, done: false });
-      document.getElementById('todoTextInput').value = '';
-      todoModal.style.display = 'none';
-
-      saveData();
-      renderTodos();
-    };
-
-    window.toggleTodo = function(idx) { todos[selectedDateStr][idx].done = !todos[selectedDateStr][idx].done; saveData(); renderTodos(); };
-    window.deleteTodo = function(idx) { todos[selectedDateStr].splice(idx, 1); saveData(); renderTodos(); };
-
-    // THREAT LOGS & REFLECTIONS
-    function renderStoicEntries() {
-      const container = document.getElementById('stoicContainer');
-      container.innerHTML = '';
-      if (stoicEntries.length === 0) {
-        container.innerHTML = `<span style="font-size:0.85rem; color:var(--text-muted);">No reflections recorded. Log entries to cultivate clarity.</span>`;
-        return;
-      }
-      stoicEntries.forEach((entry, idx) => {
-        const card = document.createElement('div');
-        card.className = 'stoic-card';
-        card.innerHTML = `
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div style="cursor:pointer; flex:1;" onclick="openStoicReader(${idx})">
-              <span style="color:var(--text-main); font-weight:normal;">[REFLECTION] ${entry.title}</span>
-            </div>
-            <button class="btn-danger" onclick="deleteStoic(${idx})">X</button>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function openStoicReader(idx) {
-      const entry = stoicEntries[idx];
-      if (!entry) return;
-      document.getElementById('fsStoicTitle').textContent = entry.title;
-      document.getElementById('fsStoicDetails').textContent = entry.details || 'No detailed scenario recorded.';
-      document.getElementById('fullscreenStoicModal').style.display = 'flex';
-    }
-
-    document.getElementById('closeStoicReaderBtn').onclick = () => document.getElementById('fullscreenStoicModal').style.display = 'none';
-
-    document.getElementById('openStoicModal').onclick = () => document.getElementById('stoicModal').style.display = 'flex';
-    document.getElementById('closeStoicModal').onclick = () => document.getElementById('stoicModal').style.display = 'none';
-    document.getElementById('saveStoicBtn').onclick = () => {
-      const title = document.getElementById('stoicTitleInput').value.trim();
-      const details = document.getElementById('stoicDetailsInput').value.trim();
-      if (!title) return;
-      stoicEntries.unshift({ title, details });
-      document.getElementById('stoicTitleInput').value = '';
-      document.getElementById('stoicDetailsInput').value = '';
-      document.getElementById('stoicModal').style.display = 'none';
-      saveData();
-      renderStoicEntries();
-    };
-    window.deleteStoic = function(idx) { stoicEntries.splice(idx, 1); saveData(); renderStoicEntries(); };
-
-    // WEIGHT & METRIC CHARTS (GREEN EMERALD PALETTE)
-    let weightChartInstance = null;
-    function updateWeightChart() {
-      const labels = weights.map(w => w.date);
-      const data = weights.map(w => w.weight);
-      if (weightChartInstance) weightChartInstance.destroy();
-      const ctx = document.getElementById('weightChart').getContext('2d');
-      weightChartInstance = new Chart(ctx, {
-        type: 'line',
-        data: { labels, datasets: [{ label: 'Mass', data, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.15)', fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: '#10b981' }] },
-        options: { 
-          responsive: true, 
-          maintainAspectRatio: false, 
-          plugins: { legend: { display: false } }, 
-          scales: { 
-            x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } }, 
-            y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } } 
-          } 
-        }
-      });
-    }
-
-    document.getElementById('openWeightModal').onclick = () => document.getElementById('weightModal').style.display = 'flex';
-    document.getElementById('closeWeightModal').onclick = () => document.getElementById('weightModal').style.display = 'none';
-    document.getElementById('saveWeightBtn').onclick = () => {
-      const wVal = parseFloat(document.getElementById('weightValueInput').value);
-      if (isNaN(wVal)) return;
-      weights.push({ date: selectedDateStr, weight: wVal });
-      document.getElementById('weightValueInput').value = '';
-      document.getElementById('weightModal').style.display = 'none';
-      saveData();
-    };
-
-    // HABIT & PIE CHARTS
-    let chartInstance, taskPieChartInstance;
-    function updateHabitChart() {
-      const labels = [];
-      const dataPoints = [];
-      const today = new Date();
-
-      for (let i = 6; i >= 0; i--) {
-        const d = new Date();
-        d.setDate(today.getDate() - i);
-        const dateStr = formatDateStr(d);
-        labels.push(d.toLocaleString('default', { weekday: 'short' }));
-        dataPoints.push(habits.reduce((acc, h) => acc + (h.records[dateStr] ? 1 : 0), 0));
-      }
-
-      if (chartInstance) chartInstance.destroy();
-      const ctx = document.getElementById('progressChart').getContext('2d');
-      chartInstance = new Chart(ctx, {
-        type: 'line',
-        data: { labels, datasets: [{ label: 'Completed', data: dataPoints, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.20)', fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: '#10b981' }] },
-        options: { 
-          responsive: true, 
-          maintainAspectRatio: false, 
-          plugins: { legend: { display: false } }, 
-          scales: { 
-            x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } }, 
-            y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { stepSize: 1, color: '#94a3b8' } } 
-          } 
-        }
-      });
-    }
-
-    function updateTaskPieChart() {
-      const subjectCounts = {};
-      Object.keys(todos).forEach(dateKey => {
-        todos[dateKey].forEach(t => {
-          const subj = t.subject || 'General';
-          subjectCounts[subj] = (subjectCounts[subj] || 0) + 1;
-        });
-      });
-
-      const labels = Object.keys(subjectCounts);
-      const data = Object.values(subjectCounts);
-      if (labels.length === 0) { labels.push('General'); data.push(1); }
-
-      if (taskPieChartInstance) taskPieChartInstance.destroy();
-      const ctx = document.getElementById('taskPieChart').getContext('2d');
-      
-      taskPieChartInstance = new Chart(ctx, {
-        type: 'doughnut',
-        data: { 
-          labels, 
-          datasets: [{ 
-            data, 
-            backgroundColor: ['#10b981', '#34d399', '#059669', '#047857', '#065f46'], 
-            borderWidth: 1, 
-            borderColor: '#020604' 
-          }] 
-        },
-        options: { 
-          responsive: true, 
-          maintainAspectRatio: false, 
-          cutout: '55%', 
-          plugins: { 
-            legend: {
-              display: true,
-              position: 'right',
-              labels: {
-                color: '#94a3b8',
-                font: { size: 10 },
-                boxWidth: 8,
-                padding: 4
-              }
-            },
-            tooltip: { enabled: true }
-          },
-          layout: { padding: { top: 4, bottom: 4, left: 4, right: 4 } }
-        }
-      });
-    }
-
-    // DOSSIERS & JOURNALS
-    function renderBooksGrid() {
-      const container = document.getElementById('booksMainGrid');
-      container.innerHTML = '';
-
-      if (books.length === 0) {
-        container.innerHTML = `<span style="font-size:0.85rem; color:var(--text-muted);">No journals created yet. Click "+ Add Journal" to initiate.</span>`;
-        return;
-      }
-
-      books.forEach(bName => {
-        const chapterCount = notes.filter(n => n.book === bName).length;
-        const card = document.createElement('div');
-        card.className = 'book-card-item';
-        card.innerHTML = `
-          <div>
-            <div style="font-size:0.75rem; color:var(--text-muted);">JOURNAL</div>
-            <div class="book-card-title">${bName}</div>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; color:var(--text-muted);">
-            <span>${chapterCount} Entries</span>
-            <button class="btn-danger" onclick="event.stopPropagation(); deleteBook('${bName}')">X</button>
-          </div>
-        `;
-        card.onclick = () => openBookVault(bName);
-        container.appendChild(card);
-      });
-    }
-
-    document.getElementById('openNewBookModal').onclick = () => document.getElementById('newBookModal').style.display = 'flex';
-    document.getElementById('closeNewBookModal').onclick = () => document.getElementById('newBookModal').style.display = 'none';
-    document.getElementById('saveNewBookBtn').onclick = () => {
-      const title = document.getElementById('newBookTitleInput').value.trim();
-      if (!title) return;
-      if (!books.includes(title)) books.push(title);
-      document.getElementById('newBookTitleInput').value = '';
-      document.getElementById('newBookModal').style.display = 'none';
-      saveData();
-      renderBooksGrid();
-    };
-
-    window.deleteBook = function(bName) {
-      books = books.filter(b => b !== bName);
-      notes = notes.filter(n => n.book !== bName);
-      saveData();
-      renderBooksGrid();
-    };
-
-    const fullscreenBookModal = document.getElementById('fullscreenBookModal');
-    
-    function openBookVault(bName) {
-      activeBookName = bName;
-      document.getElementById('fsBookVaultTitle').textContent = bName;
-      renderBookChaptersList();
-      fullscreenBookModal.style.display = 'flex';
-    }
-
-    document.getElementById('closeBookVaultBtn').onclick = () => fullscreenBookModal.style.display = 'none';
-
-    function renderBookChaptersList() {
-      const container = document.getElementById('fsBookChaptersList');
-      container.innerHTML = '';
-
-      const bookChapters = notes.filter(n => n.book === activeBookName).sort((a, b) => parseInt(a.id) - parseInt(b.id));
-      
-      if (bookChapters.length === 0) {
-        container.innerHTML = `<span style="font-size:0.88rem; color:var(--text-muted); padding:10px 0;">This journal is empty. Click "+ Add Entry" to compile notes.</span>`;
-        return;
-      }
-
-      bookChapters.forEach(ch => {
-        const item = document.createElement('div');
-        item.className = 'chapter-card-item';
-        item.innerHTML = `
-          <div onclick="openChapterReader('${ch.id}')" style="cursor:pointer; flex:1;">
-            <b style="font-size:0.98rem; color:var(--text-main);">${ch.title}</b>
-            <div style="font-size:0.8rem; color:var(--text-muted);">${ch.date}</div>
-          </div>
-          <div>
-            <button class="btn-edit" onclick="editChapter('${ch.id}')">Edit</button>
-            <button class="btn-danger" onclick="deleteChapter('${ch.id}')">X</button>
-          </div>
-        `;
-        container.appendChild(item);
-      });
-    }
-
-    document.getElementById('fsAddChapterBtn').onclick = () => {
-      editingNoteId = null;
-      document.getElementById('noteModalHeader').textContent = `New Entry in ${activeBookName}`;
-      document.getElementById('chapterTitleInput').value = '';
-      document.getElementById('noteTextInput').innerHTML = '';
-      document.getElementById('noteModal').style.display = 'flex';
-    };
-
-    document.getElementById('closeNoteModal').onclick = () => document.getElementById('noteModal').style.display = 'none';
-
-    document.getElementById('saveNoteBtn').onclick = () => {
-      const title = document.getElementById('chapterTitleInput').value.trim();
-      const content = document.getElementById('noteTextInput').innerHTML.trim();
-      if (!title) return alert('Please enter entry title');
-
-      const todayStr = formatDateStr(new Date());
-
-      if (editingNoteId) {
-        const note = notes.find(n => n.id === editingNoteId);
-        if (note) {
-          note.title = title;
-          note.content = content;
-        }
-      } else {
-        notes.push({ 
-          id: Date.now().toString(), 
-          book: activeBookName, 
-          title, 
-          date: new Date().toLocaleDateString(), 
-          dateStr: todayStr,
-          content 
-        });
-      }
-
-      document.getElementById('noteModal').style.display = 'none';
-      saveData();
-      renderBookChaptersList();
-      renderBooksGrid();
-    };
-
-    window.editChapter = function(id) {
-      const note = notes.find(n => n.id === id);
-      if (!note) return;
-      editingNoteId = id;
-      document.getElementById('noteModalHeader').textContent = `Edit Entry — ${note.book}`;
-      document.getElementById('chapterTitleInput').value = note.title;
-      document.getElementById('noteTextInput').innerHTML = note.content;
-      document.getElementById('noteModal').style.display = 'flex';
-    };
-
-    window.deleteChapter = function(id) {
-      notes = notes.filter(n => n.id !== id);
-      saveData();
-      renderBookChaptersList();
-      renderBooksGrid();
-    };
-
-    function openChapterReader(id) {
-      const note = notes.find(n => n.id === id);
-      if (!note) return;
-      document.getElementById('fsReaderBookTitle').textContent = note.book;
-      document.getElementById('fsReaderChapterTitle').textContent = note.title;
-      document.getElementById('fsReaderChapterDate').textContent = note.date;
-      document.getElementById('fsReaderChapterBody').innerHTML = note.content;
-      document.getElementById('fullscreenChapterReaderModal').style.display = 'flex';
-    }
-
-    document.getElementById('closeChapterReaderBtn').onclick = () => document.getElementById('fullscreenChapterReaderModal').style.display = 'none';
-
-    // EVALUATIONS & PERFORMANCE
-    function renderTests() {
-      const container = document.getElementById('testsContainer');
-      container.innerHTML = '';
-      if (tests.length === 0) {
-        container.innerHTML = `<span style="font-size:0.85rem; color:var(--text-muted);">No evaluation metrics logged.</span>`;
-        return;
-      }
-      tests.forEach(test => {
-        const card = document.createElement('div');
-        card.className = 'test-card';
-        card.innerHTML = `<div><b>${test.subject}</b> — Score: ${test.scored}/${test.total} (${test.percentage}%)</div><button class="btn-danger" onclick="deleteTest('${test.id}')">X</button>`;
-        container.appendChild(card);
-      });
-    }
-
-    document.getElementById('openTestModal').onclick = () => document.getElementById('testModal').style.display = 'flex';
-    document.getElementById('closeTestModal').onclick = () => document.getElementById('testModal').style.display = 'none';
-    document.getElementById('saveTestBtn').onclick = () => {
-      const subject = document.getElementById('testSubjectInput').value.trim();
-      const scored = parseFloat(document.getElementById('testScoredInput').value);
-      const total = parseFloat(document.getElementById('testTotalInput').value);
-      if (!subject || isNaN(scored)) return;
-      tests.unshift({ id: Date.now().toString(), subject, scored, total, percentage: ((scored / total) * 100).toFixed(1) });
-      document.getElementById('testSubjectInput').value = '';
-      document.getElementById('testScoredInput').value = '';
-      document.getElementById('testTotalInput').value = '';
-      document.getElementById('testModal').style.display = 'none';
-      saveData();
-      renderTests();
-    };
-    window.deleteTest = function(id) { tests = tests.filter(t => t.id !== id); saveData(); renderTests(); };
-
-    // FOCUS TIMER ENGINE (FULLSCREEN OVERLAY)
-    let timerTimeLeft = 25 * 60;
-    let isTimerRunning = false;
-    let isFocusMode = true;
-    let timerInterval = null;
-
-    const focusMinutesInput = document.getElementById('focusMinutesInput');
-    const breakMinutesInput = document.getElementById('breakMinutesInput');
-
-    function updateTimerDisplay() {
-      const mins = Math.floor(timerTimeLeft / 60);
-      const secs = timerTimeLeft % 60;
-      document.getElementById('timerDisplay').textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-    }
-
-    function updateFocusSummary() {
-      const todayStr = formatDateStr(new Date());
-      const totalSecs = focusTimeData[todayStr] || 0;
-      document.getElementById('todayFocusTotal').textContent = `${Math.round(totalSecs / 60)} mins`;
-
-      const allHrs = Math.floor(totalAllTimeSecs / 3600);
-      const allMins = Math.floor((totalAllTimeSecs % 3600) / 60);
-      document.getElementById('allTimeFocusTotal').textContent = `${allHrs} hrs ${allMins} mins`;
-    }
-
-    focusMinutesInput.onchange = () => {
-      if (isFocusMode && !isTimerRunning) {
-        timerTimeLeft = (parseInt(focusMinutesInput.value) || 25) * 60;
-        updateTimerDisplay();
-      }
-    };
-
-    breakMinutesInput.onchange = () => {
-      if (!isFocusMode && !isTimerRunning) {
-        timerTimeLeft = (parseInt(breakMinutesInput.value) || 5) * 60;
-        updateTimerDisplay();
-      }
-    };
-
-    document.getElementById('openTimerBtn').onclick = () => {
-      document.getElementById('timerModal').style.display = 'flex';
-      updateFocusSummary();
-    };
-    document.getElementById('closeTimerBtn').onclick = () => document.getElementById('timerModal').style.display = 'none';
-
-    document.getElementById('startTimerBtn').onclick = () => {
-      if (isTimerRunning) return;
-      isTimerRunning = true;
-      document.getElementById('startTimerBtn').style.display = 'none';
-      document.getElementById('pauseTimerBtn').style.display = 'inline-block';
-
-      timerInterval = setInterval(() => {
-        if (timerTimeLeft > 0) {
-          timerTimeLeft--;
-          updateTimerDisplay();
-
-          if (isFocusMode) {
-            const todayStr = formatDateStr(new Date());
-            focusTimeData[todayStr] = (focusTimeData[todayStr] || 0) + 1;
-            totalAllTimeSecs++;
-            if (timerTimeLeft % 5 === 0) saveData();
-            updateFocusSummary();
-          }
-        } else {
-          clearInterval(timerInterval);
-          isTimerRunning = false;
-          isFocusMode = !isFocusMode;
-
-          document.getElementById('timerModeBadge').textContent = isFocusMode ? 'DEEP FOCUS SESSION' : 'REST PROTOCOL';
-          timerTimeLeft = ((isFocusMode ? parseInt(focusMinutesInput.value) : parseInt(breakMinutesInput.value)) || 5) * 60;
-          
-          saveData();
-          updateTimerDisplay();
-          document.getElementById('startTimerBtn').style.display = 'inline-block';
-          document.getElementById('pauseTimerBtn').style.display = 'none';
-        }
-      }, 1000);
-    };
-
-    document.getElementById('pauseTimerBtn').onclick = () => {
-      clearInterval(timerInterval);
-      isTimerRunning = false;
-      document.getElementById('startTimerBtn').style.display = 'inline-block';
-      document.getElementById('pauseTimerBtn').style.display = 'none';
-    };
-
-    document.getElementById('resetTimerBtn').onclick = () => {
-      clearInterval(timerInterval);
-      isTimerRunning = false;
-      timerTimeLeft = ((isFocusMode ? parseInt(focusMinutesInput.value) : parseInt(breakMinutesInput.value)) || 25) * 60;
-      updateTimerDisplay();
-      document.getElementById('startTimerBtn').style.display = 'inline-block';
-      document.getElementById('pauseTimerBtn').style.display = 'none';
-    };
-
-    document.getElementById('add5MinBtn').onclick = () => {
-      timerTimeLeft += 300;
-      updateTimerDisplay();
-    };
-
-    // BACKUP & RESTORE
-    document.getElementById('exportBtn').onclick = () => {
-      const data = { habits, books, notes, todos, weights, tests, stoicEntries, focusTimeData, dailyRatings, totalAllTimeSecs, deadlineConfig };
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `inquiniso_backup_${formatDateStr(new Date())}.json`;
-      a.click();
-    };
-
-    document.getElementById('importBtn').onclick = () => document.getElementById('importFileInput').click();
-    document.getElementById('importFileInput').onchange = (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        try {
-          const data = JSON.parse(event.target.result);
-          if (data.habits) habits = data.habits;
-          if (data.books) books = data.books;
-          if (data.notes) notes = data.notes;
-          if (data.todos) todos = data.todos;
-          if (data.weights) weights = data.weights;
-          if (data.tests) tests = data.tests;
-          if (data.stoicEntries) stoicEntries = data.stoicEntries;
-          if (data.focusTimeData) focusTimeData = data.focusTimeData;
-          if (data.dailyRatings) dailyRatings = data.dailyRatings;
-          if (data.totalAllTimeSecs) totalAllTimeSecs = data.totalAllTimeSecs;
-          if (data.deadlineConfig) deadlineConfig = data.deadlineConfig;
-          saveData();
-          location.reload();
-        } catch (err) { alert('Invalid backup file.'); }
-      };
-      reader.readAsText(file);
-    };
-
-    // INITIALIZATION
-    renderHabitTable();
-    renderDailyRatingSection();
-    renderMiniCalendar();
-    renderStoicEntries();
-    renderTests();
-    renderBooksGrid();
-    updateHabitChart();
-    updateWeightChart();
-    updateTaskPieChart();
-    updateTimerDisplay();
-  </script>
+  <div id="securityAuthScreen">
+    <div class="auth-container">
+      <div class="auth-title">PROJECT INQUINISO</div>
+      <input type="password" id="agentPinInput" class="pin-input" maxlength="4" autofocus placeholder="">
+      <button id="initialStartBtn" style="display:none;"></button>
+      <div class="auth-error" id="authErrorMsg">invalid</div>
+    </div>
+  </div>
+
+  <div id="introTextOverlay">
+    <div class="intro-text-container">
+      <div class="intro-line" id="line1">Recursion of self negation</div>
+      <div class="intro-line" id="line2">Rhythm of ordinary</div>
+      <div class="intro-line title-line" id="line3">Project Inquiniso</div>
+    </div>
+  </div>
+
+  <div class="app-container">
+    <div class="app-header-cover">
+      <div class="terminal-hdr">PROJECT INQUINISO</div>
+    </div>
+
+    <div class="top-hero-nav">
+      <div class="hero-countdown-box">
+        <div class="countdown-header-flex">
+          <span class="countdown-title" id="countdownTitle">Good Day</span>
+          <button class="btn-aero btn-sm" id="editDeadlineBtn">Set Good Day</button>
+        </div>
+        <div class="countdown-timer-text" id="neetCountdown">Calculating time...</div>
+      </div>
+
+      <div class="quick-nav-links">
+        <a href="#habitsSection" class="nav-link">HABITS</a>
+        <a href="#dailyRatingSection" class="nav-link">EVALUATION</a>
+        <a href="#todoSection" class="nav-link">TASKS</a>
+        <a href="#stoicSection" class="nav-link">REFLECTION</a>
+        <a href="#journalSection" class="nav-link">JOURNALS</a>
+        <button class="btn-aero btn-highlight" id="openTimerBtn">Focus Session</button>
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content: flex-end; gap:8px; margin-bottom: 16px;">
+      <button class="btn-aero" id="exportBtn">Export Backup</button>
+      <button class="btn-aero" id="importBtn">Import Backup</button>
+      <input type="file" id="importFileInput" style="display: none;" accept=".json">
+    </div>
+
+    <div id="habitsSection">
+      <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom:10px;">
+        <div class="month-picker" style="margin:0;">
+          <button class="btn-aero" id="prevMonth">&lt;</button>
+          <h2 id="currentMonthLabel">Month Year</h2>
+          <button class="btn-aero" id="nextMonth">&gt;</button>
+        </div>
+        <button class="btn-aero btn-highlight" id="openHabitModal">+ Add Daily Habit</button>
+      </div>
+
+      <div class="habit-table-wrapper">
+        <table id="habitsTable">
+          <thead>
+            <tr id="dayOfWeekRow"></tr>
+            <tr id="dayOfMonthRow"></tr>
+          </thead>
+          <tbody id="habitsBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="dailyRatingSection" class="card-section">
+      <div class="section-title">
+        <span>Daily Assessment & Log</span>
+        <span id="ratingDateLabel" style="font-size: 0.85rem; color: var(--text-muted);">Date</span>
+      </div>
+
+      <div class="rating-section-grid">
+        <div class="rating-scroll-container">
+          <div id="ratingInputContainer">
+            <label style="font-size:0.8rem; color: var(--text-muted);">Score Performance (1 - 10)</label>
+            <div class="rating-btn-group" id="ratingPillGroup">
+              <button class="rating-pill-btn" onclick="selectRatingScore(1)">1</button>
+              <button class="rating-pill-btn" onclick="selectRatingScore(2)">2</button>
+              <button class="rating-pill-btn" onclick="selectRatingScore(3)">3</button>
+              <button class="rating-pill-btn" onclick="selectRatingScore(4)">4</button>
+              <button class="rating-pill-btn" onclick="selectRatingScore(5)">5</button>
+              <button class="rating-pill-btn" onclick="selectRatingScore(6)">6</button>
+              <button class="rating-pill-btn" onclick="selectRatingScore(7)">7</button>
+              <button class="rating-pill-btn" onclick="selectRatingScore(8)">8</button>
+              <button class="rating-pill-btn" onclick="selectRatingScore(9)">9</button>
+              <button class="rating-pill-btn" onclick="selectRatingScore(10)">10</button>
+            </div>
+            
+            <textarea id="ratingStatementInput" placeholder="State your daily summary or key thoughts..."></textarea>
+            
+            <div style="display:flex; justify-content:flex-end; margin-top: auto;">
+              <button class="btn-aero btn-highlight btn-sm" id="saveRatingBtn" onclick="saveCurrentRating()">Log & Lock Entry</button>
+            </div>
+          </div>
+
+          <div id="ratingLockedDisplay" class="rating-display-lock" style="display:none;">
+            <div style="font-size:0.75rem; color:var(--text-muted); letter-spacing:1px;">RECORD LOCKED FOR THIS DATE:</div>
+            <div style="font-size:1.5rem; color:var(--accent-primary);" id="lockedScoreText">Score: -/10</div>
+            <div style="font-size:0.95rem; color:var(--text-main); line-height:1.6;" id="lockedStatementText">No statement.</div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; border-left: 1px solid var(--border-dark); padding-left: 16px; height: 100%;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <button class="btn-aero btn-sm" id="prevRatingMonth">&lt;</button>
+            <span style="font-size: 0.8rem; color:var(--text-muted);" id="ratingCalMonthName">Calendar</span>
+            <button class="btn-aero btn-sm" id="nextRatingMonth">&gt;</button>
+          </div>
+          <div id="ratingMiniCalendar"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sections-wrapper">
+      
+      <div class="card-section fixed-row-height" id="todoSection">
+        <div class="section-title">
+          <span>Daily Intentions & Tasks</span>
+          <button class="btn-aero" id="openTodoModal">+ Intention</button>
+        </div>
+        
+        <div class="todo-calendar-grid">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <button class="btn-aero btn-sm" id="prevCalMonth">&lt;</button>
+              <span style="font-size: 0.85rem; color:var(--text-muted);" id="calMonthName">Calendar</span>
+              <button class="btn-aero btn-sm" id="nextCalMonth">&gt;</button>
+            </div>
+            <div class="mini-calendar" id="miniCalendar"></div>
+          </div>
+          <div>
+            <div style="font-size: 0.85rem; margin-bottom: 6px; color:var(--text-muted);" id="selectedDateTitle">Select a date</div>
+            <div class="todo-list-box" id="todoListContainer"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-section fixed-row-height">
+        <div class="section-title">
+          <span>Consistency Index</span>
+        </div>
+        <div class="chart-container-exact">
+          <canvas id="progressChart"></canvas>
+        </div>
+      </div>
+
+      <div class="bottom-split-row">
+        <div class="card-section" style="height: 280px;">
+          <div class="section-title">
+            <span>Body & Energy Tracker</span>
+            <button class="btn-aero" id="openWeightModal">+ Log Weight</button>
+          </div>
+          <div class="chart-container-exact">
+            <canvas id="weightChart"></canvas>
+          </div>
+        </div>
+
+        <div class="card-section" style="height: 280px; text-align: center;">
+          <div class="section-title" style="width: 100%;">
+            <span>Focus Area Distribution</span>
+          </div>
+          <div class="pie-chart-wrapper">
+            <div class="pie-chart-box">
+              <canvas id="taskPieChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-section" id="stoicSection">
+        <img src="https://images.unsplash.com/photo-1468657988500-aca2be09f4c6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="section-banner-img" alt="Threat Log Banner">
+        <div class="section-title">
+          <span>Threat Log & Reflection Notes</span>
+          <button class="btn-aero" id="openStoicModal">+ Log Reflection</button>
+        </div>
+        <div class="scrollable-list" id="stoicContainer"></div>
+      </div>
+
+      <div class="card-section" id="testSection">
+        <img src="https://images.unsplash.com/photo-1569470451072-68314f596aec?q=80&w=1631&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="section-banner-img" alt="Benchmark Banner">
+        <div class="section-title">
+          <span>Growth & Benchmark Records</span>
+          <button class="btn-aero" id="openTestModal">+ Add Evaluation</button>
+        </div>
+        <div class="scrollable-list" id="testsContainer"></div>
+      </div>
+
+      <div class="card-section" style="grid-column: span 2;" id="journalSection">
+        <img src="https://images.unsplash.com/photo-1545091741-2231068f3478?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="section-banner-img" style="height:105px;" alt="Journals Banner">
+        <div class="section-title">
+          <span>Wisdom Journals & Dossiers</span>
+          <button class="btn-aero" id="openNewBookModal">+ Add Journal</button>
+        </div>
+
+        <div class="books-main-grid" id="booksMainGrid"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="fullscreen-overlay-modal" id="timerModal">
+    <button class="close-overlay-btn" id="closeTimerBtn">X</button>
+    <div class="timer-fullscreen-content">
+      <div class="timer-mode-badge" id="timerModeBadge">DEEP FOCUS SESSION</div>
+      <div class="timer-display" id="timerDisplay">90:00</div>
+      
+      <div style="display: flex; gap: 16px; margin-top: 16px;">
+        <button class="btn-aero btn-highlight" id="startTimerBtn" style="padding: 12px 28px; font-size: 1rem;">Initiate</button>
+        <button class="btn-aero" id="pauseTimerBtn" style="display:none; padding: 12px 28px; font-size: 1rem;">Hold</button>
+        <button class="btn-aero" id="resetTimerBtn" style="padding: 12px 28px; font-size: 1rem;">Reset</button>
+        <button class="btn-aero" id="add5MinBtn" style="padding: 12px 28px; font-size: 1rem;">+5m</button>
+      </div>
+
+      <div style="display: flex; gap: 24px; margin-top: 36px; width: 100%; max-width: 500px;">
+        <div style="flex:1; display:flex; flex-direction:column; gap:6px; text-align:left;">
+          <label style="font-size:0.85rem; color:var(--text-muted);">Focus Minutes</label>
+          <input type="number" id="focusMinutesInput" value="25" min="1" max="180">
+        </div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:6px; text-align:left;">
+          <label style="font-size:0.85rem; color:var(--text-muted);">Recovery Minutes</label>
+          <input type="number" id="breakMinutesInput" value="5" min="1" max="60">
+        </div>
+      </div>
+
+      <div style="margin-top: 32px; font-size:1rem; color:var(--text-muted); display:flex; gap:20px;">
+        <div>Today: <b id="todayFocusTotal" style="color: var(--accent-primary);">0 mins</b></div>
+        <div>|</div>
+        <div>All-Time Operational: <b id="allTimeFocusTotal" style="color: var(--accent-primary);">0 hrs 0 mins</b></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fullscreen-overlay-modal" id="fullscreenBookModal">
+    <button class="close-overlay-btn" id="closeBookVaultBtn">X</button>
+    <div class="fullscreen-reader-box">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-dark); padding-bottom:14px; margin-bottom:20px;">
+        <div>
+          <span style="font-size:0.75rem; color:var(--text-muted); letter-spacing:2px;">WISDOM VAULT</span>
+          <h1 id="fsBookVaultTitle" style="font-size:1.8rem; color:var(--text-main);">Journal Title</h1>
+        </div>
+        <button class="btn-aero btn-highlight" id="fsAddChapterBtn">+ Add Entry</button>
+      </div>
+      
+      <div id="fsBookChaptersList" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:10px;"></div>
+    </div>
+  </div>
+
+  <div class="fullscreen-overlay-modal" id="fullscreenChapterReaderModal">
+    <button class="close-overlay-btn" id="closeChapterReaderBtn">X</button>
+    <div class="fullscreen-reader-box">
+      <div style="font-size:0.85rem; color:var(--accent-primary); letter-spacing:1px; margin-bottom:4px;" id="fsReaderBookTitle">JOURNAL TITLE</div>
+      <h1 id="fsReaderChapterTitle" style="font-size:2rem; color:var(--text-main); margin-bottom:6px;">Entry Title</h1>
+      <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:20px; border-bottom:1px solid var(--border-dark); padding-bottom:10px;" id="fsReaderChapterDate">Logged Date</div>
+      
+      <div id="fsReaderChapterBody" style="font-size:1.05rem; line-height:1.85; color:var(--text-main); overflow-y:auto; flex:1; padding-right:10px;"></div>
+    </div>
+  </div>
+
+  <div class="fullscreen-overlay-modal" id="fullscreenStoicModal">
+    <button class="close-overlay-btn" id="closeStoicReaderBtn">X</button>
+    <div class="fullscreen-reader-box" style="max-width: 1000px; height: auto; min-height: 520px;">
+      <div style="font-size:0.85rem; color:var(--text-muted); letter-spacing:1px; margin-bottom:8px;">REFLECTION DOSSIER</div>
+      <h2 id="fsStoicTitle" style="font-size:1.8rem; color:var(--text-main); margin-bottom:16px;">Topic Scenario</h2>
+      <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px; letter-spacing: 1px;">MITIGATION DECODER:</div>
+      <div id="fsStoicDetails"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="stoicModal">
+    <div class="modal-content">
+      <h3>Log Reflection & Scenario</h3>
+      <input type="text" id="stoicTitleInput" placeholder="Reflection Title (e.g. Maintaining Calm Under Stress)">
+      <textarea id="stoicDetailsInput" rows="12" style="background: rgba(4, 10, 7, 0.95); color: var(--text-main); border: 1px solid var(--border-dark); padding: 12px; font-size: 0.95rem; width: 100%; outline: none;" placeholder="Detail the challenge and pre-planned positive responses..."></textarea>
+      <div style="display: flex; gap: 8px; justify-content: flex-end;">
+        <button class="btn-aero" id="closeStoicModal">Cancel</button>
+        <button class="btn-aero" id="saveStoicBtn">Save Reflection</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="newBookModal">
+    <div class="modal-content">
+      <h3>Create New Journal</h3>
+      <input type="text" id="newBookTitleInput" placeholder="Journal Title (e.g. Growth & Biology Notes)">
+      <div style="display: flex; gap: 8px; justify-content: flex-end;">
+        <button class="btn-aero" id="closeNewBookModal">Cancel</button>
+        <button class="btn-aero" id="saveNewBookBtn">Create Journal</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="deadlineModal">
+    <div class="modal-content">
+      <h3>Configure Target Horizon</h3>
+      <input type="text" id="deadlineTitleInput" placeholder="Target Identifier (e.g. Major Milestone)">
+      <input type="datetime-local" id="deadlineDateInput">
+      <div style="display: flex; gap: 8px; justify-content: flex-end;">
+        <button class="btn-aero" id="closeDeadlineModal">Cancel</button>
+        <button class="btn-aero" id="saveDeadlineBtn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="habitModal">
+    <div class="modal-content">
+      <h3>New Daily Habit</h3>
+      <input type="text" id="habitNameInput" placeholder="Habit Title (e.g. 0600 Morning Reflection)">
+      <input type="number" id="habitGoalInput" placeholder="Days Goal (e.g. 365)" value="365">
+      <select id="habitColorInput">
+        <option value="crimson">Emerald Green</option>
+        <option value="amber">Warm Amber</option>
+        <option value="emerald">Forest Emerald</option>
+        <option value="slate">Tactical Slate</option>
+        <option value="indigo">Midnight Indigo</option>
+      </select>
+      <div style="display: flex; gap: 8px; justify-content: flex-end;">
+        <button class="btn-aero" id="closeHabitModal">Cancel</button>
+        <button class="btn-aero" id="saveHabitBtn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="todoModal">
+    <div class="modal-content">
+      <h3>Add Daily Task</h3>
+      <input type="text" id="todoTextInput" placeholder="Task details...">
+      <input type="text" id="todoSubjectInput" placeholder="Tag (e.g. Health, Learning, Physics)">
+      <div style="display: flex; gap: 8px; justify-content: flex-end;">
+        <button class="btn-aero" id="closeTodoModal">Cancel</button>
+        <button class="btn-aero" id="saveTodoBtn">Deploy Task</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="weightModal">
+    <div class="modal-content">
+      <h3>Log Body Weight</h3>
+      <input type="number" step="0.1" id="weightValueInput" placeholder="Mass (kg / lbs)">
+      <div style="display: flex; gap: 8px; justify-content: flex-end;">
+        <button class="btn-aero" id="closeWeightModal">Cancel</button>
+        <button class="btn-aero" id="saveWeightBtn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="testModal">
+    <div class="modal-content">
+      <h3>Record Evaluation Performance</h3>
+      <input type="text" id="testSubjectInput" placeholder="Evaluation Name">
+      <input type="number" id="testScoredInput" placeholder="Score Achieved">
+      <input type="number" id="testTotalInput" placeholder="Total Score Possible">
+      <div style="display: flex; gap: 8px; justify-content: flex-end;">
+        <button class="btn-aero" id="closeTestModal">Cancel</button>
+        <button class="btn-aero" id="saveTestBtn">Save Record</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="noteModal">
+    <div class="modal-content" style="width: 800px; max-width: 90vw;">
+      <h3 id="noteModalHeader">New Entry Log</h3>
+      <input type="text" id="chapterTitleInput" placeholder="Entry Title (e.g. Chapter 1: Core Principles)">
+      
+      <div class="editor-toolbar">
+        <button class="btn-aero btn-sm" onclick="execCmd('bold')"><b>B</b></button>
+        <button class="btn-aero btn-sm" onclick="execCmd('italic')"><i>I</i></button>
+        <button class="btn-aero btn-sm" onclick="execCmd('underline')"><u>U</u></button>
+        <button class="btn-aero btn-sm" onclick="execCmd('formatBlock', '<h1>')">H1</button>
+        <button class="btn-aero btn-sm" onclick="execCmd('formatBlock', '<h2>')">H2</button>
+        <button class="btn-aero btn-sm" onclick="execCmd('insertUnorderedList')">• List</button>
+      </div>
+      
+      <div class="editor-box-frameless" id="noteTextInput" contenteditable="true" placeholder="Enter journal thoughts or notes here..."></div>
+      
+      <div style="display: flex; gap: 8px; justify-content: flex-end;">
+        <button class="btn-aero" id="closeNoteModal">Cancel</button>
+        <button class="btn-aero" id="saveNoteBtn">Save Entry</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function execCmd(command, value = null) {
+      document.execCommand(command, false, value);
+    }
+
+    // PIN AUTHENTICATION & INTRO TRANSITION ENGINE
+    let introTimeouts = [];
+
+    function skipIntro() {
+      introTimeouts.forEach(clearTimeout);
+      const textOverlay = document.getElementById('introTextOverlay');
+      textOverlay.style.transition = 'opacity 0.8s ease';
+      textOverlay.style.opacity = '0';
+      setTimeout(() => textOverlay.style.display = 'none', 800);
+    }
+
+    document.getElementById('introTextOverlay').onclick = skipIntro;
+
+    function authenticateAgent() {
+      const pinVal = document.getElementById('agentPinInput').value.trim();
+      const errorMsg = document.getElementById('authErrorMsg');
+
+      if (pinVal === '2027') {
+        errorMsg.style.display = 'none';
+
+        document.getElementById('securityAuthScreen').style.display = 'none';
+        const textOverlay = document.getElementById('introTextOverlay');
+        textOverlay.style.display = 'flex';
+
+        const lines = [
+          document.getElementById('line1'),
+          document.getElementById('line2'),
+          document.getElementById('line3')
+        ];
+
+        let delay = 300;
+        lines.forEach((line, index) => {
+          let t1 = setTimeout(() => {
+            if (index > 0) lines[index - 1].classList.remove('active');
+            line.classList.add('active');
+          }, delay);
+          introTimeouts.push(t1);
+          delay += 2200;
+        });
+
+        let tFinish = setTimeout(() => {
+          textOverlay.style.transition = 'opacity 1.5s ease';
+          textOverlay.style.opacity = '0';
+          setTimeout(() => textOverlay.style.display = 'none', 1500);
+        }, delay + 1000);
+        introTimeouts.push(tFinish);
+      } else {
+        errorMsg.style.display = 'block';
+        document.getElementById('agentPinInput').value = '';
+      }
+    }
+
+    document.getElementById('agentPinInput').addEventListener('input', (e) => {
+      const val = e.target.value.trim();
+      if (val.length === 4) {
+        if (val === '2027') {
+          authenticateAgent();
+        } else {
+          document.getElementById('authErrorMsg').style.display = 'block';
+          e.target.value = '';
+        }
+      }
+    });
+
+    document.getElementById('initialStartBtn').onclick = authenticateAgent;
+
+    // STORAGE MANAGEMENT & RETENTION
+    let deadlineConfig = JSON.parse(localStorage.getItem('dh_deadline_cfg')) || {
+      title: 'Target Horizon',
+      target: '2027-05-01T00:00:00'
+    };
+
+    let habits = JSON.parse(localStorage.getItem('dh_habits')) || [
+      { id: '1', name: '0600 Morning Routine', goal: 365, color: 'crimson', records: {} },
+      { id: '2', name: 'Deep Focus Session', goal: 365, color: 'crimson', records: {} },
+      { id: '3', name: 'Physical Activity', goal: 365, color: 'crimson', records: {} }
+    ];
+
+    let stoicEntries = JSON.parse(localStorage.getItem('dh_stoic')) || [];
+    let books = JSON.parse(localStorage.getItem('dh_books_list')) || ['Journal Alpha: Core Learning', 'Journal Beta: Daily Thoughts'];
+    let notes = JSON.parse(localStorage.getItem('dh_notes')) || [];
+    let todos = JSON.parse(localStorage.getItem('dh_todos')) || {};
+    let weights = JSON.parse(localStorage.getItem('dh_weights')) || [];
+    let tests = JSON.parse(localStorage.getItem('dh_tests')) || [];
+    let focusTimeData = JSON.parse(localStorage.getItem('dh_focus_time')) || {};
+    let dailyRatings = JSON.parse(localStorage.getItem('dh_daily_ratings')) || {};
+    let totalAllTimeSecs = parseInt(localStorage.getItem('dh_alltime_secs')) || 0;
+
+    let activeBookName = null;
+    let editingNoteId = null;
+    let selectedRatingScore = null;
+
+    let currentDate = new Date();
+    let calCurrentDate = new Date();
+    let ratingCalCurrentDate = new Date();
+
+    function formatDateStr(dateObj) {
+      const y = dateObj.getFullYear();
+      const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+      const d = String(dateObj.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
+
+    let selectedDateStr = formatDateStr(currentDate);
+
+    function saveData() {
+      localStorage.setItem('dh_habits', JSON.stringify(habits));
+      localStorage.setItem('dh_books_list', JSON.stringify(books));
+      localStorage.setItem('dh_notes', JSON.stringify(notes));
+      localStorage.setItem('dh_todos', JSON.stringify(todos));
+      localStorage.setItem('dh_weights', JSON.stringify(weights));
+      localStorage.setItem('dh_tests', JSON.stringify(tests));
+      localStorage.setItem('dh_stoic', JSON.stringify(stoicEntries));
+      localStorage.setItem('dh_focus_time', JSON.stringify(focusTimeData));
+      localStorage.setItem('dh_daily_ratings', JSON.stringify(dailyRatings));
+      localStorage.setItem('dh_alltime_secs', totalAllTimeSecs.toString());
+      updateHabitChart();
+      updateWeightChart();
+      updateTaskPieChart();
+    }
+
+    function bindEnterKey(inputId, submitBtnId) {
+      const inputEl = document.getElementById(inputId);
+      if (inputEl) {
+        inputEl.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            document.getElementById(submitBtnId).click();
+          }
+        });
+      }
+    }
+
+    bindEnterKey('habitNameInput', 'saveHabitBtn');
+    bindEnterKey('habitGoalInput', 'saveHabitBtn');
+    bindEnterKey('todoTextInput', 'saveTodoBtn');
+    bindEnterKey('todoSubjectInput', 'saveTodoBtn');
+    bindEnterKey('weightValueInput', 'saveWeightBtn');
+    bindEnterKey('testSubjectInput', 'saveTestBtn');
+    bindEnterKey('testScoredInput', 'saveTestBtn');
+    bindEnterKey('testTotalInput', 'saveTestBtn');
+    bindEnterKey('stoicTitleInput', 'saveStoicBtn');
+    bindEnterKey('newBookTitleInput', 'saveNewBookBtn');
+    bindEnterKey('chapterTitleInput', 'saveNoteBtn');
+    bindEnterKey('deadlineTitleInput', 'saveDeadlineBtn');
+
+    // COUNTDOWN TIMER LOGIC
+    function updateCountdown() {
+      const now = new Date();
+      const targetDate = new Date(deadlineConfig.target);
+      document.getElementById('countdownTitle').textContent = deadlineConfig.title;
+      
+      if (isNaN(targetDate.getTime()) || targetDate <= now) {
+        document.getElementById('neetCountdown').textContent = "TARGET REACHED";
+        return;
+      }
+
+      let years = targetDate.getFullYear() - now.getFullYear();
+      let months = targetDate.getMonth() - now.getMonth() + (years * 12);
+      
+      let tempDate = new Date(now);
+      tempDate.setMonth(tempDate.getMonth() + months);
+      if (tempDate > targetDate) {
+        months--;
+        tempDate = new Date(now);
+        tempDate.setMonth(tempDate.getMonth() + months);
+      }
+
+      const diffMs = targetDate - tempDate;
+      const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+      document.getElementById('neetCountdown').textContent = `${months}m ${days}d ${hours}h ${minutes}m remaining`;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // DEADLINE / TARGET MODAL HANDLERS
+    const deadlineModal = document.getElementById('deadlineModal');
+    document.getElementById('editDeadlineBtn').onclick = () => {
+      document.getElementById('deadlineTitleInput').value = deadlineConfig.title || 'Target Horizon';
+      document.getElementById('deadlineDateInput').value = deadlineConfig.target || '';
+      deadlineModal.style.display = 'flex';
+    };
+
+    document.getElementById('closeDeadlineModal').onclick = () => {
+      deadlineModal.style.display = 'none';
+    };
+
+    document.getElementById('saveDeadlineBtn').onclick = () => {
+      const title = document.getElementById('deadlineTitleInput').value.trim();
+      const target = document.getElementById('deadlineDateInput').value;
+      if (!target) return alert('Please enter a valid target date and time.');
+
+      deadlineConfig = { title: title || 'Target Horizon', target };
+      localStorage.setItem('dh_deadline_cfg', JSON.stringify(deadlineConfig));
+      deadlineModal.style.display = 'none';
+      updateCountdown();
+    };
+
+    // HABIT MATRIX TABLE
+    function renderHabitTable() {
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth();
+      const totalDays = new Date(year, month + 1, 0).getDate();
+      const today = new Date();
+
+      document.getElementById('currentMonthLabel').textContent = `${currentDate.toLocaleString('default', { month: 'long' })} ${year}`;
+
+      const dayOfWeekRow = document.getElementById('dayOfWeekRow');
+      const dayOfMonthRow = document.getElementById('dayOfMonthRow');
+      const habitsBody = document.getElementById('habitsBody');
+
+      dayOfWeekRow.innerHTML = '<th class="habit-col">Habit / Discipline</th>';
+      dayOfMonthRow.innerHTML = '<th class="habit-col"></th>';
+      habitsBody.innerHTML = '';
+
+      const dayLetters = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+      for (let day = 1; day <= totalDays; day++) {
+        const dateObj = new Date(year, month, day);
+        const dayLetter = dayLetters[dateObj.getDay()];
+        const isToday = (day === today.getDate() && month === today.getMonth() && year === today.getFullYear());
+        const todayClass = isToday ? 'today' : '';
+
+        dayOfWeekRow.innerHTML += `<th class="${todayClass}">${dayLetter}</th>`;
+        dayOfMonthRow.innerHTML += `<th class="${todayClass}">${day}</th>`;
+      }
+
+      dayOfWeekRow.innerHTML += '<th>Goal</th><th>Done</th>';
+      dayOfMonthRow.innerHTML += '<th></th><th></th>';
+
+      habits.forEach(habit => {
+        const row = document.createElement('tr');
+        let totalAchieved = Object.keys(habit.records).filter(k => habit.records[k]).length;
+
+        let cellsHTML = `<td class="habit-col">${habit.name} <button class="btn-danger" onclick="deleteHabit('${habit.id}')">X</button></td>`;
+
+        for (let day = 1; day <= totalDays; day++) {
+          const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+          const isToday = (day === today.getDate() && month === today.getMonth() && year === today.getFullYear());
+          const isChecked = habit.records[dateStr];
+          const colorClass = isChecked ? `checked-${habit.color || 'crimson'}` : '';
+          const todayClass = isToday ? 'today' : '';
+
+          cellsHTML += `<td class="checkbox-cell ${colorClass} ${todayClass}" data-habit="${habit.id}" data-date="${dateStr}">
+            ${isChecked ? '✓' : ''}
+          </td>`;
+        }
+
+        cellsHTML += `<td>${habit.goal || 365}</td><td style="font-weight:bold; color:var(--accent-primary);">${totalAchieved}</td>`;
+        row.innerHTML = cellsHTML;
+        habitsBody.appendChild(row);
+      });
+    }
+
+    document.getElementById('prevMonth').onclick = () => { currentDate.setMonth(currentDate.getMonth() - 1); renderHabitTable(); };
+    document.getElementById('nextMonth').onclick = () => { currentDate.setMonth(currentDate.getMonth() + 1); renderHabitTable(); };
+
+    document.getElementById('habitsTable').addEventListener('click', (e) => {
+      const cell = e.target.closest('.checkbox-cell');
+      if (!cell) return;
+      const habit = habits.find(h => h.id === cell.dataset.habit);
+      if (habit) {
+        habit.records[cell.dataset.date] = !habit.records[cell.dataset.date];
+        saveData();
+        renderHabitTable();
+      }
+    });
+
+    window.deleteHabit = function(id) {
+      habits = habits.filter(h => h.id !== id);
+      saveData();
+      renderHabitTable();
+    };
+
+    document.getElementById('openHabitModal').onclick = () => document.getElementById('habitModal').style.display = 'flex';
+    document.getElementById('closeHabitModal').onclick = () => document.getElementById('habitModal').style.display = 'none';
+    
+    document.getElementById('saveHabitBtn').onclick = () => {
+      const name = document.getElementById('habitNameInput').value.trim();
+      const goalVal = parseInt(document.getElementById('habitGoalInput').value) || 365;
+      if (!name) return;
+      habits.push({ 
+        id: Date.now().toString(), 
+        name, 
+        goal: goalVal, 
+        color: document.getElementById('habitColorInput').value, 
+        records: {} 
+      });
+      document.getElementById('habitNameInput').value = '';
+      document.getElementById('habitGoalInput').value = '365';
+      document.getElementById('habitModal').style.display = 'none';
+      saveData();
+      renderHabitTable();
+    };
+
+    // DAILY RATING & DEBRIEF LOGIC
+    function selectRatingScore(val) {
+      selectedRatingScore = val;
+      const pills = document.querySelectorAll('.rating-pill-btn');
+      pills.forEach((p, idx) => {
+        if (idx + 1 === val) {
+          p.classList.add('selected');
+        } else {
+          p.classList.remove('selected');
+        }
+      });
+    }
+
+    function renderDailyRatingSection() {
+      document.getElementById('ratingDateLabel').textContent = selectedDateStr;
+      const existing = dailyRatings[selectedDateStr];
+
+      const inputContainer = document.getElementById('ratingInputContainer');
+      const lockedDisplay = document.getElementById('ratingLockedDisplay');
+
+      if (existing) {
+        inputContainer.style.display = 'none';
+        lockedDisplay.style.display = 'flex';
+        document.getElementById('lockedScoreText').textContent = `Score: ${existing.score} / 10`;
+        document.getElementById('lockedStatementText').textContent = existing.statement || 'No statement provided.';
+      } else {
+        inputContainer.style.display = 'flex';
+        lockedDisplay.style.display = 'none';
+        selectedRatingScore = null;
+        document.querySelectorAll('.rating-pill-btn').forEach(p => p.classList.remove('selected'));
+        document.getElementById('ratingStatementInput').value = '';
+      }
+
+      renderRatingMiniCalendar();
+    }
+
+    function saveCurrentRating() {
+      if (!selectedRatingScore) {
+        alert('Please select a score rating from 1 to 10.');
+        return;
+      }
+      const statement = document.getElementById('ratingStatementInput').value.trim();
+      dailyRatings[selectedDateStr] = {
+        score: selectedRatingScore,
+        statement: statement,
+        timestamp: new Date().toISOString()
+      };
+      saveData();
+      renderDailyRatingSection();
+    }
+
+    function renderRatingMiniCalendar() {
+      const year = ratingCalCurrentDate.getFullYear();
+      const month = ratingCalCurrentDate.getMonth();
+      const firstDayIndex = new Date(year, month, 1).getDay();
+      const totalDays = new Date(year, month + 1, 0).getDate();
+      const calContainer = document.getElementById('ratingMiniCalendar');
+      const todayStr = formatDateStr(new Date());
+
+      document.getElementById('ratingCalMonthName').textContent = ratingCalCurrentDate.toLocaleString('default', { month: 'short', year: 'numeric' });
+      calContainer.innerHTML = '';
+
+      const dayHeaders = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+      dayHeaders.forEach(dh => {
+        const headerEl = document.createElement('div');
+        headerEl.className = 'cal-day-header';
+        headerEl.textContent = dh;
+        calContainer.appendChild(headerEl);
+      });
+
+      for (let x = 0; x < firstDayIndex; x++) {
+        const emptyEl = document.createElement('div');
+        emptyEl.style.visibility = 'hidden';
+        calContainer.appendChild(emptyEl);
+      }
+
+      for (let day = 1; day <= totalDays; day++) {
+        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const dayEl = document.createElement('div');
+        
+        let classes = 'cal-day';
+        if (dateStr === selectedDateStr) classes += ' active-day';
+        if (dateStr === todayStr) classes += ' is-today-marker';
+        if (dailyRatings[dateStr]) classes += ' checked-crimson';
+        
+        dayEl.className = classes;
+        dayEl.textContent = day;
+        dayEl.onclick = () => { 
+          selectedDateStr = dateStr; 
+          renderRatingMiniCalendar(); 
+          renderMiniCalendar(); 
+          renderDailyRatingSection(); 
+        };
+        calContainer.appendChild(dayEl);
+      }
+
+      // Fill remaining slots up to 42 cells total (6 full rows) so calendar dimensions never jump between months
+      const totalRendered = firstDayIndex + totalDays;
+      const remaining = 42 - totalRendered;
+      for (let i = 0; i < remaining; i++) {
+        const emptyEl = document.createElement('div');
+        emptyEl.style.visibility = 'hidden';
+        calContainer.appendChild(emptyEl);
+      }
+    }
+
+    document.getElementById('prevRatingMonth').onclick = () => { ratingCalCurrentDate.setMonth(ratingCalCurrentDate.getMonth() - 1); renderRatingMiniCalendar(); };
+    document.getElementById('nextRatingMonth').onclick = () => { ratingCalCurrentDate.setMonth(ratingCalCurrentDate.getMonth() + 1); renderRatingMiniCalendar(); };
+
+    // CALENDAR & DIRECTIVES
+    function renderMiniCalendar() {
+      const year = calCurrentDate.getFullYear();
+      const month = calCurrentDate.getMonth();
+      const firstDayIndex = new Date(year, month, 1).getDay();
+      const totalDays = new Date(year, month + 1, 0).getDate();
+      const calContainer = document.getElementById('miniCalendar');
+      const todayStr = formatDateStr(new Date());
+
+      document.getElementById('calMonthName').textContent = calCurrentDate.toLocaleString('default', { month: 'short', year: 'numeric' });
+      calContainer.innerHTML = '';
+
+      const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      dayHeaders.forEach(dh => {
+        const headerEl = document.createElement('div');
+        headerEl.className = 'cal-day-header';
+        headerEl.textContent = dh;
+        calContainer.appendChild(headerEl);
+      });
+
+      for (let x = 0; x < firstDayIndex; x++) {
+        const emptyEl = document.createElement('div');
+        emptyEl.style.visibility = 'hidden';
+        calContainer.appendChild(emptyEl);
+      }
+
+      for (let day = 1; day <= totalDays; day++) {
+        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const dayEl = document.createElement('div');
+        
+        let classes = 'cal-day';
+        if (dateStr === selectedDateStr) classes += ' active-day';
+        if (dateStr === todayStr) classes += ' is-today-marker';
+        
+        dayEl.className = classes;
+        dayEl.textContent = day;
+        dayEl.onclick = () => { 
+          selectedDateStr = dateStr; 
+          renderMiniCalendar(); 
+          renderRatingMiniCalendar(); 
+          renderDailyRatingSection(); 
+          renderTodos(); 
+        };
+        calContainer.appendChild(dayEl);
+      }
+
+      // Fill remaining slots up to 42 cells total (6 full rows)
+      const totalRendered = firstDayIndex + totalDays;
+      const remaining = 42 - totalRendered;
+      for (let i = 0; i < remaining; i++) {
+        const emptyEl = document.createElement('div');
+        emptyEl.style.visibility = 'hidden';
+        calContainer.appendChild(emptyEl);
+      }
+
+      renderTodos();
+    }
+
+    document.getElementById('prevCalMonth').onclick = () => { calCurrentDate.setMonth(calCurrentDate.getMonth() - 1); renderMiniCalendar(); };
+    document.getElementById('nextCalMonth').onclick = () => { calCurrentDate.setMonth(calCurrentDate.getMonth() + 1); renderMiniCalendar(); };
+
+    function renderTodos() {
+      const parts = selectedDateStr.split('-');
+      let dayNameStr = '';
+      if (parts.length === 3) {
+        const dObj = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+        dayNameStr = dObj.toLocaleString('default', { weekday: 'long' });
+      }
+
+      document.getElementById('selectedDateTitle').textContent = `Tasks for ${dayNameStr}, ${selectedDateStr}`;
+      const container = document.getElementById('todoListContainer');
+      container.innerHTML = '';
+
+      const dayTodos = todos[selectedDateStr] || [];
+      if (dayTodos.length === 0) {
+        container.innerHTML = `<span style="font-size:0.85rem; color: var(--text-muted);">No tasks logged for this date.</span>`;
+        return;
+      }
+
+      dayTodos.forEach((todo, idx) => {
+        const item = document.createElement('div');
+        item.className = 'todo-item';
+        item.innerHTML = `
+          <input type="checkbox" ${todo.done ? 'checked' : ''} onchange="toggleTodo(${idx})">
+          <span style="${todo.done ? 'text-decoration: line-through; opacity: 0.5;' : ''}">${todo.text}</span>
+          ${todo.subject ? `<span class="subject-badge">${todo.subject}</span>` : ''}
+          <button class="btn-danger" style="margin-left:auto;" onclick="deleteTodo(${idx})">X</button>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    const todoModal = document.getElementById('todoModal');
+    document.getElementById('openTodoModal').onclick = () => todoModal.style.display = 'flex';
+    document.getElementById('closeTodoModal').onclick = () => todoModal.style.display = 'none';
+    document.getElementById('saveTodoBtn').onclick = () => {
+      const text = document.getElementById('todoTextInput').value.trim();
+      const subject = document.getElementById('todoSubjectInput').value.trim() || 'General';
+      if (!text) return;
+
+      if (!todos[selectedDateStr]) todos[selectedDateStr] = [];
+      todos[selectedDateStr].push({ text, subject, done: false });
+      document.getElementById('todoTextInput').value = '';
+      todoModal.style.display = 'none';
+
+      saveData();
+      renderTodos();
+    };
+
+    window.toggleTodo = function(idx) { todos[selectedDateStr][idx].done = !todos[selectedDateStr][idx].done; saveData(); renderTodos(); };
+    window.deleteTodo = function(idx) { todos[selectedDateStr].splice(idx, 1); saveData(); renderTodos(); };
+
+    // THREAT LOGS & REFLECTIONS
+    function renderStoicEntries() {
+      const container = document.getElementById('stoicContainer');
+      container.innerHTML = '';
+      if (stoicEntries.length === 0) {
+        container.innerHTML = `<span style="font-size:0.85rem; color:var(--text-muted);">No reflections recorded. Log entries to cultivate clarity.</span>`;
+        return;
+      }
+      stoicEntries.forEach((entry, idx) => {
+        const card = document.createElement('div');
+        card.className = 'stoic-card';
+        card.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="cursor:pointer; flex:1;" onclick="openStoicReader(${idx})">
+              <span style="color:var(--text-main); font-weight:normal;">[REFLECTION] ${entry.title}</span>
+            </div>
+            <button class="btn-danger" onclick="deleteStoic(${idx})">X</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function openStoicReader(idx) {
+      const entry = stoicEntries[idx];
+      if (!entry) return;
+      document.getElementById('fsStoicTitle').textContent = entry.title;
+      document.getElementById('fsStoicDetails').textContent = entry.details || 'No detailed scenario recorded.';
+      document.getElementById('fullscreenStoicModal').style.display = 'flex';
+    }
+
+    document.getElementById('closeStoicReaderBtn').onclick = () => document.getElementById('fullscreenStoicModal').style.display = 'none';
+
+    document.getElementById('openStoicModal').onclick = () => document.getElementById('stoicModal').style.display = 'flex';
+    document.getElementById('closeStoicModal').onclick = () => document.getElementById('stoicModal').style.display = 'none';
+    document.getElementById('saveStoicBtn').onclick = () => {
+      const title = document.getElementById('stoicTitleInput').value.trim();
+      const details = document.getElementById('stoicDetailsInput').value.trim();
+      if (!title) return;
+      stoicEntries.unshift({ title, details });
+      document.getElementById('stoicTitleInput').value = '';
+      document.getElementById('stoicDetailsInput').value = '';
+      document.getElementById('stoicModal').style.display = 'none';
+      saveData();
+      renderStoicEntries();
+    };
+    window.deleteStoic = function(idx) { stoicEntries.splice(idx, 1); saveData(); renderStoicEntries(); };
+
+    // WEIGHT & METRIC CHARTS (GREEN EMERALD PALETTE)
+    let weightChartInstance = null;
+    function updateWeightChart() {
+      const labels = weights.map(w => w.date);
+      const data = weights.map(w => w.weight);
+      if (weightChartInstance) weightChartInstance.destroy();
+      const ctx = document.getElementById('weightChart').getContext('2d');
+      weightChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: { labels, datasets: [{ label: 'Mass', data, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.15)', fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: '#10b981' }] },
+        options: { 
+          responsive: true, 
+          maintainAspectRatio: false, 
+          plugins: { legend: { display: false } }, 
+          scales: { 
+            x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } }, 
+            y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } } 
+          } 
+        }
+      });
+    }
+
+    document.getElementById('openWeightModal').onclick = () => document.getElementById('weightModal').style.display = 'flex';
+    document.getElementById('closeWeightModal').onclick = () => document.getElementById('weightModal').style.display = 'none';
+    document.getElementById('saveWeightBtn').onclick = () => {
+      const wVal = parseFloat(document.getElementById('weightValueInput').value);
+      if (isNaN(wVal)) return;
+      weights.push({ date: selectedDateStr, weight: wVal });
+      document.getElementById('weightValueInput').value = '';
+      document.getElementById('weightModal').style.display = 'none';
+      saveData();
+    };
+
+    // HABIT & PIE CHARTS
+    let chartInstance, taskPieChartInstance;
+    function updateHabitChart() {
+      const labels = [];
+      const dataPoints = [];
+      const today = new Date();
+
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(today.getDate() - i);
+        const dateStr = formatDateStr(d);
+        labels.push(d.toLocaleString('default', { weekday: 'short' }));
+        dataPoints.push(habits.reduce((acc, h) => acc + (h.records[dateStr] ? 1 : 0), 0));
+      }
+
+      if (chartInstance) chartInstance.destroy();
+      const ctx = document.getElementById('progressChart').getContext('2d');
+      chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: { labels, datasets: [{ label: 'Completed', data: dataPoints, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.20)', fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: '#10b981' }] },
+        options: { 
+          responsive: true, 
+          maintainAspectRatio: false, 
+          plugins: { legend: { display: false } }, 
+          scales: { 
+            x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } }, 
+            y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { stepSize: 1, color: '#94a3b8' } } 
+          } 
+        }
+      });
+    }
+
+    function updateTaskPieChart() {
+      const subjectCounts = {};
+      Object.keys(todos).forEach(dateKey => {
+        todos[dateKey].forEach(t => {
+          const subj = t.subject || 'General';
+          subjectCounts[subj] = (subjectCounts[subj] || 0) + 1;
+        });
+      });
+
+      const labels = Object.keys(subjectCounts);
+      const data = Object.values(subjectCounts);
+      if (labels.length === 0) { labels.push('General'); data.push(1); }
+
+      if (taskPieChartInstance) taskPieChartInstance.destroy();
+      const ctx = document.getElementById('taskPieChart').getContext('2d');
+      
+      taskPieChartInstance = new Chart(ctx, {
+        type: 'doughnut',
+        data: { 
+          labels, 
+          datasets: [{ 
+            data, 
+            backgroundColor: ['#10b981', '#34d399', '#059669', '#047857', '#065f46'], 
+            borderWidth: 1, 
+            borderColor: '#020604' 
+          }] 
+        },
+        options: { 
+          responsive: true, 
+          maintainAspectRatio: false, 
+          cutout: '55%', 
+          plugins: { 
+            legend: {
+              display: true,
+              position: 'right',
+              labels: {
+                color: '#94a3b8',
+                font: { size: 10 },
+                boxWidth: 8,
+                padding: 4
+              }
+            },
+            tooltip: { enabled: true }
+          },
+          layout: { padding: { top: 4, bottom: 4, left: 4, right: 4 } }
+        }
+      });
+    }
+
+    // DOSSIERS & JOURNALS
+    function renderBooksGrid() {
+      const container = document.getElementById('booksMainGrid');
+      container.innerHTML = '';
+
+      if (books.length === 0) {
+        container.innerHTML = `<span style="font-size:0.85rem; color:var(--text-muted);">No journals created yet. Click "+ Add Journal" to initiate.</span>`;
+        return;
+      }
+
+      books.forEach(bName => {
+        const chapterCount = notes.filter(n => n.book === bName).length;
+        const card = document.createElement('div');
+        card.className = 'book-card-item';
+        card.innerHTML = `
+          <div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">JOURNAL</div>
+            <div class="book-card-title">${bName}</div>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; color:var(--text-muted);">
+            <span>${chapterCount} Entries</span>
+            <button class="btn-danger" onclick="event.stopPropagation(); deleteBook('${bName}')">X</button>
+          </div>
+        `;
+        card.onclick = () => openBookVault(bName);
+        container.appendChild(card);
+      });
+    }
+
+    document.getElementById('openNewBookModal').onclick = () => document.getElementById('newBookModal').style.display = 'flex';
+    document.getElementById('closeNewBookModal').onclick = () => document.getElementById('newBookModal').style.display = 'none';
+    document.getElementById('saveNewBookBtn').onclick = () => {
+      const title = document.getElementById('newBookTitleInput').value.trim();
+      if (!title) return;
+      if (!books.includes(title)) books.push(title);
+      document.getElementById('newBookTitleInput').value = '';
+      document.getElementById('newBookModal').style.display = 'none';
+      saveData();
+      renderBooksGrid();
+    };
+
+    window.deleteBook = function(bName) {
+      books = books.filter(b => b !== bName);
+      notes = notes.filter(n => n.book !== bName);
+      saveData();
+      renderBooksGrid();
+    };
+
+    const fullscreenBookModal = document.getElementById('fullscreenBookModal');
+    
+    function openBookVault(bName) {
+      activeBookName = bName;
+      document.getElementById('fsBookVaultTitle').textContent = bName;
+      renderBookChaptersList();
+      fullscreenBookModal.style.display = 'flex';
+    }
+
+    document.getElementById('closeBookVaultBtn').onclick = () => fullscreenBookModal.style.display = 'none';
+
+    function renderBookChaptersList() {
+      const container = document.getElementById('fsBookChaptersList');
+      container.innerHTML = '';
+
+      const bookChapters = notes.filter(n => n.book === activeBookName).sort((a, b) => parseInt(a.id) - parseInt(b.id));
+      
+      if (bookChapters.length === 0) {
+        container.innerHTML = `<span style="font-size:0.88rem; color:var(--text-muted); padding:10px 0;">This journal is empty. Click "+ Add Entry" to compile notes.</span>`;
+        return;
+      }
+
+      bookChapters.forEach(ch => {
+        const item = document.createElement('div');
+        item.className = 'chapter-card-item';
+        item.innerHTML = `
+          <div onclick="openChapterReader('${ch.id}')" style="cursor:pointer; flex:1;">
+            <b style="font-size:0.98rem; color:var(--text-main);">${ch.title}</b>
+            <div style="font-size:0.8rem; color:var(--text-muted);">${ch.date}</div>
+          </div>
+          <div>
+            <button class="btn-edit" onclick="editChapter('${ch.id}')">Edit</button>
+            <button class="btn-danger" onclick="deleteChapter('${ch.id}')">X</button>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    document.getElementById('fsAddChapterBtn').onclick = () => {
+      editingNoteId = null;
+      document.getElementById('noteModalHeader').textContent = `New Entry in ${activeBookName}`;
+      document.getElementById('chapterTitleInput').value = '';
+      document.getElementById('noteTextInput').innerHTML = '';
+      document.getElementById('noteModal').style.display = 'flex';
+    };
+
+    document.getElementById('closeNoteModal').onclick = () => document.getElementById('noteModal').style.display = 'none';
+
+    document.getElementById('saveNoteBtn').onclick = () => {
+      const title = document.getElementById('chapterTitleInput').value.trim();
+      const content = document.getElementById('noteTextInput').innerHTML.trim();
+      if (!title) return alert('Please enter entry title');
+
+      const todayStr = formatDateStr(new Date());
+
+      if (editingNoteId) {
+        const note = notes.find(n => n.id === editingNoteId);
+        if (note) {
+          note.title = title;
+          note.content = content;
+        }
+      } else {
+        notes.push({ 
+          id: Date.now().toString(), 
+          book: activeBookName, 
+          title, 
+          date: new Date().toLocaleDateString(), 
+          dateStr: todayStr,
+          content 
+        });
+      }
+
+      document.getElementById('noteModal').style.display = 'none';
+      saveData();
+      renderBookChaptersList();
+      renderBooksGrid();
+    };
+
+    window.editChapter = function(id) {
+      const note = notes.find(n => n.id === id);
+      if (!note) return;
+      editingNoteId = id;
+      document.getElementById('noteModalHeader').textContent = `Edit Entry — ${note.book}`;
+      document.getElementById('chapterTitleInput').value = note.title;
+      document.getElementById('noteTextInput').innerHTML = note.content;
+      document.getElementById('noteModal').style.display = 'flex';
+    };
+
+    window.deleteChapter = function(id) {
+      notes = notes.filter(n => n.id !== id);
+      saveData();
+      renderBookChaptersList();
+      renderBooksGrid();
+    };
+
+    function openChapterReader(id) {
+      const note = notes.find(n => n.id === id);
+      if (!note) return;
+      document.getElementById('fsReaderBookTitle').textContent = note.book;
+      document.getElementById('fsReaderChapterTitle').textContent = note.title;
+      document.getElementById('fsReaderChapterDate').textContent = note.date;
+      document.getElementById('fsReaderChapterBody').innerHTML = note.content;
+      document.getElementById('fullscreenChapterReaderModal').style.display = 'flex';
+    }
+
+    document.getElementById('closeChapterReaderBtn').onclick = () => document.getElementById('fullscreenChapterReaderModal').style.display = 'none';
+
+    // EVALUATIONS & PERFORMANCE
+    function renderTests() {
+      const container = document.getElementById('testsContainer');
+      container.innerHTML = '';
+      if (tests.length === 0) {
+        container.innerHTML = `<span style="font-size:0.85rem; color:var(--text-muted);">No evaluation metrics logged.</span>`;
+        return;
+      }
+      tests.forEach(test => {
+        const card = document.createElement('div');
+        card.className = 'test-card';
+        card.innerHTML = `<div><b>${test.subject}</b> — Score: ${test.scored}/${test.total} (${test.percentage}%)</div><button class="btn-danger" onclick="deleteTest('${test.id}')">X</button>`;
+        container.appendChild(card);
+      });
+    }
+
+    document.getElementById('openTestModal').onclick = () => document.getElementById('testModal').style.display = 'flex';
+    document.getElementById('closeTestModal').onclick = () => document.getElementById('testModal').style.display = 'none';
+    document.getElementById('saveTestBtn').onclick = () => {
+      const subject = document.getElementById('testSubjectInput').value.trim();
+      const scored = parseFloat(document.getElementById('testScoredInput').value);
+      const total = parseFloat(document.getElementById('testTotalInput').value);
+      if (!subject || isNaN(scored)) return;
+      tests.unshift({ id: Date.now().toString(), subject, scored, total, percentage: ((scored / total) * 100).toFixed(1) });
+      document.getElementById('testSubjectInput').value = '';
+      document.getElementById('testScoredInput').value = '';
+      document.getElementById('testTotalInput').value = '';
+      document.getElementById('testModal').style.display = 'none';
+      saveData();
+      renderTests();
+    };
+    window.deleteTest = function(id) { tests = tests.filter(t => t.id !== id); saveData(); renderTests(); };
+
+    // FOCUS TIMER ENGINE (FULLSCREEN OVERLAY)
+    let timerTimeLeft = 25 * 60;
+    let isTimerRunning = false;
+    let isFocusMode = true;
+    let timerInterval = null;
+
+    const focusMinutesInput = document.getElementById('focusMinutesInput');
+    const breakMinutesInput = document.getElementById('breakMinutesInput');
+
+    function updateTimerDisplay() {
+      const mins = Math.floor(timerTimeLeft / 60);
+      const secs = timerTimeLeft % 60;
+      document.getElementById('timerDisplay').textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function updateFocusSummary() {
+      const todayStr = formatDateStr(new Date());
+      const totalSecs = focusTimeData[todayStr] || 0;
+      document.getElementById('todayFocusTotal').textContent = `${Math.round(totalSecs / 60)} mins`;
+
+      const allHrs = Math.floor(totalAllTimeSecs / 3600);
+      const allMins = Math.floor((totalAllTimeSecs % 3600) / 60);
+      document.getElementById('allTimeFocusTotal').textContent = `${allHrs} hrs ${allMins} mins`;
+    }
+
+    focusMinutesInput.onchange = () => {
+      if (isFocusMode && !isTimerRunning) {
+        timerTimeLeft = (parseInt(focusMinutesInput.value) || 25) * 60;
+        updateTimerDisplay();
+      }
+    };
+
+    breakMinutesInput.onchange = () => {
+      if (!isFocusMode && !isTimerRunning) {
+        timerTimeLeft = (parseInt(breakMinutesInput.value) || 5) * 60;
+        updateTimerDisplay();
+      }
+    };
+
+    document.getElementById('openTimerBtn').onclick = () => {
+      document.getElementById('timerModal').style.display = 'flex';
+      updateFocusSummary();
+    };
+    document.getElementById('closeTimerBtn').onclick = () => document.getElementById('timerModal').style.display = 'none';
+
+    document.getElementById('startTimerBtn').onclick = () => {
+      if (isTimerRunning) return;
+      isTimerRunning = true;
+      document.getElementById('startTimerBtn').style.display = 'none';
+      document.getElementById('pauseTimerBtn').style.display = 'inline-block';
+
+      timerInterval = setInterval(() => {
+        if (timerTimeLeft > 0) {
+          timerTimeLeft--;
+          updateTimerDisplay();
+
+          if (isFocusMode) {
+            const todayStr = formatDateStr(new Date());
+            focusTimeData[todayStr] = (focusTimeData[todayStr] || 0) + 1;
+            totalAllTimeSecs++;
+            if (timerTimeLeft % 5 === 0) saveData();
+            updateFocusSummary();
+          }
+        } else {
+          clearInterval(timerInterval);
+          isTimerRunning = false;
+          isFocusMode = !isFocusMode;
+
+          document.getElementById('timerModeBadge').textContent = isFocusMode ? 'DEEP FOCUS SESSION' : 'REST PROTOCOL';
+          timerTimeLeft = ((isFocusMode ? parseInt(focusMinutesInput.value) : parseInt(breakMinutesInput.value)) || 5) * 60;
+          
+          saveData();
+          updateTimerDisplay();
+          document.getElementById('startTimerBtn').style.display = 'inline-block';
+          document.getElementById('pauseTimerBtn').style.display = 'none';
+        }
+      }, 1000);
+    };
+
+    document.getElementById('pauseTimerBtn').onclick = () => {
+      clearInterval(timerInterval);
+      isTimerRunning = false;
+      document.getElementById('startTimerBtn').style.display = 'inline-block';
+      document.getElementById('pauseTimerBtn').style.display = 'none';
+    };
+
+    document.getElementById('resetTimerBtn').onclick = () => {
+      clearInterval(timerInterval);
+      isTimerRunning = false;
+      timerTimeLeft = ((isFocusMode ? parseInt(focusMinutesInput.value) : parseInt(breakMinutesInput.value)) || 25) * 60;
+      updateTimerDisplay();
+      document.getElementById('startTimerBtn').style.display = 'inline-block';
+      document.getElementById('pauseTimerBtn').style.display = 'none';
+    };
+
+    document.getElementById('add5MinBtn').onclick = () => {
+      timerTimeLeft += 300;
+      updateTimerDisplay();
+    };
+//ni mai kera moj kardi bete
+    // BACKUP & RESTORE
+    document.getElementById('exportBtn').onclick = () => {
+      const data = { habits, books, notes, todos, weights, tests, stoicEntries, focusTimeData, dailyRatings, totalAllTimeSecs, deadlineConfig };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `inquiniso_backup_${formatDateStr(new Date())}.json`;
+      a.click();
+    };
+
+    document.getElementById('importBtn').onclick = () => document.getElementById('importFileInput').click();
+    document.getElementById('importFileInput').onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const data = JSON.parse(event.target.result);
+          if (data.habits) habits = data.habits;
+          if (data.books) books = data.books;
+          if (data.notes) notes = data.notes;
+          if (data.todos) todos = data.todos;
+          if (data.weights) weights = data.weights;
+          if (data.tests) tests = data.tests;
+          if (data.stoicEntries) stoicEntries = data.stoicEntries;
+          if (data.focusTimeData) focusTimeData = data.focusTimeData;
+          if (data.dailyRatings) dailyRatings = data.dailyRatings;
+          if (data.totalAllTimeSecs) totalAllTimeSecs = data.totalAllTimeSecs;
+          if (data.deadlineConfig) deadlineConfig = data.deadlineConfig;
+          saveData();
+          location.reload();
+        } catch (err) { alert('Invalid backup file.'); }
+      };
+      reader.readAsText(file);
+    };
+//moj kardi bete
+    // INITIALIZATION
+    renderHabitTable();
+    renderDailyRatingSection();
+    renderMiniCalendar();
+    renderStoicEntries();
+    renderTests();
+    renderBooksGrid();
+    updateHabitChart();
+    updateWeightChart();
+    updateTaskPieChart();
+    updateTimerDisplay();
+  </script>
 </body>
 </html>
+ //moj kardi bete
+ 
