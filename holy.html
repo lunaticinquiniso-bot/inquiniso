@@ -1,1 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PROJECT INQUINISO</title>
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    @font-face {
+      font-family: 'AR PL Ukai';
+      src: local('AR PL Ukai'), local('AR PL Ukai CN'), local('AR PL UKai CN'), local('Kaiti');
+    }
 
+    :root {
+      --main-artwork: url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1170&auto=format&fit=crop');
+      --glass-surface: rgba(4, 10, 7, 0.65);
+      --card-surface: rgba(8, 16, 12, 0.72);
+      --card-inner: rgba(12, 24, 18, 0.80);
+      
+      --accent-primary: #10b981;
+      --accent-secondary: #022c22;
+      --accent-warm: #34d399;
+      --border-accent: rgba(16, 185, 129, 0.35);
+      --border-dark: rgba(255, 255, 255, 0.12);
+      
+      --text-main: #ecfdf5;
+      --text-muted: #94a3b8;
+
+      --subtle-glow: 0 0 15px rgba(16, 185, 129, 0.12), inset 0 0 10px rgba(16, 185, 129, 0.05);
+      --active-glow: 0 0 25px rgba(16, 185, 129, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'AR PL Ukai', 'AR PL UKai CN', 'Kaiti', serif, sans-serif !important;
+      scroll-behavior: smooth;
+      border-radius: 0px !important;
+    }
+
+    html, body {
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+    *::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+
+    html {
+      width: 100%;
+      min-height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto !important;
+    }
+
+    body {
+      width: 100%;
+      min-height: 100vh;
+      background-image: linear-gradient(rgba(2, 6, 4, 0.75), rgba(1, 4, 3, 0.85)), var(--main-artwork);
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-color: #020604;
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 32px 24px;
+    }
+
+    /* PASSCODE SCREEN */
+    #securityAuthScreen {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: linear-gradient(rgba(2, 6, 4, 0.80), rgba(1, 4, 3, 0.90)), var(--main-artwork);
+      background-size: cover;
+      background-position: center;
+      z-index: 50000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .auth-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .auth-title {
+      font-size: 2.2rem;
+      letter-spacing: 8px;
+      color: var(--text-main);
+      margin-bottom: 32px;
+      font-weight: normal;
+      text-shadow: 0 0 18px rgba(16, 185, 129, 0.35);
+    }
+
+    .pin-input {
+      width: 180px;
+      padding: 10px 0;
+      font-size: 2.2rem;
+      letter-spacing: 16px;
+      text-align: center;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+      color: var(--text-main);
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .pin-input:focus {
+      border-bottom-color: var(--accent-primary);
+      box-shadow: 0 8px 16px -6px rgba(16, 185, 129, 0.4);
+    }
+
+    .auth-error {
+      color: #ef4444;
+      font-size: 0.9rem;
+      margin-top: 18px;
+      letter-spacing: 3px;
+      display: none;
+      text-transform: lowercase;
+    }
+
+    /* INTRO ANIMATION OVERLAY */
+    #introTextOverlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: linear-gradient(rgba(2, 6, 4, 0.88), rgba(1, 4, 3, 0.95)), var(--main-artwork);
+      background-size: cover;
+      background-position: center;
+      z-index: 40000;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 32px;
+      cursor: pointer;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .intro-text-container {
+      height: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .intro-line {
+      font-size: 1.85rem;
+      letter-spacing: 6px;
+      color: #ffffff;
+      opacity: 0;
+      filter: blur(20px);
+      transform: scale(0.92);
+      transition: opacity 1.6s ease, filter 1.6s ease, transform 1.6s ease;
+      position: absolute;
+      padding: 0 20px;
+    }
+
+    .intro-line.active {
+      opacity: 1;
+      filter: blur(0px);
+      transform: scale(1);
+    }
+
+    .intro-line.title-line {
+      font-size: 2.8rem;
+      letter-spacing: 12px;
+      color: var(--accent-primary);
+      text-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+      transform: scale(0.85);
+    }
+
+    .intro-line.title-line.active {
+      opacity: 1;
+      filter: blur(0px);
+      transform: scale(1.05);
+    }
+
+    /* MAIN APP CONTAINER */
+    .app-container {
+      width: 100%;
+      max-width: 1380px;
+      margin: 0 auto;
+      background: var(--glass-surface);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border-accent);
+      padding: 32px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), var(--subtle-glow);
+    }
+
+    .app-header-cover {
+      width: 100%;
+      height: 160px;
+      background: linear-gradient(rgba(2, 6, 4, 0.40), rgba(1, 4, 3, 0.80)), var(--main-artwork);
+      background-size: cover;
+      background-position: center;
+      margin-bottom: 24px;
+      border: 1px solid var(--border-accent);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 24px;
+      box-shadow: var(--subtle-glow);
+    }
+
+    .terminal-hdr {
+      font-size: 2.2rem;
+      color: #ffffff;
+      letter-spacing: 8px;
+      font-weight: normal;
+      text-shadow: 0 0 18px rgba(16, 185, 129, 0.4);
+    }
+
+    .sub-hdr {
+      font-size: 0.9rem;
+      color: var(--accent-warm);
+      letter-spacing: 3px;
+    }
+
+    .btn-aero {
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid var(--border-accent);
+      color: var(--text-main);
+      padding: 9px 18px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      transition: all 0.25s ease;
+      box-shadow: var(--subtle-glow);
+    }
+
+    .btn-aero:hover {
+      background: rgba(16, 185, 129, 0.25);
+      border-color: var(--accent-primary);
+      color: #ffffff;
+      box-shadow: var(--active-glow);
+    }
+
+    .btn-aero.btn-highlight {
+      background: var(--accent-primary);
+      border: 1px solid var(--accent-primary);
+      color: #022c22;
+      font-weight: bold;
+      box-shadow: 0 0 18px rgba(16, 185, 129, 0.4);
+    }
+
+    .progress-section {
+      background: var(--card-inner);
+      border: 1px solid var(--border-accent);
+      padding: 18px 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--subtle-glow);
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 12px;
+      background: rgba(4, 10, 7, 0.9);
+      border: 1px solid var(--border-dark);
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-warm));
+      transition: width 0.4s ease;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.8);
+    }
+
+    /* HUB NAV SWITCHER */
+    .hub-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .hub-card {
+      background: var(--card-surface);
+      border: 1px solid var(--border-accent);
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .hub-card:hover, .hub-card.active {
+      background: rgba(16, 185, 129, 0.18);
+      border-color: var(--accent-primary);
+      box-shadow: var(--active-glow);
+    }
+
+    .hub-card-title {
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+
+    .hub-card-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+
+    .filter-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 10px 14px;
+      background: rgba(4, 10, 7, 0.9);
+      border: 1px solid var(--border-accent);
+      color: var(--text-main);
+      outline: none;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-warm);
+      box-shadow: var(--subtle-glow);
+    }
+
+    .folder-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    details.folder-card {
+      background: var(--card-surface);
+      border: 1px solid var(--border-accent);
+      transition: all 0.3s ease;
+      box-shadow: var(--subtle-glow);
+    }
+
+    details.folder-card[open] {
+      border-color: var(--accent-primary);
+      box-shadow: var(--active-glow);
+    }
+
+    details.folder-card.pinned-folder {
+      border-color: var(--accent-warm);
+      background: rgba(16, 185, 129, 0.08);
+    }
+
+    summary.folder-summary {
+      padding: 16px 20px;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      list-style: none;
+      border-bottom: 1px solid transparent;
+    }
+
+    details[open] summary.folder-summary {
+      border-bottom-color: var(--border-dark);
+      background: rgba(4, 10, 7, 0.4);
+    }
+
+    summary.folder-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .folder-title-flex {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .folder-tag {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border: 1px solid var(--border-accent);
+      color: var(--accent-primary);
+      background: rgba(16, 185, 129, 0.1);
+      letter-spacing: 1px;
+    }
+
+    .folder-content {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 20px;
+      background: rgba(4, 10, 7, 0.4);
+    }
+
+    .video-card {
+      background: rgba(4, 10, 7, 0.85);
+      border: 1px solid var(--border-dark);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color 0.2s ease;
+    }
+
+    .video-card:hover {
+      border-color: var(--border-accent);
+    }
+
+    .video-title {
+      font-size: 0.9rem;
+      color: var(--text-main);
+      letter-spacing: 1px;
+      min-height: 2.8em;
+      line-height: 1.4;
+    }
+
+    .iframe-wrapper {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      height: 0;
+      background: #000;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .iframe-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .check-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      margin-top: 4px;
+      user-select: none;
+    }
+
+    .check-label input[type="checkbox"] {
+      accent-color: var(--accent-primary);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      body { padding: 12px 8px; }
+      .app-container { padding: 16px; }
+      .hub-selector { grid-template-columns: 1fr; }
+      .folder-content { grid-template-columns: 1fr; }
+      .terminal-hdr { font-size: 1.5rem; letter-spacing: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="securityAuthScreen">
+    <div class="auth-container">
+      <div class="auth-title">PROJECT INQUINISO</div>
+      <input type="password" id="agentPinInput" class="pin-input" maxlength="4" autofocus placeholder="">
+      <button class="btn-aero btn-highlight" id="authSubmitBtn" style="margin-top: 24px;">UNLOCK</button>
+      <div class="auth-error" id="authErrorMsg">invalid passcode</div>
+    </div>
+  </div>
+
+  <div id="introTextOverlay">
+    <div class="intro-text-container">
+      <div class="intro-line" id="line1">Recursion of self negation</div>
+      <div class="intro-line" id="line2">Rhythm of ordinary</div>
+      <div class="intro-line title-line" id="line3">45 Days</div>
+    </div>
+  </div>
+
+  <div class="app-container">
+    <div class="app-header-cover">
+      <div class="terminal-hdr">PROJECT INQUINISO</div>
+      <div class="sub-hdr">45 DAY WORKOUT & GRATITUDE MEDITATION HUD</div>
+    </div>
+
+    <div class="progress-section">
+      <div class="progress-header">
+        <span style="letter-spacing: 2px; font-size: 0.95rem;">TOTAL PROTOCOL PROGRESS</span>
+        <span id="progressStats" style="color: var(--accent-primary); letter-spacing: 2px;">0 / 90 UNITS COMPLETED (0%)</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progressBarFill"></div>
+      </div>
+    </div>
+
+    <div class="hub-selector">
+      <div class="hub-card active" id="hubWorkoutBtn" onclick="setMode('workout')">
+        <div class="hub-card-title">WORKOUT PROTOCOL</div>
+        <div class="hub-card-sub" id="workoutSub">0 / 45 DAYS COMPLETED</div>
+      </div>
+      <div class="hub-card" id="hubMeditationBtn" onclick="setMode('meditation')">
+        <div class="hub-card-title">GRATITUDE MEDITATION</div>
+        <div class="hub-card-sub" id="meditationSub">0 / 45 DAYS COMPLETED</div>
+      </div>
+    </div>
+
+    <div class="filter-bar">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search days or titles (e.g. Day 12, Chest, Gratitude)..." onkeyup="filterFolders()">
+      <button class="btn-aero" onclick="setMode('all')">Show Both</button>
+      <button class="btn-aero" onclick="expandAll()">Expand All</button>
+      <button class="btn-aero" onclick="collapseAll()">Collapse All</button>
+      <button class="btn-aero btn-highlight" onclick="resetProgress()">Reset Progress</button>
+    </div>
+
+    <div class="folder-container" id="protocolFolders">
+      </div>
+  </div>
+
+  <script>
+    let introTimeouts = [];
+    let currentMode = 'workout'; // 'workout', 'meditation', or 'all'
+
+    function skipIntro() {
+      introTimeouts.forEach(clearTimeout);
+      const textOverlay = document.getElementById('introTextOverlay');
+      textOverlay.style.transition = 'opacity 0.8s ease';
+      textOverlay.style.opacity = '0';
+      setTimeout(() => textOverlay.style.display = 'none', 800);
+    }
+
+    document.getElementById('introTextOverlay').onclick = skipIntro;
+
+    function authenticateAgent() {
+      const pinVal = document.getElementById('agentPinInput').value.trim();
+      const errorMsg = document.getElementById('authErrorMsg');
+
+      if (pinVal === '2027') {
+        errorMsg.style.display = 'none';
+        document.getElementById('securityAuthScreen').style.display = 'none';
+        const textOverlay = document.getElementById('introTextOverlay');
+        textOverlay.style.display = 'flex';
+
+        const lines = [
+          document.getElementById('line1'),
+          document.getElementById('line2'),
+          document.getElementById('line3')
+        ];
+
+        let delay = 300;
+        lines.forEach((line, index) => {
+          let t1 = setTimeout(() => {
+            if (index > 0) lines[index - 1].classList.remove('active');
+            line.classList.add('active');
+          }, delay);
+          introTimeouts.push(t1);
+          delay += 1800;
+        });
+
+        let tFinish = setTimeout(() => {
+          textOverlay.style.transition = 'opacity 1.2s ease';
+          textOverlay.style.opacity = '0';
+          setTimeout(() => textOverlay.style.display = 'none', 1200);
+        }, delay + 800);
+        introTimeouts.push(tFinish);
+      } else {
+        errorMsg.style.display = 'block';
+        document.getElementById('agentPinInput').value = '';
+      }
+    }
+
+    const pinInput = document.getElementById('agentPinInput');
+    const submitBtn = document.getElementById('authSubmitBtn');
+
+    pinInput.addEventListener('input', (e) => {
+      if (e.target.value.trim().length === 4) authenticateAgent();
+    });
+    pinInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') authenticateAgent();
+    });
+    submitBtn.addEventListener('click', authenticateAgent);
+
+    // WORKOUT DATA DEFINITION
+    const workoutData = {
+      warmups: [
+        { title: "5 MINUTE FULL BODY WARM-UP (NO EQUIPMENT)", id: "yyCkO-UtBFM" },
+        { title: "5 MINUTE MORNING WORKOUT (NO EQUIPMENT)", id: "ZtNAGrM1gMM" }
+      ],
+      cooldowns: [
+        { title: "10 MINUTE FULL BODY STRETCH ROUTINE", id: "BKfGWNTssCY" },
+        { title: "20 MINUTE FULL BODY STRETCH ROUTINE", id: "c1mdorMppH4" }
+      ],
+      days: [
+        { day: 1, videos: [{ title: "20 MINUTE EXTREME FULL BODY WORKOUT (NO EQUIPMENT)", id: "C8DbCZGj5KQ" }, { title: "20 MINUTE FULL BODY STRETCH ROUTINE", id: "c1mdorMppH4" }] },
+        { day: 2, videos: [{ title: "NO EQUIPMENT 10 MINUTE CHEST WORKOUT (GROW YOUR CHEST)", id: "UszGXwC3wkY" }, { title: "15 MINUTE INTENSE SHOULDER WORKOUT (NO EQUIPMENT)", id: "ldrG5GTgF_0" }] },
+        { day: 3, videos: [{ title: "5 MINUTE BACK WORKOUT (NO EQUIPMENT)", id: "lyb7UAtsq4w" }, { title: "NO EQUIPMENT 10 MINUTE BACK WORKOUT (GROW YOUR BACK)", id: "kCF9MmHAJSk" }] },
+        { day: 4, videos: [{ title: "NO EQUIPMENT 10 MINUTE LEG WORKOUT", id: "r4aMIs0ouPU" }, { title: "15 MINUTE LOWER ABS FAT BURNER WORKOUT (NO EQUIPMENT)", id: "qgjdta2jyxw" }] },
+        { day: 5, videos: [{ title: "30 MINUTE UPPER BODY WORKOUT (NO EQUIPMENT)", id: "30c8d9smbsE" }, { title: "10 MINUTE FULL BODY STRETCH ROUTINE", id: "BKfGWNTssCY" }] },
+        { day: 6, videos: [{ title: "10 MINUTE CALORIE KILLER HIIT CARDIO WORKOUT", id: "MCvE258aPv0" }, { title: "30 MINUTE LEG WORKOUT (NO EQUIPMENT)", id: "CnfitL4Rl0o" }] },
+        { day: 7, videos: [{ title: "60 MINUTE FULL BODY WORKOUT (NO EQUIPMENT)", id: "ojs-UW8ULhs" }] },
+        { day: 8, videos: [{ title: "15 MINUTE INTENSE MORNING WORKOUT (NO EQUIPMENT)", id: "tCtS-hNs6rk" }, { title: "20 MINUTE FULL BODY STRETCH ROUTINE", id: "c1mdorMppH4" }] },
+        { day: 9, videos: [{ title: "NO EQUIPMENT 10 MINUTE CHEST WORKOUT (GROW YOUR CHEST)", id: "UszGXwC3wkY" }, { title: "15 MINUTE INTENSE CHEST WORKOUT (NO EQUIPMENT)", id: "SML-fA6EJh4" }] },
+        { day: 10, videos: [{ title: "15 MINUTE INTENSE SHOULDER WORKOUT (NO EQUIPMENT)", id: "ldrG5GTgF_0" }, { title: "5 MINUTE SHOULDER WORKOUT (NO EQUIPMENT)", id: "-lO1pgoES74" }] },
+        { day: 11, videos: [{ title: "5 MINUTE BACK WORKOUT (NO EQUIPMENT)", id: "lyb7UAtsq4w" }, { title: "10 MINUTE BACK FAT WORKOUT", id: "5oG8cMfKx9I" }] },
+        { day: 12, videos: [{ title: "NO EQUIPMENT 10 MINUTE LEG WORKOUT", id: "r4aMIs0ouPU" }, { title: "10 MINUTE LOVE HANDLE WORKOUT", id: "Irob_m12znc" }] },
+        { day: 13, videos: [{ title: "10 MINUTE 6 PACK ABS WORKOUT (NO EQUIPMENT)", id: "eQKzCem0eUs" }, { title: "5 MINUTE AB WORKOUT (NO EQUIPMENT)", id: "igJrhW-GbNY" }] },
+        { day: 14, videos: [{ title: "60 MINUTE FULL BODY WORKOUT (NO EQUIPMENT)", id: "ojs-UW8ULhs" }] },
+        { day: 15, videos: [{ title: "20 MINUTE EXTREME FULL BODY WORKOUT (NO EQUIPMENT)", id: "C8DbCZGj5KQ" }, { title: "15 MINUTE INTENSE FAT BURNING HIIT CARDIO WORKOUT", id: "8-K5DxUaKRE" }] },
+        { day: 16, videos: [{ title: "20 MINUTE UPPER BODY WORKOUT (NO EQUIPMENT)", id: "mm47bCaCzpQ" }, { title: "NO EQUIPMENT 10 MINUTE BACK WORKOUT (GROW YOUR BACK)", id: "kCF9MmHAJSk" }] },
+        { day: 17, videos: [{ title: "15 MINUTE EXTREME LEG WORKOUT (NO EQUIPMENT)", id: "ISk3x9E7ars" }, { title: "20 MINUTE FAT BURNING CARDIO WORKOUT (NO EQUIPMENT)", id: "WRGCCvQwCyQ" }] },
+        { day: 18, videos: [{ title: "30 MINUTE UPPER BODY WORKOUT (NO EQUIPMENT)", id: "30c8d9smbsE" }, { title: "15 MINUTE LOWER ABS FAT BURNER WORKOUT (NO EQUIPMENT)", id: "qgjdta2jyxw" }] },
+        { day: 19, videos: [{ title: "30 MINUTE LEG WORKOUT (NO EQUIPMENT)", id: "CnfitL4Rl0o" }, { title: "20 MINUTE LEG WORKOUT (NO EQUIPMENT)", id: "GfUpbhaCK7Y" }] },
+        { day: 20, videos: [{ title: "30 MINUTE FAT BURNING CARDIO WORKOUT (NO EQUIPMENT)", id: "HzjVKXKzpNY" }, { title: "DAILY 10 MINUTE MOBILITY ROUTINE (BACK PAIN RELIEF)", id: "epwx_l4F0lM" }] },
+        { day: 21, videos: [{ title: "20 MINUTE EXTREME FULL BODY WORKOUT (NO EQUIPMENT)", id: "C8DbCZGj5KQ" }, { title: "NO EQUIPMENT FULL BODY HIIT WORKOUT (20 MINUTE)", id: "PJxoIbzqGR8" }] },
+        { day: 22, videos: [{ title: "15 MINUTE LOWER ABS FAT BURNER WORKOUT (NO EQUIPMENT)", id: "qgjdta2jyxw" }, { title: "20 MINUTE FULL BODY STRETCH ROUTINE", id: "c1mdorMppH4" }] },
+        { day: 23, videos: [{ title: "15 MINUTE INTENSE CHEST WORKOUT (NO EQUIPMENT)", id: "SML-fA6EJh4" }, { title: "5 MINUTE CHEST WORKOUT (NO EQUIPMENT)", id: "_q_-adYzkh0" }] },
+        { day: 24, videos: [{ title: "15 MINUTE INTENSE SHOULDER WORKOUT (NO EQUIPMENT)", id: "ldrG5GTgF_0" }, { title: "5 MINUTE SHOULDER WORKOUT (NO EQUIPMENT)", id: "-lO1pgoES74" }] },
+        { day: 25, videos: [{ title: "10 MINUTE BACK FAT WORKOUT", id: "5oG8cMfKx9I" }, { title: "5 MINUTE BACK WORKOUT (NO EQUIPMENT)", id: "lyb7UAtsq4w" }] },
+        { day: 26, videos: [{ title: "15 MINUTE EXTREME LEG WORKOUT (NO EQUIPMENT)", id: "ISk3x9E7ars" }, { title: "5 MINUTE AB WORKOUT (NO EQUIPMENT)", id: "igJrhW-GbNY" }] },
+        { day: 27, videos: [{ title: "60 MINUTE FAT BURNING CARDIO WORKOUT (NO EQUIPMENT)", id: "lmgeM9Ne-Ns" }, { title: "10 MINUTE FULL BODY STRETCH ROUTINE", id: "BKfGWNTssCY" }] },
+        { day: 28, videos: [{ title: "15 MINUTE LOWER ABS FAT BURNER WORKOUT (NO EQUIPMENT)", id: "qgjdta2jyxw" }, { title: "10 MINUTE 6 PACK ABS WORKOUT (NO EQUIPMENT)", id: "eQKzCem0eUs" }] },
+        { day: 29, videos: [{ title: "20 MINUTE FULL BODY WORKOUT (NO EQUIPMENT)", id: "oAPCPjnU1wA" }, { title: "20 MINUTE EXTREME FULL BODY WORKOUT (NO EQUIPMENT)", id: "C8DbCZGj5KQ" }] },
+        { day: 30, videos: [{ title: "30 MINUTE UPPER BODY WORKOUT (NO EQUIPMENT)", id: "30c8d9smbsE" }, { title: "20 MINUTE UPPER BODY WORKOUT (NO EQUIPMENT)", id: "mm47bCaCzpQ" }] },
+        { day: 31, videos: [{ title: "30 MINUTE LEG WORKOUT (NO EQUIPMENT)", id: "CnfitL4Rl0o" }, { title: "15 MINUTE EXTREME LEG WORKOUT (NO EQUIPMENT)", id: "ISk3x9E7ars" }] },
+        { day: 32, videos: [{ title: "10 MINUTE BACK FAT WORKOUT", id: "5oG8cMfKx9I" }, { title: "5 MINUTE BACK WORKOUT (NO EQUIPMENT)", id: "lyb7UAtsq4w" }] },
+        { day: 33, videos: [{ title: "15 MINUTE INTENSE MORNING WORKOUT (NO EQUIPMENT)", id: "tCtS-hNs6rk" }, { title: "15 MINUTE LOWER ABS FAT BURNER WORKOUT (NO EQUIPMENT)", id: "qgjdta2jyxw" }] },
+        { day: 34, videos: [{ title: "30 MINUTE FULL BODY WORKOUT (NO EQUIPMENT)", id: "Auo8veVyRIY" }, { title: "DAILY 10 MINUTE MOBILITY ROUTINE (BACK PAIN RELIEF)", id: "epwx_l4F0lM" }] },
+        { day: 35, videos: [{ title: "60 MINUTE FULL BODY WORKOUT (NO EQUIPMENT)", id: "ojs-UW8ULhs" }] },
+        { day: 36, videos: [{ title: "10 MINUTE LOVE HANDLE WORKOUT", id: "Irob_m12znc" }, { title: "15 MINUTE LOWER ABS FAT BURNER WORKOUT (NO EQUIPMENT)", id: "qgjdta2jyxw" }] },
+        { day: 37, videos: [{ title: "20 MINUTE EXTREME FULL BODY WORKOUT (NO EQUIPMENT)", id: "C8DbCZGj5KQ" }, { title: "20 MINUTE EXTREME FULL BODY WORKOUT (NO EQUIPMENT)", id: "C8DbCZGj5KQ" }] },
+        { day: 38, videos: [{ title: "15 MINUTE INTENSE MORNING WORKOUT (NO EQUIPMENT)", id: "tCtS-hNs6rk" }, { title: "10 MINUTE CALORIE KILLER HIIT CARDIO WORKOUT", id: "MCvE258aPv0" }] },
+        { day: 39, videos: [{ title: "NO EQUIPMENT 10 MINUTE LEG WORKOUT", id: "r4aMIs0ouPU" }, { title: "15 MINUTE EXTREME LEG WORKOUT (NO EQUIPMENT)", id: "ISk3x9E7ars" }] },
+        { day: 40, videos: [{ title: "60 MINUTE FULL BODY WORKOUT (NO EQUIPMENT)", id: "ojs-UW8ULhs" }] },
+        { day: 41, videos: [{ title: "10 MINUTE 6 PACK ABS WORKOUT (NO EQUIPMENT)", id: "eQKzCem0eUs" }, { title: "20 MINUTE FULL BODY STRETCH ROUTINE", id: "c1mdorMppH4" }] },
+        { day: 42, videos: [{ title: "20 MINUTE FULL BODY WORKOUT (NO EQUIPMENT)", id: "oAPCPjnU1wA" }, { title: "30 MINUTE FULL BODY WORKOUT (NO EQUIPMENT)", id: "Auo8veVyRIY" }] },
+        { day: 43, videos: [{ title: "20 MINUTE EXTREME FULL BODY WORKOUT (NO EQUIPMENT)", id: "C8DbCZGj5KQ" }, { title: "10 MINUTE FAT BURNING JUMPING JACK WORKOUT", id: "Vfv084H00QI" }] },
+        { day: 44, videos: [{ title: "15 MINUTE INTENSE MORNING WORKOUT (NO EQUIPMENT)", id: "tCtS-hNs6rk" }, { title: "WORKOUT SESSION 2", id: "GflOdkA5nS0" }] },
+        { day: 45, videos: [{ title: "15 MINUTE EXTREME FAT BURNING CARDIO WORKOUT", id: "xngUfoWLkFw" }, { title: "10 MINUTE FULL BODY STRETCH ROUTINE", id: "BKfGWNTssCY" }] }
+      ]
+    };
+
+    // MEDITATION DATA DEFINITION
+    const meditationIds = [
+      "V_P7euJVk4g", "rIr-sVQi60Q", "Ir8lMZ3s7XI", "yeZaWpRgyJM", "LWyjJCiK4KY",
+      "pS4yLc4zavU", "uL_qU_ar7mc", "7VwWZwkC5wg", "ZbOHxrvB0yY", "F94_mpFZKvU",
+      "1CaXYN9-s7I", "Dq2EXFCzm7I", "qUkA-PlSAi0", "1C87fO4HlLU", "42PHsOueDQ4",
+      "WXvHHQpZP4k", "pPFKy2Apgs8", "2QhMxfKoIK8", "Y_FLvRXXTIA", "KRBNLfVP8v8",
+      "dg2xphDfOrc", "nfdK1UW3tDU", "OXlWSUEw7yQ", "288tlKwwzQM", "ZSFEFlAJGnk",
+      "1_U_wKWzRjM", "yCDmMbWx3U8", "4JIzSsdJE8k", "aRWqt2PQYVE", "edtxivYkU7E",
+      "yCpiEJXWjTo", "xOBQAgliM1g", "K87TYgyby94", "Nn3QCg8lApI", "0Ssd8hoYlA0",
+      "0YFVEitzamM", "X8DRHrEuX7Q", "BsC7he9CppM", "_7ykMq9WbdY", "q_YPXfxs1ts",
+      "4U0f7n_Qeb8", "KJa-w8R8xR4", "WyuUKNfYEKU", "BxKXfoKVptY", "rVCZsGm096U"
+    ];
+
+    let progressData = JSON.parse(localStorage.getItem('inquiniso_dual_progress')) || { workout: {}, meditation: {} };
+
+    function saveProgress() {
+      localStorage.setItem('inquiniso_dual_progress', JSON.stringify(progressData));
+      updateProgressBar();
+    }
+
+    function toggleCompletion(type, dayNum) {
+      if (!progressData[type]) progressData[type] = {};
+      progressData[type][dayNum] = !progressData[type][dayNum];
+      saveProgress();
+    }
+
+    function updateProgressBar() {
+      let workoutDone = 0;
+      let medDone = 0;
+
+      for (let i = 1; i <= 45; i++) {
+        if (progressData.workout[i]) workoutDone++;
+        if (progressData.meditation[i]) medDone++;
+      }
+
+      const totalDone = workoutDone + medDone;
+      const totalPct = Math.round((totalDone / 90) * 100);
+
+      document.getElementById('workoutSub').textContent = `${workoutDone} / 45 DAYS COMPLETED (${Math.round((workoutDone/45)*100)}%)`;
+      document.getElementById('meditationSub').textContent = `${medDone} / 45 DAYS COMPLETED (${Math.round((medDone/45)*100)}%)`;
+
+      document.getElementById('progressStats').textContent = `${totalDone} / 90 UNITS COMPLETED (${totalPct}%)`;
+      document.getElementById('progressBarFill').style.width = `${totalPct}%`;
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.getElementById('hubWorkoutBtn').classList.toggle('active', mode === 'workout');
+      document.getElementById('hubMeditationBtn').classList.toggle('active', mode === 'meditation');
+      renderFolders();
+    }
+
+    function resetProgress() {
+      if (confirm('Are you sure you want to reset ALL workout and meditation progress?')) {
+        progressData = { workout: {}, meditation: {} };
+        saveProgress();
+        renderFolders();
+      }
+    }
+
+    function renderFolders() {
+      const container = document.getElementById('protocolFolders');
+      container.innerHTML = '';
+
+      // 1. RENDER WORKOUT SECTION
+      if (currentMode === 'workout' || currentMode === 'all') {
+        const warmupFolder = document.createElement('details');
+        warmupFolder.className = 'folder-card pinned-folder';
+        warmupFolder.innerHTML = `
+          <summary class="folder-summary">
+            <div class="folder-title-flex">
+              <span class="folder-tag">WORKOUT</span>
+              <span>WARM-UP ROUTINES</span>
+            </div>
+            <span style="font-size:0.85rem; color:var(--text-muted);">2 VIDEOS</span>
+          </summary>
+          <div class="folder-content">
+            ${workoutData.warmups.map(v => `
+              <div class="video-card">
+                <div class="video-title">${v.title}</div>
+                <div class="iframe-wrapper"><iframe src="https://www.youtube.com/embed/${v.id}" allowfullscreen loading="lazy"></iframe></div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+        container.appendChild(warmupFolder);
+
+        const cooldownFolder = document.createElement('details');
+        cooldownFolder.className = 'folder-card pinned-folder';
+        cooldownFolder.innerHTML = `
+          <summary class="folder-summary">
+            <div class="folder-title-flex">
+              <span class="folder-tag">WORKOUT</span>
+              <span>COOL-DOWN & STRETCHING</span>
+            </div>
+            <span style="font-size:0.85rem; color:var(--text-muted);">2 VIDEOS</span>
+          </summary>
+          <div class="folder-content">
+            ${workoutData.cooldowns.map(v => `
+              <div class="video-card">
+                <div class="video-title">${v.title}</div>
+                <div class="iframe-wrapper"><iframe src="https://www.youtube.com/embed/${v.id}" allowfullscreen loading="lazy"></iframe></div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+        container.appendChild(cooldownFolder);
+
+        workoutData.days.forEach(d => {
+          const isDone = !!progressData.workout[d.day];
+          const dayFolder = document.createElement('details');
+          dayFolder.className = 'folder-card';
+          dayFolder.innerHTML = `
+            <summary class="folder-summary">
+              <div class="folder-title-flex">
+                <span class="folder-tag" style="${isDone ? 'background:var(--accent-primary); color:#022c22;' : ''}">
+                  ${isDone ? '✓ WORKOUT DONE' : 'WORKOUT DAY ' + d.day}
+                </span>
+                <span>DAY ${d.day} WORKOUT</span>
+              </div>
+              <label class="check-label" onclick="event.stopPropagation();">
+                <input type="checkbox" ${isDone ? 'checked' : ''} onchange="toggleCompletion('workout', ${d.day}); renderFolders();">
+                Mark Workout Complete
+              </label>
+            </summary>
+            <div class="folder-content">
+              ${d.videos.map((v, idx) => `
+                <div class="video-card">
+                  <div class="video-title"><b>${idx + 1}st:</b> ${v.title}</div>
+                  <div class="iframe-wrapper"><iframe src="https://www.youtube.com/embed/${v.id}" allowfullscreen loading="lazy"></iframe></div>
+                </div>
+              `).join('')}
+            </div>
+          `;
+          container.appendChild(dayFolder);
+        });
+      }
+
+      // 2. RENDER MEDITATION SECTION
+      if (currentMode === 'meditation' || currentMode === 'all') {
+        meditationIds.forEach((id, idx) => {
+          const dayNum = idx + 1;
+          const isDone = !!progressData.meditation[dayNum];
+          const medFolder = document.createElement('details');
+          medFolder.className = 'folder-card';
+          medFolder.innerHTML = `
+            <summary class="folder-summary">
+              <div class="folder-title-flex">
+                <span class="folder-tag" style="${isDone ? 'background:var(--accent-warm); color:#022c22;' : 'color:var(--accent-warm); border-color:var(--accent-warm);'}">
+                  ${isDone ? '✓ MEDITATION DONE' : 'MEDITATION DAY ' + dayNum}
+                </span>
+                <span>DAY ${dayNum} GRATITUDE MEDITATION</span>
+              </div>
+              <label class="check-label" onclick="event.stopPropagation();">
+                <input type="checkbox" ${isDone ? 'checked' : ''} onchange="toggleCompletion('meditation', ${dayNum}); renderFolders();">
+                Mark Meditation Complete
+              </label>
+            </summary>
+            <div class="folder-content">
+              <div class="video-card" style="grid-column: 1 / -1;">
+                <div class="video-title"><b>DAY ${dayNum}:</b> 45 DAY GRATITUDE MEDITATION PROTOCOL</div>
+                <div class="iframe-wrapper"><iframe src="https://www.youtube.com/embed/${id}" allowfullscreen loading="lazy"></iframe></div>
+              </div>
+            </div>
+          `;
+          container.appendChild(medFolder);
+        });
+      }
+
+      updateProgressBar();
+    }
+
+    function filterFolders() {
+      const q = document.getElementById('searchInput').value.toLowerCase().trim();
+      const folders = document.querySelectorAll('.folder-card');
+
+      folders.forEach(f => {
+        const text = f.innerText.toLowerCase();
+        if (text.includes(q)) {
+          f.style.display = 'block';
+          if (q.length > 1) f.open = true;
+        } else {
+          f.style.display = 'none';
+        }
+      });
+    }
+
+    function expandAll() {
+      document.querySelectorAll('.folder-card').forEach(f => f.open = true);
+    }
+
+    function collapseAll() {
+      document.querySelectorAll('.folder-card').forEach(f => f.open = false);
+    }
+
+    renderFolders();
+  </script>
+</body>
+</html>
