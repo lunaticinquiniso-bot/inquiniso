@@ -7,7 +7,7 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,200;0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;1,200;1,300&display=swap" rel="stylesheet">
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
@@ -20,24 +20,24 @@
       --banner-test: url('https://images.unsplash.com/photo-1569470451072-68314f596aec?q=80&w=1631&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
       --banner-journal: url('https://images.unsplash.com/photo-1545091741-2231068f3478?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
       
-      /* Refined Ultra-Light Glass Surface (elementary OS Style) */
-      --glass-surface: rgba(10, 15, 12, 0.42);
-      --card-surface: rgba(16, 22, 19, 0.35);
-      --card-inner: rgba(8, 12, 10, 0.45);
+      /* elementary OS Inspired Translucent Glass Surfaces */
+      --glass-surface: rgba(10, 16, 13, 0.42);
+      --card-surface: rgba(16, 24, 20, 0.38);
+      --card-inner: rgba(8, 14, 11, 0.48);
       
       /* Emerald Green Tactical Palette */
       --accent-primary: #10b981;
       --accent-secondary: #022c22;
       --accent-warm: #34d399;
-      --border-accent: rgba(16, 185, 129, 0.28);
-      --border-dark: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(16, 185, 129, 0.3);
+      --border-dark: rgba(255, 255, 255, 0.1);
       
       --text-main: #f0fdf4;
       --text-muted: #94a3b8;
 
       /* Glowing Shadow FX */
-      --subtle-glow: 0 8px 32px rgba(0, 0, 0, 0.25), 0 0 15px rgba(16, 185, 129, 0.05);
-      --active-glow: 0 0 22px rgba(16, 185, 129, 0.25);
+      --subtle-glow: 0 10px 30px rgba(0, 0, 0, 0.35), 0 0 15px rgba(16, 185, 129, 0.05);
+      --active-glow: 0 0 22px rgba(16, 185, 129, 0.28);
 
       --tag-crimson: rgba(16, 185, 129, 0.85);
       --tag-slate: rgba(40, 60, 50, 0.85);
@@ -56,7 +56,7 @@
     }
 
     b, strong, th, h1, h2, h3, .terminal-hdr, .btn-aero {
-      font-weight: 400;
+      font-weight: 300;
     }
 
     /* SCROLLBAR MANAGEMENT */
@@ -80,7 +80,7 @@
     body {
       width: 100%;
       min-height: 100vh;
-      background-image: linear-gradient(rgba(2, 6, 4, 0.25), rgba(1, 4, 3, 0.35)), var(--main-artwork);
+      background-image: linear-gradient(rgba(2, 6, 4, 0.22), rgba(1, 4, 3, 0.32)), var(--main-artwork);
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -94,7 +94,7 @@
     #securityAuthScreen {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: linear-gradient(rgba(2, 6, 4, 0.40), rgba(1, 4, 3, 0.55)), var(--main-artwork);
+      background: linear-gradient(rgba(2, 6, 4, 0.35), rgba(1, 4, 3, 0.45)), var(--main-artwork);
       background-size: cover;
       background-position: center;
       z-index: 50000;
@@ -103,8 +103,8 @@
       align-items: center;
       justify-content: center;
       padding: 24px;
-      backdrop-filter: blur(28px) saturate(130%);
-      -webkit-backdrop-filter: blur(28px) saturate(130%);
+      backdrop-filter: blur(28px) saturate(120%);
+      -webkit-backdrop-filter: blur(28px) saturate(120%);
     }
 
     .auth-container {
@@ -115,7 +115,7 @@
       text-align: center;
       max-width: 400px;
       width: 100%;
-      background: rgba(14, 20, 17, 0.55);
+      background: rgba(12, 18, 15, 0.55);
       padding: 40px;
       border-radius: 16px;
       border: 1px solid rgba(255, 255, 255, 0.12);
@@ -127,7 +127,7 @@
       letter-spacing: 6px;
       color: var(--text-main);
       margin-bottom: 36px;
-      font-weight: 300;
+      font-weight: 200;
       text-shadow: 0 0 18px rgba(16, 185, 129, 0.35);
     }
 
@@ -164,7 +164,7 @@
     #introTextOverlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: linear-gradient(rgba(2, 6, 4, 0.65), rgba(1, 4, 3, 0.75)), var(--main-artwork);
+      background: linear-gradient(rgba(2, 6, 4, 0.60), rgba(1, 4, 3, 0.70)), var(--main-artwork);
       background-size: cover;
       background-position: center;
       z-index: 40000;
@@ -215,7 +215,7 @@
       color: var(--accent-primary);
       text-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
       transform: scale(0.85);
-      font-weight: 300;
+      font-weight: 200;
     }
 
     .intro-line.title-line.active {
@@ -230,18 +230,18 @@
       max-width: 1380px;
       margin: 0 auto;
       background: var(--glass-surface);
-      backdrop-filter: blur(28px) saturate(140%);
-      -webkit-backdrop-filter: blur(28px) saturate(140%);
+      backdrop-filter: blur(28px) saturate(130%);
+      -webkit-backdrop-filter: blur(28px) saturate(130%);
       border: 1px solid rgba(255, 255, 255, 0.12);
       padding: 28px;
       border-radius: 16px;
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1), var(--subtle-glow);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1), var(--subtle-glow);
     }
 
     .app-header-cover {
       width: 100%;
       height: 140px;
-      background: linear-gradient(rgba(2, 6, 4, 0.2), rgba(1, 4, 3, 0.5)), var(--main-artwork);
+      background: linear-gradient(rgba(2, 6, 4, 0.15), rgba(1, 4, 3, 0.45)), var(--main-artwork);
       background-size: cover;
       background-position: center;
       margin-bottom: 24px;
@@ -257,7 +257,7 @@
       font-size: 2rem;
       color: #ffffff;
       letter-spacing: 6px;
-      font-weight: 300;
+      font-weight: 200;
       text-shadow: 0 0 18px rgba(16, 185, 129, 0.4);
     }
 
@@ -290,7 +290,7 @@
     }
 
     .countdown-title { font-size: 0.95rem; color: var(--text-main); letter-spacing: 2px; }
-    .countdown-timer-text { font-size: 1.25rem; color: var(--accent-primary); letter-spacing: 2px; text-shadow: 0 0 12px rgba(16, 185, 129, 0.3); font-weight: 300; }
+    .countdown-timer-text { font-size: 1.25rem; color: var(--accent-primary); letter-spacing: 2px; text-shadow: 0 0 12px rgba(16, 185, 129, 0.3); font-weight: 200; }
 
     /* TEXT HEADER LINKS */
     .quick-nav-links {
@@ -383,7 +383,7 @@
       min-width: 200px;
       text-align: center;
       letter-spacing: 2px;
-      font-weight: 300;
+      font-weight: 200;
     }
 
     /* MATRIX TABLE */
@@ -398,7 +398,7 @@
 
     table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
     th, td { border: 1px solid rgba(255, 255, 255, 0.06); text-align: center; padding: 9px 4px; }
-    th { background: rgba(8, 16, 12, 0.65); color: var(--text-muted); font-size: 0.8rem; letter-spacing: 1px; font-weight: 400; }
+    th { background: rgba(8, 16, 12, 0.65); color: var(--text-muted); font-size: 0.8rem; letter-spacing: 1px; font-weight: 300; }
 
     .habit-col {
       text-align: left;
@@ -420,7 +420,7 @@
     .checkbox-cell { cursor: pointer; user-select: none; width: 28px; height: 28px; transition: background 0.15s ease; }
     .checkbox-cell:hover { background-color: rgba(16, 185, 129, 0.3); }
 
-    .checked-crimson { background-color: var(--tag-crimson) !important; color: #022c22; font-weight: 400; }
+    .checked-crimson { background-color: var(--tag-crimson) !important; color: #022c22; font-weight: 300; }
     .checked-slate   { background-color: var(--tag-slate)   !important; color: #fff; }
     .checked-indigo  { background-color: var(--tag-indigo)  !important; color: #fff; }
     .checked-amber   { background-color: var(--tag-amber)   !important; color: #fff; }
@@ -540,7 +540,7 @@
       border-radius: 4px;
     }
 
-    /* LAYOUT GRIDS & RESPONSIVE MIN-HEIGHTS */
+    /* LAYOUT GRIDS & RESPONSIVE STYLING */
     .sections-wrapper {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -568,8 +568,8 @@
     }
 
     .fixed-row-height {
-      min-height: 440px;
       height: 440px;
+      min-height: 440px;
     }
 
     .bottom-split-row {
@@ -582,7 +582,7 @@
     .section-title {
       font-size: 1rem;
       letter-spacing: 1.5px;
-      font-weight: 400;
+      font-weight: 300;
       margin-bottom: 12px;
       display: flex;
       justify-content: space-between;
@@ -665,16 +665,32 @@
       flex-shrink: 0;
     }
 
-    /* CHART CONTAINERS (ROBUST RESIZING & CONSISTENCY INDEX FIX) */
-    .pie-chart-wrapper {
+    /* PERFECTED FLEXBOX CHART CONTAINERS */
+    .chart-container-exact {
+      flex: 1;
+      position: relative;
       width: 100%;
-      height: 180px;
-      min-height: 180px;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .chart-container-exact canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .pie-chart-wrapper {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      margin-top: 4px;
     }
 
     .pie-chart-box {
@@ -682,10 +698,13 @@
       width: 100% !important;
       height: 100% !important;
       max-width: 270px;
-      max-height: 175px;
+      max-height: 180px;
     }
 
     .pie-chart-box canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100% !important;
       height: 100% !important;
     }
@@ -711,14 +730,6 @@
       border-color: var(--border-accent);
       background: rgba(16, 185, 129, 0.08);
       box-shadow: var(--subtle-glow);
-    }
-
-    .chart-container-exact {
-      flex: 1;
-      position: relative;
-      width: 100%;
-      height: 350px;
-      min-height: 250px;
     }
 
     .books-main-grid {
@@ -876,7 +887,7 @@
 
     .timer-display {
       font-size: 8.5rem;
-      font-weight: 200;
+      font-weight: 100;
       color: var(--accent-primary);
       margin: 16px 0;
       letter-spacing: 4px;
@@ -952,7 +963,7 @@
       background: rgba(16, 185, 129, 0.08);
     }
 
-    /* RESPONSIVE LAYOUT ADJUSTMENTS FOR SMALLER WINDOWS */
+    /* RESPONSIVE LAYOUT ADJUSTMENTS */
     @media (max-width: 1024px) {
       .sections-wrapper {
         grid-template-columns: 1fr;
@@ -1131,7 +1142,7 @@
             <span>Body & Energy Tracker</span>
             <button class="btn-aero" id="openWeightModal">+ Log Weight</button>
           </div>
-          <div class="chart-container-exact" style="height: 200px;">
+          <div class="chart-container-exact">
             <canvas id="weightChart"></canvas>
           </div>
         </div>
@@ -1616,7 +1627,7 @@
           </td>`;
         }
 
-        cellsHTML += `<td>${habit.goal || 365}</td><td style="font-weight:400; color:var(--accent-primary);">${totalAchieved}</td>`;
+        cellsHTML += `<td>${habit.goal || 365}</td><td style="font-weight:300; color:var(--accent-primary);">${totalAchieved}</td>`;
         row.innerHTML = cellsHTML;
         habitsBody.appendChild(row);
       });
@@ -1935,8 +1946,12 @@
     function updateWeightChart() {
       const labels = weights.map(w => w.date);
       const data = weights.map(w => w.weight);
+      
+      const canvasEl = document.getElementById('weightChart');
+      if (!canvasEl) return;
+
       if (weightChartInstance) weightChartInstance.destroy();
-      const ctx = document.getElementById('weightChart').getContext('2d');
+      const ctx = canvasEl.getContext('2d');
       weightChartInstance = new Chart(ctx, {
         type: 'line',
         data: { labels, datasets: [{ label: 'Mass', data, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.12)', fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: '#10b981' }] },
@@ -1945,8 +1960,8 @@
           maintainAspectRatio: false, 
           plugins: { legend: { display: false } }, 
           scales: { 
-            x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } }, 
-            y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } } 
+            x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8', font: { family: 'Raleway' } } }, 
+            y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8', font: { family: 'Raleway' } } } 
           } 
         }
       });
@@ -1978,9 +1993,10 @@
         dataPoints.push(habits.reduce((acc, h) => acc + (h.records && h.records[dateStr] ? 1 : 0), 0));
       }
 
-      if (chartInstance) chartInstance.destroy();
       const canvasEl = document.getElementById('progressChart');
       if (!canvasEl) return;
+
+      if (chartInstance) chartInstance.destroy();
       const ctx = canvasEl.getContext('2d');
       chartInstance = new Chart(ctx, {
         type: 'line',
@@ -1990,8 +2006,8 @@
           maintainAspectRatio: false, 
           plugins: { legend: { display: false } }, 
           scales: { 
-            x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } }, 
-            y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { stepSize: 1, color: '#94a3b8' } } 
+            x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8', font: { family: 'Raleway' } } }, 
+            y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { stepSize: 1, color: '#94a3b8', font: { family: 'Raleway' } } } 
           } 
         }
       });
@@ -2000,18 +2016,23 @@
     function updateTaskPieChart() {
       const subjectCounts = {};
       Object.keys(todos).forEach(dateKey => {
-        todos[dateKey].forEach(t => {
-          const subj = t.subject || 'General';
-          subjectCounts[subj] = (subjectCounts[subj] || 0) + 1;
-        });
+        if (Array.isArray(todos[dateKey])) {
+          todos[dateKey].forEach(t => {
+            const subj = t.subject || 'General';
+            subjectCounts[subj] = (subjectCounts[subj] || 0) + 1;
+          });
+        }
       });
 
       const labels = Object.keys(subjectCounts);
       const data = Object.values(subjectCounts);
       if (labels.length === 0) { labels.push('General'); data.push(1); }
 
+      const canvasEl = document.getElementById('taskPieChart');
+      if (!canvasEl) return;
+
       if (taskPieChartInstance) taskPieChartInstance.destroy();
-      const ctx = document.getElementById('taskPieChart').getContext('2d');
+      const ctx = canvasEl.getContext('2d');
       
       taskPieChartInstance = new Chart(ctx, {
         type: 'doughnut',
@@ -2121,7 +2142,7 @@
         item.className = 'chapter-card-item';
         item.innerHTML = `
           <div onclick="openChapterReader('${ch.id}')" style="cursor:pointer; flex:1;">
-            <b style="font-size:0.98rem; color:var(--text-main); font-weight:400;">${ch.title}</b>
+            <b style="font-size:0.98rem; color:var(--text-main); font-weight:300;">${ch.title}</b>
             <div style="font-size:0.8rem; color:var(--text-muted);">${ch.date}</div>
           </div>
           <div>
@@ -2372,18 +2393,16 @@
     };
 
     // INITIALIZATION
-    window.addEventListener('load', () => {
-      renderHabitTable();
-      renderDailyRatingSection();
-      renderMiniCalendar();
-      renderStoicEntries();
-      renderTests();
-      renderBooksGrid();
-      updateHabitChart();
-      updateWeightChart();
-      updateTaskPieChart();
-      updateTimerDisplay();
-    });
+    renderHabitTable();
+    renderDailyRatingSection();
+    renderMiniCalendar();
+    renderStoicEntries();
+    renderTests();
+    renderBooksGrid();
+    updateHabitChart();
+    updateWeightChart();
+    updateTaskPieChart();
+    updateTimerDisplay();
   </script>
 </body>
 </html>
